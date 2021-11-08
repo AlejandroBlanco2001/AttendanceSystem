@@ -4,9 +4,9 @@
   "description": "Software made for taking the attendace given some particular class (face-to-face, online, bimodal) following the Zero paper policy. Made  with NodeJS, MariaDB and React",
   "main": "index.js",
   "scripts": {
-    "start-c": "",
+    "start-c": "webpack serve --open",
     "start-s": "nodemon ./src/server/index.js",
-    "build": "webpack",
+    "build": "webpack --mode production",
     "concurrently": "concurrently --kill-others \"npm:watch-*\"",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -27,15 +27,33 @@
   },
   "homepage": "https://github.com/AlejandroBlanco2001/AttendanceSystem#readme",
   "dependencies": {
+    "@babel/core": "^7.16.0",
+    "@babel/preset-env": "^7.16.0",
+    "@babel/preset-react": "^7.16.0",
+    "babel-loader": "^8.2.3",
     "concurrently": "^6.3.0",
     "express": "^4.17.1",
     "express-session": "^1.17.2",
+    "html-loader": "^3.0.1",
+    "html-webpack-plugin": "^5.5.0",
     "nodemon": "^2.0.14",
     "qrcode": "^1.4.4",
-    "socket.io": "^4.3.1"
+    "react": "^17.0.2",
+    "react-dom": "^17.0.2",
+    "react-router": "^6.0.1",
+    "react-router-dom": "^6.0.1",
+    "socket.io": "^4.3.1",
+    "webpack-dev-server": "^4.4.0"
   },
   "devDependencies": {
-    "webpack": "^5.60.0",
+    "css-loader": "^6.5.1",
+    "mini-css-extract-plugin": "^2.4.4",
+    "sass": "^1.43.4",
+    "sass-loader": "^12.3.0",
+    "style-loader": "^3.3.1",
+    "svg-url-loader": "^7.1.1",
+    "url-loader": "^4.1.1",
+    "webpack": "^5.62.1",
     "webpack-cli": "^4.9.1"
   }
 }
