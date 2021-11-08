@@ -1,1 +1,10 @@
-console.log("Error")
+import React from "react";
+import ReactDOM from "react-dom";
+import App from "./components/App";
+import Start from "./pages/Start";
+import Login from "./pages/Login";
+import StudentsList from "./pages/StudentsList";
+import CoursesList from "./pages/CoursesList";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import "./styles/global.css";
+ReactDOM.render(<App />, document.getElementById("app"));
