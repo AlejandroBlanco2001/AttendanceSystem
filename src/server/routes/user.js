@@ -5,9 +5,16 @@ const {Router} = require('express');
 const router = Router();
 
 io.on('codeCreated', (arg) => {
-    console.log("The teacher is in class")
+    console.log('The teacher is in class')
 })
 
+router.get('/me', (req,res) =>{
+    if(req.user){
+        res.send('You are in')
+    }else{
+        res.send('You are not')
+    }
+})
 
 // Watch the class list of that student
 router.get('/classes',(req,res) =>{

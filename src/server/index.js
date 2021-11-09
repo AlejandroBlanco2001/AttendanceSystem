@@ -16,7 +16,8 @@ const port = process.env.PORT || 80;
 
 app.use(session({
     secret: process.env.COOKIE_KEY,
-    saveUninitialized: false,
+    resave: false,
+    saveUninitialized: true,
     cookie: { sameSite: 'strict' },
 }));
 
@@ -31,7 +32,7 @@ app.listen(port, () =>{
     console.log(`Back-End is listening in http://localhost:${port}`)
 });
 
-app.use('/users', usersRoute);
+app.use('/user', usersRoute);
 app.use('/login', authRoute);
 app.use('/admin', adminRoute);
 app.use('/class', classRoute)

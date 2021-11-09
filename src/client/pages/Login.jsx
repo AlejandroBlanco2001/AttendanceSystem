@@ -1,8 +1,9 @@
 import React, { useState } from "react";
-import { useHistory } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import AttendanceLogo from "../assets/logoattendance.png";
 const Login = () => {
   const [data, setData] = useState({});
+  const navigate = useNavigate();
   const handleInputChange = (event) => {
     // console.log(event.target.name);
     // console.log(event.target.value);
@@ -11,7 +12,7 @@ const Login = () => {
       [event.target.name]: event.target.value,
     });
   };
-
+  
   const sendForm = (event) => {
     event.preventDefault();
     console.log("enviando datos..." + data.email + " " + data.password);
@@ -25,10 +26,7 @@ const Login = () => {
     })
       .then((res) => {
         if (res.status === 200) {
-          history.push({
-            pathname: "/courseslist",
-            state: data,
-          });
+          navigate('../studentslist',{replace: true});
         } else {
           const error = new Error(res.error);
           throw error;

@@ -1,13 +1,15 @@
 import React from "react";
 
-const StudentsList = () => {
+const StudentsList = (props) => {
+  // const data = props.location.state || {}
+  console.log(props)
   return (
     <main class="class-list">
       <section class="class-codes">
         <div class="codes-teacher"></div>
         <div class="code-class"></div>
       </section>
-      <h3>Attendance</h3>
+      <h3>Attendance for teacher {data.email}</h3>
       <section class="class-search">
         <input class="search" type="text" placeholder="Type a student name" />
         <p class="class-status">12 students missing</p>

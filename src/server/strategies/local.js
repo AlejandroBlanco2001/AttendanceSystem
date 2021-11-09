@@ -5,51 +5,55 @@ const passport = require('passport');
 const db = require('../routes/database');
 const saltRound = 10;
 
-passport.serializeUser((user,done) => {
-    done(null, user.username)
+passport.serializeUser(async (user,done) => {
+    done(null,user['correo']);
 })
 
-passport.deserializeUser(async (username,done) => {
+passport.deserializeUser(async (email,done) => {
     try{
         conn = await db.pool.getConnection();
-        const res = await conn.query(`SELECT user_password FROM Usuarios WHERE username="${username}"`);
-        if(res[0]['passcode']){
-            done(null, res[0]['passcode']);
+        const res = await conn.query(`SELECT * FROM users WHERE correo="${email}"`);
+        console.log(res);
+        if(res[0]){
+            console.log(res[0])
+            done(null, res[0]);
         }
     }catch(err){
-        done(err,null);
+        done(err,null)
     }
 })
 
 passport.use(new localStrategy({
-    passReqToCallback: true,
-    },async (req,username,password, done) => {
-        var conn;
-        try{
-            conn = await db.pool.getConnection();
-            const res = await conn.query(`SELECT * FROM users WHERE correo="${username}"`);
-            if(res.length === 0){
-                done(null,false,{status:'-1', motive:'Not existing user'});
-            }else{
-                let passwordDB = res[0]['passcode'];
-                // if(passwordDB === 'test' && password === 'test') done(null,false,{status: '2', motive:'New login'})
-                //else{
-                    if(passwordDB == password) done(null,res[0])
-                    /*
-                    bcrypt.genSalt(saltRound, (err, salt) => {
-                        bcrypt.hash(password, salt, (err, hash) => {
-                            password = hash; 
-                        });
-                    });
-                    bcrypt.compare(password, passwordDB, (err, result) => {
-                        if(result) done(null, res[0], {status:'0', motive:'Succesfull login'})
-                        else done(null,false, {status:'1', motive:'Password dont match'})
-                    });
-                    */
-                //}
+    usernameField: 'email',
+    passwordField: 'password',
+}, async (email, password, done) => {
+    var conn;
+    try {
+        conn = await db.pool.getConnection();
+        const res = await conn.query(`SELECT * FROM users WHERE correo="${email}"`);
+        if (res.length === 0){
+            done(null, false);
+        }else {
+            let passwordDB = res[0]['passcode'];
+            if(password != passwordDB){
+                done(null,false);
             }
-        }catch(err){
-            done(err,false);
+            done(null,res[0]);
         }
+    } catch (err) {
+        done(err, false);
     }
-))
+}));
+
+/*
+            /*
+            bcrypt.genSalt(saltRound, (err, salt) => {
+                bcrypt.hash(password, salt, (err, hash) => {
+                    password = hash;
+                });
+            });
+            bcrypt.compare(password, passwordDB, (err, result) => {
+                if (result) done(null, res[0], {})
+                else done(null, false, { status: '1', motive: 'Password dont match' })
+            });
+*/
