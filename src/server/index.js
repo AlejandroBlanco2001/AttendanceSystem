@@ -16,8 +16,8 @@ const port = process.env.PORT || 80;
 
 app.use(session({
     secret: process.env.COOKIE_KEY,
-    resave: true,
-    saveUninitialized: true
+    saveUninitialized: false,
+    cookie: { sameSite: 'strict' },
 }));
 
 app.use(cors());
@@ -33,4 +33,5 @@ app.listen(port, () =>{
 
 app.use('/users', usersRoute);
 app.use('/login', authRoute);
-app.use('/admin', adminRoute)
+app.use('/admin', adminRoute);
+app.use('/class', classRoute)

@@ -3,7 +3,7 @@ import AttendanceLogo from "../assets/logoattendance.png";
 const Login = () => {
   return (
     <main class="login">
-      <form action="http://localhost:80/auth" method="POST" class="login-form">
+      <form action="http://localhost:80/login/auth" method="POST" class="login-form">
         <img src={AttendanceLogo} alt="" />
         <div class="form-block">
           <label for="email">EMAIL</label>
