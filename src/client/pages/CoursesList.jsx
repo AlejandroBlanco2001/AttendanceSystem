@@ -2,11 +2,12 @@ import React from "react";
 import MathIcon from "../assets/icons/math.png";
 import ProgrammingIcon from "../assets/icons/programming.png";
 import EthicsIcon from "../assets/icons/ethics.png";
-const CoursesList = () => {
+const CoursesList = (props) => {
+  const data = props.location.state || {};
   return (
     <>
       <h1 class="courses-title">
-        Welcome, <span>Jonathan</span>
+        Welcome, <span>{"Jonathan" || data.email}</span>
       </h1>
       <h2 class="courses-subtitle">Courses list</h2>
       <main class="courses-container">
