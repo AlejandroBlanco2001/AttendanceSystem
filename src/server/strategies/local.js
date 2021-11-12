@@ -13,7 +13,6 @@ passport.deserializeUser(async (email,done) => {
     try{
         conn = await db.pool.getConnection();
         const res = await conn.query(`SELECT * FROM users WHERE correo="${email}"`);
-        console.log(res);
         if(res[0]){
             console.log(res[0])
             done(null, res[0]);

@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import AttendanceLogo from "../assets/logoattendance.png";
+import { Link } from "react-router-dom";
+
 const Login = () => {
   const [data, setData] = useState({});
   const navigate = useNavigate();
@@ -20,6 +22,7 @@ const Login = () => {
     fetch("http://localhost:80/login/auth", {
       method: "POST",
       body: JSON.stringify(data),
+      credentials: 'include',
       headers: {
         "Content-Type": "application/json",
       },
@@ -62,6 +65,7 @@ const Login = () => {
           />
         </div>
         <input type="submit" class="button primary-button" value="SIGN IN" />
+        <Link to='/set_password'>First Log In</Link>
       </form>
     </main>
   );

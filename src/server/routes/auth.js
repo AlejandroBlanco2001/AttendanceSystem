@@ -9,6 +9,8 @@ const db = require('./database')
 router.post("/auth", 
 passport.authenticate("local"),
 (req, res) => {
+    console.log(req.user);
+    res.sendStatus(200);
 });
 
 router.get('/resetPassword', (req, res) => {

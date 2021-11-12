@@ -9,6 +9,7 @@ io.on('codeCreated', (arg) => {
 })
 
 router.get('/me', (req,res) =>{
+    console.log(req.user)
     if(req.user){
         res.send('You are in')
     }else{
