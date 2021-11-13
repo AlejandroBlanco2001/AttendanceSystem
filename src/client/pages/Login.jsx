@@ -17,7 +17,7 @@ const Login = () => {
   
   const sendForm = (event) => {
     event.preventDefault();
-    console.log("enviando datos..." + data.email + " " + data.password);
+    console.log("enviando datos..." + data.username + " " + data.password);
     event.preventDefault();
     fetch("http://localhost:80/login/auth", {
       method: "POST",
@@ -45,13 +45,13 @@ const Login = () => {
       <form action="" class="login-form" onSubmit={sendForm}>
         <img src={AttendanceLogo} alt="" />
         <div class="form-block">
-          <label for="email">EMAIL</label>
+          <label for="username">Username</label>
           <input
-            type="email"
-            id="email"
-            placeholder="type your email"
+            type="username"
+            id="username"
+            placeholder="type your username"
             onChange={handleInputChange}
-            name="email"
+            name="username"
           />
         </div>
         <div class="form-block">

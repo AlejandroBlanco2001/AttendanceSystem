@@ -11,7 +11,7 @@ io.on('codeCreated', (arg) => {
 router.get('/me', (req,res) =>{
     console.log(req.user)
     if(req.user){
-        res.send('You are in')
+        res.send('You are type' + req.user['type'])
     }else{
         res.send('You are not')
     }
@@ -19,7 +19,7 @@ router.get('/me', (req,res) =>{
 
 // Watch the class list of that student
 router.get('/classes',(req,res) =>{
-    let username = req.session.username;
+    let username = req.user['userName'];
     // Query for obtaining class of that username
     // Render classes view
 })

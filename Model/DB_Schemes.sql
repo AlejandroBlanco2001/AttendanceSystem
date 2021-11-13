@@ -4,20 +4,20 @@ CREATE DATABASE If NOT EXISTS AttendanceSystem;
 USE AttendanceSystem;
 
 CREATE TABLE Department (
-	id VARCHAR(10),
+	id VARCHAR(10) NOT NULL,
 	name VARCHAR(50) NOT NULL,
 	-- Primary Key
 	PRIMARY KEY (id)
 );
 
 CREATE TABLE Person (
-	id VARCHAR(10),
+	id VARCHAR(10) NOT NULL,
 	name1 VARCHAR(50) NOT NULL,
 	name2 VARCHAR(50),
 	lastName1 VARCHAR(50) NOT NULL,
 	lastName2 VARCHAR(50),
-	gender ENUM('F', 'M', 'O'),
-	birthdate DATE,
+	gender ENUM('F', 'M', 'O') NOT NULL,
+	birthdate DATE NOT NULL,
 	age INTEGER AS (YEAR(CURRENT_DATE) - YEAR(birthdate)),
 	type ENUM('0', '1', '2') NOT NULL, -- 0: admin, 1: teacher, 2: student
 	id_dept VARCHAR(10),
@@ -25,6 +25,7 @@ CREATE TABLE Person (
 	PRIMARY KEY (id),
 	-- Foreign Key
 	FOREIGN KEY (id_dept) REFERENCES Department(id),
+	UNIQUE (id),
 	-- Constraint
 	CONSTRAINT teacher_dept_nn 
 		CHECK (
@@ -35,10 +36,10 @@ CREATE TABLE Person (
 );
 
 CREATE TABLE User (
-	userName VARCHAR(50),
-	password VARCHAR(50),
+	userName VARCHAR(50) NOT NULL,
+	passcode VARCHAR(50) NOT NULL,
 	id_pers VARCHAR(10) NOT NULL,
-	online BOOLEAN NOT NULL,
+	is_online BOOLEAN NOT NULL,
 	-- Primary Key
 	PRIMARY KEY (userName, id_pers),
 	-- Foreign Key
@@ -48,7 +49,7 @@ CREATE TABLE User (
 );
 
 CREATE TABLE Program (
-	snies VARCHAR(6),
+	snies VARCHAR(6) NOT NULL,
 	title VARCHAR(50) NOT NULL,
 	description VARCHAR(100),
 	duration INTEGER NOT NULL,
@@ -61,7 +62,7 @@ CREATE TABLE Program (
 );
 
 CREATE TABLE Subject (
-	code VARCHAR(7),
+	code VARCHAR(7) NOT NULL,
 	name VARCHAR(50) NOT NULL,
 	credits INTEGER NOT NULL,
 	description VARCHAR(100),
@@ -74,7 +75,7 @@ CREATE TABLE Subject (
 );
 
 CREATE TABLE Syllabus (
-	code VARCHAR(10),
+	code VARCHAR(10) NOT NULL,
 	snies_prog VARCHAR(6) NOT NULL,
 	-- Primary Key
 	PRIMARY KEY (code),
@@ -85,8 +86,8 @@ CREATE TABLE Syllabus (
 );
 
 CREATE TABLE In_Syllabus (
-	code_subj VARCHAR(7),
-	code_syll VARCHAR(10),
+	code_subj VARCHAR(7) NOT NULL,
+	code_syll VARCHAR(10) NOT NULL,
 	semester ENUM('1', '2', '3', '4') NOT NULL,
 	-- Primary Key
 	PRIMARY KEY (code_subj, code_syll),
@@ -96,7 +97,7 @@ CREATE TABLE In_Syllabus (
 );
 
 CREATE table Course (
-	code VARCHAR(4),
+	code VARCHAR(4) NOT NULL,
 	code_subj VARCHAR(7),
 	id_teach VARCHAR(10) NOT NULL,
 	-- Primary Key
@@ -107,14 +108,14 @@ CREATE table Course (
 );
 
 CREATE TABLE ClassRoom (
-	code VARCHAR(4),
+	code VARCHAR(4) NOT NULL,
 	type ENUM('Physical', 'Virtual ') NOT NULL,
 	-- Primary Key
 	PRIMARY KEY (code)
 );
 
-CREATE TABLE Schedule (
-	weekday ENUM('Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'),
+CREATE TABLE Schedules (
+	weekday ENUM('Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday') NOT NULL,
 	start_time TIME NOT NULL,
 	duration INTEGER NOT NULL,
 	code_cour VARCHAR(4),
@@ -127,7 +128,7 @@ CREATE TABLE Schedule (
 );
 
 CREATE TABLE Class (
-	code VARCHAR(2),
+	code VARCHAR(2) NOT NULL, 
 	code_cour VARCHAR(4) NOT NULL,
 	code_claR VARCHAR(4) NOT NULL,
 	start_time DATETIME NOT NULL,
@@ -139,9 +140,9 @@ CREATE TABLE Class (
 );
 
 CREATE TABLE Clas_Stud (
-	code_clas VARCHAR(2),
-	code_cour_clas VARCHAR(4),
-	id_stud VARCHAR(10),
+	code_clas VARCHAR(2) NOT NULL,
+	code_cour_clas VARCHAR(4) NOT NULL,
+	id_stud VARCHAR(10) NOT NULL,
 	attendance BOOLEAN NOT NULL,
 	-- Primary Key
 	PRIMARY KEY (code_clas, code_cour_clas, id_stud),
@@ -152,7 +153,7 @@ CREATE TABLE Clas_Stud (
 );
 
 CREATE TABLE Period (
-	year YEAR,
+	year YEAR NOT NULL,
 	term ENUM('01', '02'),
 	description VARCHAR(100),
 	-- Primary Key
@@ -160,8 +161,8 @@ CREATE TABLE Period (
 );
 
 CREATE table Contract (
-	id VARCHAR(10),
-	id_stud VARCHAR(10),
+	id VARCHAR(10) NOT NULL,
+	id_stud VARCHAR(10) NOT NULL,
 	completed BOOLEAN NOT NULL, 
 	code_syll VARCHAR(10) NOT NULL,
 	year_peri YEAR NOT NULL,
@@ -177,9 +178,9 @@ CREATE table Contract (
 );
 
 CREATE TABLE Offered_In (
-	code_cour VARCHAR(4),
-	year_peri YEAR,
-	term_peri ENUM('01', '02'),
+	code_cour VARCHAR(4) NOT NULL,
+	year_peri YEAR NOT NULL,
+	term_peri ENUM('01', '02') NOT NULL,
 	-- Primary Key
 	PRIMARY KEY (code_cour, year_peri, term_peri),
 	-- Foreign Key
@@ -188,8 +189,8 @@ CREATE TABLE Offered_In (
 );
 
 CREATE TABLE Enrollment (
-	id VARCHAR(10),
-	id_stud VARCHAR(10),
+	id VARCHAR(10) NOT NULL,
+	id_stud VARCHAR(10) NOT NULL,
 	approved BOOLEAN NOT NULL,
 	completed BOOLEAN NOT NULL,
 	year_peri YEAR NOT NULL,
@@ -205,7 +206,7 @@ CREATE TABLE Enrollment (
 
 CREATE TABLE Cour_Enro (
 	code_cour VARCHAR(4) NOT NULL,
-	id_enro VARCHAR(10),
+	id_enro VARCHAR(10) NOT NULL,
 	-- Primary Key
 	PRIMARY KEY (code_cour, id_enro),
 	-- Foreign Key
