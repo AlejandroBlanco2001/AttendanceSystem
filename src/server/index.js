@@ -16,11 +16,12 @@ const port = process.env.PORT || 80;
 
 app.use(session({
     secret: process.env.COOKIE_KEY,
-    resave: true,
-    saveUninitialized: true
+    resave: false,
+    saveUninitialized: true,
+    cookie: { sameSite: 'strict' },
 }));
 
-app.use(cors());
+app.use(cors(({credentials: true, origin: true})));
 app.use(express.urlencoded({extended: true}));
 app.use(express.json());
 
@@ -31,6 +32,7 @@ app.listen(port, () =>{
     console.log(`Back-End is listening in http://localhost:${port}`)
 });
 
-app.use('/users', usersRoute);
+app.use('/user', usersRoute);
 app.use('/login', authRoute);
-app.use('/admin', adminRoute)
+app.use('/admin', adminRoute);
+app.use('/class', classRoute)

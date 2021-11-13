@@ -25,10 +25,22 @@ body {
   width: 250px;
 }
 
+<<<<<<< HEAD
 .nav ul {
   display: flex;
   list-style: none;
   padding: 0;
+=======
+input[type="text"],
+input[type="username"],
+input[type="email"],
+input[type="password"],
+input[type="number"] {
+  padding: 20px;
+  border: 2px solid #ececec;
+  border-radius: 10px;
+  width: 80%;
+>>>>>>> bcdc239e987d0d3a3212c4bbdfa6c51d828f6190
 }
 
 .nav ul li {

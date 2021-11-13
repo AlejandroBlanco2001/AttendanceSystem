@@ -1,33 +1,32 @@
 const { Router } = require("express");
 const router = Router();
 
-const bcrypt = require("bcrypt");
 const passport = require("passport");
-const saltRounds = 10;
+const saltRound = 10;
 
-// Login
-router.post("/auth", passport.authenticate("local"), (req, res) => {
-    let username = req.body.username;
-    let password = req.body.password;
-    if (username && password) {
-        let passwordDB = "123"; // QUERY FOR PASSWORD GIVEN THE USER;
-        bcrypt.compare(password, passwordDB, (err, result) => {
-            req.session.loggedin = true;
-            req.session.username = username;
-    });
-    } else {
-        res.send("Please enter Username and password!");
-        res.end();
+const db = require('./database')
+
+router.post("/auth", 
+passport.authenticate("local"),
+async (req, res) => {
+    console.log(req.user);
+    res.sendStatus(200);
+});
+
+router.post("/setPassword", async (req, res) => {
+    let password = "test";
+    let conn;
+    let result;
+    try {
+        conn = await db.pool.getConnection();
+        bycrypt.genSalt(saltRound, (err, salt) => {
+            bycrypt.hash(password, salt, (err, hash) => {
+                result = conn.query(`UPDATE users SET passcode='${hash}' WHERE correo='${req.user.username}'`)
+            });
+        });
+    } catch (err) {
+        throw err;
     }
 });
 
-router.post("/setPassword", (req, res) => {
-    let password = "test";
-    bycrypt.genSalt(saltRound, (err, salt) => {
-        bycrypt.hash(password, salt, (err, hash) => {
-      // store the password on the database
-        });
-    });
-});
-
-module.exports = router
+module.exports = router;
