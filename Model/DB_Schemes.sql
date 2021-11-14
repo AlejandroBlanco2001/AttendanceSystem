@@ -4,8 +4,8 @@ CREATE DATABASE If NOT EXISTS AttendanceSystem;
 USE AttendanceSystem;
 
 CREATE TABLE Department (
-	id VARCHAR(10) NOT NULL,
-	name VARCHAR(50) NOT NULL,
+	id INTEGER NOT NULL AUTO_INCREMENT,
+	name VARCHAR(70) NOT NULL,
 	-- Primary Key
 	PRIMARY KEY (id)
 );
@@ -20,7 +20,7 @@ CREATE TABLE Person (
 	birthdate DATE NOT NULL,
 	age INTEGER AS (YEAR(CURRENT_DATE) - YEAR(birthdate)),
 	type ENUM('0', '1', '2') NOT NULL, -- 0: admin, 1: teacher, 2: student
-	id_dept VARCHAR(10),
+	id_dept INTEGER,
 	-- Primary Key
 	PRIMARY KEY (id),
 	-- Foreign Key
@@ -36,10 +36,9 @@ CREATE TABLE Person (
 );
 
 CREATE TABLE User (
-	userName VARCHAR(50) NOT NULL,
-	passcode VARCHAR(50) NOT NULL,
+	username VARCHAR(50) NOT NULL,
+	passcode VARCHAR(80) NOT NULL,
 	id_pers VARCHAR(10) NOT NULL,
-	is_online BOOLEAN NOT NULL,
 	-- Primary Key
 	PRIMARY KEY (userName, id_pers),
 	-- Foreign Key
@@ -50,11 +49,12 @@ CREATE TABLE User (
 
 CREATE TABLE Program (
 	snies VARCHAR(6) NOT NULL,
-	title VARCHAR(50) NOT NULL,
-	description VARCHAR(100),
+	name VARCHAR(50) NOT NULL,
+	type ENUM('0', '1') NOT NULL, -- 0: under, 1: post
+	title VARCHAR(20) NOT NULL,
 	duration INTEGER NOT NULL,
 	credits INTEGER NOT NULL,
-	id_dept VARCHAR(10) NOT NULL,
+	id_dept INTEGER NOT NULL,
 	-- Primary Key
 	PRIMARY KEY (snies),
 	-- Foreign Key
@@ -67,7 +67,7 @@ CREATE TABLE Subject (
 	credits INTEGER NOT NULL,
 	description VARCHAR(100),
 	type VARCHAR(20) NOT NULL,
-	id_dept VARCHAR(10) NOT NULL,
+	id_dept INTEGER NOT NULL,
 	-- Primary Key
 	PRIMARY KEY (code),
 	-- Foreign Key
@@ -114,7 +114,7 @@ CREATE TABLE ClassRoom (
 	PRIMARY KEY (code)
 );
 
-CREATE TABLE Schedules (
+CREATE TABLE Schedule (
 	weekday ENUM('Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday') NOT NULL,
 	start_time TIME NOT NULL,
 	duration INTEGER NOT NULL,

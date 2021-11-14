@@ -21,6 +21,7 @@ body {
 
 input[type="text"],
 input[type="username"],
+input[type="id_code"],
 input[type="email"],
 input[type="password"],
 input[type="number"] {

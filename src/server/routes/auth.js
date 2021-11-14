@@ -1,9 +1,10 @@
 const { Router } = require("express");
 const router = Router();
 
-const passport = require("passport");
+const bcrypt = require('bcrypt');
 const saltRound = 10;
 
+const passport = require("passport");
 const db = require('./database')
 
 router.post("/auth", 
@@ -14,16 +15,18 @@ async (req, res) => {
 });
 
 router.post("/setPassword", async (req, res) => {
-    let password = "test";
+    let username = req.body['username'];
+    let id_person = req.body['id_code'];
+    let new_password = req.body['new_password'];
     let conn;
-    let result;
     try {
         conn = await db.pool.getConnection();
-        bycrypt.genSalt(saltRound, (err, salt) => {
-            bycrypt.hash(password, salt, (err, hash) => {
-                result = conn.query(`UPDATE users SET passcode='${hash}' WHERE correo='${req.user.username}'`)
+        bcrypt.genSalt(saltRound, (err, salt) => {
+            bcrypt.hash(new_password, salt, (err, hash) => {
+                conn.query(`UPDATE User SET passcode='${hash}' WHERE userName='${username}' AND passcode='test' AND id_pers='${id_person}'`);
             });
         });
+        res.sendStatus(200);
     } catch (err) {
         throw err;
     }
