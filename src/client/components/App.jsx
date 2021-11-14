@@ -13,7 +13,7 @@ function App() {
         <Route exact path="/" element={<Start />} />
         <Route path="login" element={<Login />} />
         <Route path="studentslist" element={<StudentsList />} />
-        <Route path="set_password" element={<ChangePassword/>}/>
+        <Route path="set_password" element={<ChangePassword />} />
       </Routes>
     </BrowserRouter>
   );

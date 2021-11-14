@@ -25,22 +25,10 @@ body {
   width: 250px;
 }
 
-<<<<<<< HEAD
 .nav ul {
   display: flex;
   list-style: none;
   padding: 0;
-=======
-input[type="text"],
-input[type="username"],
-input[type="email"],
-input[type="password"],
-input[type="number"] {
-  padding: 20px;
-  border: 2px solid #ececec;
-  border-radius: 10px;
-  width: 80%;
->>>>>>> bcdc239e987d0d3a3212c4bbdfa6c51d828f6190
 }
 
 .nav ul li {
@@ -57,6 +45,8 @@ input[type="number"] {
   transition: 0.5s;
   color: var(--uninorte-red);
   border-bottom: 1px solid;
+}
+.home {
 }
 
 .home-container {
@@ -76,7 +66,55 @@ input[type="number"] {
 }
 
 .contribute {
+  padding: 50px;
+  width: 90%;
+  background-color: var(--uninorte-red);
+  margin: 0 auto;
+  color: white;
+  margin-bottom: 100px;
+  box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+}
+
+.contribute h2 {
+  font-size: 32px;
+}
+
+.contribute-button {
+  padding: 30px;
   border: 1px solid;
+  display: inline-block;
+  position: relative;
+  width: 300px;
+  margin-right: 10px;
+}
+
+.contribute-button button {
+  width: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  background-color: white;
+  border: none;
+  color: var(--uninorte-red);
+  font-weight: bold;
+  font-size: 18px;
+  z-index: 1;
+  cursor: pointer;
+}
+.contribute-button a {
+  text-decoration: none;
+  color: var(--uninorte-red);
+}
+.start-button {
+  box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+}
+.contribute-button svg {
+  z-index: 2;
+  width: 40px;
+  height: 40px;
+  top: 10px;
+  position: absolute;
 }
 
 .home-container__info {
@@ -307,6 +345,39 @@ a .button {
   width: 75px;
   height: 75px;
 }
+.class-data {
+  background-color: #f7f7f7;
+  width: 400px;
+  padding: 20px;
+  border-radius: 10px;
+}
+.class-codes {
+  border: 1px solid;
+  width: 70%;
+  display: grid;
+  padding: 20px;
+  grid-template-columns: 1fr 1fr 1fr;
+}
+
+.codes-teacher,
+.code-class {
+  width: 300px;
+  height: 200px;
+  /* background-color: #f7f7f7; */
+  box-shadow: rgba(91, 110, 129, 0.2) 0px 8px 24px;
+}
+
+.class-data p {
+  font-size: 16px;
+  font-weight: bold;
+
+  color: #c7c7c7;
+}
+
+.class-data p:nth-child(1) {
+  color: black;
+  font-size: 20px;
+}
 
 .class-list {
   width: 100%;
@@ -316,7 +387,7 @@ a .button {
   height: 100vh;
 }
 .class-search {
-  width: 100%;
+  width: 70%;
   display: flex;
   justify-content: space-evenly;
 }
@@ -335,28 +406,34 @@ a .button {
 }
 
 .student-card {
-  width: 80%;
+  width: 70%;
   margin: 10px 0;
-  height: 100px;
+  height: 120px;
   display: flex;
   align-items: center;
   justify-content: space-around;
-  border: 2px solid #ececec;
+  margin-bottom: 20px;
+  /* border: 2px solid #ececec; */
+  box-shadow: rgba(91, 110, 129, 0.1) 0px 8px 24px;
+
   border-radius: 10px;
 }
+
 .student-picture {
-  width: 48px;
+  width: 56px;
   object-fit: contain;
   border-radius: 100%;
 }
 
 .student-name {
-  font-weight: 500;
+  font-weight: 600;
+  font-size: 18px;
 }
 
 .student-code,
 .student-logtime {
   color: #cecece;
+  font-weight: bold;
 }
 .delete-attendance {
   width: 30px;
