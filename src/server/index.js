@@ -44,4 +44,9 @@ app.listen(port, () =>{
 app.use('/user', usersRoute);
 app.use('/login', authRoute);
 app.use('/admin', adminRoute);
-app.use('/class', classRoute)
+app.use('/class', classRoute);
+
+app.get('/logout',(req, res) => {
+    req.logout();
+    res.redirect('localhost:9000/');
+});

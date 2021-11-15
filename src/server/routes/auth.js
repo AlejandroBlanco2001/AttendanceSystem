@@ -27,6 +27,7 @@ router.post('/setPassword', async (req, res) => {
                 conn.query(`UPDATE User SET passcode='${hash}' WHERE userName='${username}' AND passcode='test' AND id_pers='${id_person}'`);
             });
         });
+        conn.end();
         res.sendStatus(200);
     } catch (err) {
         throw err;

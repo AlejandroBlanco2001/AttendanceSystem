@@ -23,7 +23,9 @@ const Navbar = ({ children }) => {
           </li>
           <li>
             <img src={LogoutIcon} alt="" />
-            <NavLink to="/">logout</NavLink>
+            <NavLink to="/" onClick={()=>{
+              Axios.get("http://localhost:80/logout")
+            }}>logout</NavLink>
           </li>
         </ul>
       </nav>

@@ -16,9 +16,9 @@ router.get('/me',async (req,res) =>{
     if(req.user){
         let conn = await db.pool.getConnection();
         let result = await conn.query(`SELECT * FROM Person WHERE id=${req.user['id_pers']}`)
-        res.json(result);
+        conn.end();
+        res.json(result[0]);
     }
-    res.send("You are not logged in");
 })
 
 // Watch the class list of that student
@@ -36,7 +36,7 @@ router.get('/checkList/:id',(req,res) =>{
 
 router.get('/createQR', (req,res) => {
     //if(req.user['type'] == 1){
-        //let teacherUsername = req.user['userName'];
+        //let teacherUsername = req.user['username'];
     
         // Query to get info of the teacher and build a specif code
         qr.toFile('./teacher_code.png','123',{

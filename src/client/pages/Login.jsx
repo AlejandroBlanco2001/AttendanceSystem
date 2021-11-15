@@ -1,12 +1,13 @@
-import React, { useState } from "react";
+import React, { useState , useContext} from "react";
 import { useNavigate } from "react-router-dom";
 import AttendanceLogo from "../assets/logoattendance.png";
 import { Link } from "react-router-dom";
+import { myContext } from "../components/Context";
 import axios from "axios";
-// navigate("../studentslist", { replace: true });
 
 const Login = () => {
   const [data, setData] = useState({});
+  const context = useContext(myContext);
   const navigate = useNavigate();
   const handleInputChange = (event) => {
     setData({
@@ -21,14 +22,31 @@ const Login = () => {
     event.preventDefault();
     axios
       .post(
-        "http://localhost:80/login",
+        "http://localhost:80/login/auth",
         {
           username: data.username,
           password: data.password,
         },
         { withCredentials: true }
       )
-      .then((res) => {});
+      .then((res) => {
+        console.log("Log in")
+        console.log(res);
+        axios
+        .get("http://localhost:80/user/me", { withCredentials: true })
+        .then((res) => {
+          context.setUser(res.data);
+          // setUser(res.data);
+          // console.log(user);
+        navigate("../courseslist", { replace: true });
+
+        });
+
+
+        
+        
+
+      });
   };
   return (
     <main class="login">

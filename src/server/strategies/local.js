@@ -15,6 +15,7 @@ passport.deserializeUser(async (username,done) => {
         const res = await conn.query(`SELECT * FROM User WHERE userName="${username}"`);
         const rol = await conn.query(`SELECT type FROM Person WHERE id="${res[0]['id_pers']}"`);
         let user = {...res[0],...rol[0]};
+        conn.end();
         if(res[0]){
             done(null, user);
         }
@@ -33,6 +34,7 @@ passport.use(new localStrategy(
         if (res.length === 0){
             done(null, false);
         }else {
+            conn.end();
             let user = {...res[0],...rol[0]};
             let passwordDB = user['passcode'];
             if(passwordDB == 'test'){

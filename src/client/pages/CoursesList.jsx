@@ -11,7 +11,7 @@ const CoursesList = (props) => {
     <>
       <Navbar />
       <h1 class="courses-title">
-        Welcome, <span>{"Jonathan"}</span>
+        Welcome, <span>{context.user.name1}</span>
       </h1>
       <h2 class="courses-subtitle">Courses list</h2>
       <main class="courses-container">

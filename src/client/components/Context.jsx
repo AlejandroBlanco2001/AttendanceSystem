@@ -3,13 +3,14 @@ import axios from "axios";
 export const myContext = createContext({});
 export default function Context(props) {
   const [user, setUser] = useState();
-  useEffect(() => {
+  
+useEffect(() => {
     axios
-      .get("http://localhost:80/me", { withCredentials: true })
+      .get("http://localhost:80/user/me", { withCredentials: true })
       .then((res) => {
         setUser(res.data);
         console.log(user);
       });
   }, []);
-  return <myContext.Provider value={user}>{props.children}</myContext.Provider>;
+  return <myContext.Provider value={{user, setUser}}>{props.children}</myContext.Provider>;
 }
