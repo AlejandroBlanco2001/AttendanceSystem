@@ -12,24 +12,35 @@ io.on('codeCreated', (arg) => {
     console.log('The teacher is in class')
 })
 
-router.get('/me',async (req,res) =>{
+router.get('/me', async (req,res) =>{
     if(req.user){
         let conn = await db.pool.getConnection();
-        let result = await conn.query(`SELECT * FROM Person WHERE id=${req.user['id_pers']}`)
+        let result = await conn.query(`SELECT * FROM Person WHERE id=${req.user['id_pers']}`);
         conn.end();
         res.json(result[0]);
     }
 })
 
 // Watch the class list of that student
-router.get('/classes',(req,res) =>{
-    let username = req.user['userName'];
-    // Query for obtaining class of that username
-    // Render classes view
+router.get('/classes', async (req,res) =>{
+    if(req.user){
+        if(req.user.type == '0'){
+            let conn = await db.getConnection();
+            let result = await conn.query(`SELECT S.* FROM person P NATURAL JOIN course C NATURAL JOIN subject S WHERE id='${req.user.id_pers}'`);
+            conn.end();
+            res.json(result[0]);
+        }
+    }
 })
 
 router.get('/checkList/:id',(req,res) =>{
-    let class_id = req.params.id
+    if(req.user){
+        if(req.user.type == '1'){
+            res.send("You are autorized")
+        }
+        res.send('You are not autorized')
+    }
+    res.send('You are not logged in')
     // Query for obtaining the assistance of that class;
     // Send to a view the result
 })
