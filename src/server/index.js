@@ -2,10 +2,14 @@ require('dotenv').config({path: 'variables.env'});
 
 const express = require('express');
 const app = express();
+const path = require('path');
 const session = require('express-session');
 const cors = require('cors');
 const passport = require('passport');
+const engine = require('react-engine');
+
 const local = require('./strategies/local')
+
 
 const usersRoute = require('./routes/user');
 const authRoute = require('./routes/auth');
@@ -13,6 +17,11 @@ const adminRoute = require('./routes/admin')
 const classRoute = require('./routes/class')
 
 const port = process.env.PORT || 80; 
+
+app.engine('.jsx', engine.server.create());
+app.set('views', path.join(__dirname,'src','client','pages'));
+app.set('view engine', 'jsx')
+app.set('view', engine.expressView);
 
 app.use(session({
     secret: process.env.COOKIE_KEY,

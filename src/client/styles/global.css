@@ -81,6 +81,16 @@ a {
   justify-content: space-evenly;
 }
 
+input[type="text"],
+input[type="username"],
+input[type="id_code"],
+input[type="email"],
+input[type="password"],
+input[type="number"] {
+  padding: 20px;
+  border: 2px solid #ececec;
+  border-radius: 10px;
+  width: 80%;
 .home-container__img {
   width: 30%;
 }

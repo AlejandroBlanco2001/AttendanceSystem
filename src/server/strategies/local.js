@@ -6,7 +6,7 @@ const db = require('../routes/database');
 const saltRound = 10;
 
 passport.serializeUser(async (user,done) => {
-    done(null,user['userName']);
+    done(null,user['username']);
 })
 
 passport.deserializeUser(async (username,done) => {
@@ -34,25 +34,22 @@ passport.use(new localStrategy(
             done(null, false);
         }else {
             let user = {...res[0],...rol[0]};
-            let passwordDB = res[0]['passcode'];
-            if(password != passwordDB){
-                done(null,false);
-            }
-            done(null,user);
-        }
-    } catch (err) {
-        done(err, false);
-    }
-}));
-
-/*
+            let passwordDB = user['passcode'];
             bcrypt.genSalt(saltRound, (err, salt) => {
                 bcrypt.hash(password, salt, (err, hash) => {
                     password = hash;
                 });
             });
             bcrypt.compare(password, passwordDB, (err, result) => {
-                if (result) done(null, res[0], {})
-                else done(null, false, { status: '1', motive: 'Password dont match' })
+                if (result) done(null, user)
+                else done(null, false)
             });
-*/
+        }
+    } catch (err) {
+        done(err, false);
+    }
+}));
+
+
+
+

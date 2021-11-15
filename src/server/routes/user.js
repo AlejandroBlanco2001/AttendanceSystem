@@ -11,12 +11,12 @@ io.on('codeCreated', (arg) => {
     console.log('The teacher is in class')
 })
 
-router.get('/me', (req,res) =>{
-    console.log(req.user)
+router.get('/me',async (req,res) =>{
     if(req.user){
-        res.send('You are type' + req.user['type'])
+
+        res.json()
     }else{
-        res.send('You are not')
+    
     }
 })
 
