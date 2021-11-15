@@ -7,6 +7,7 @@ import Navbar from "./Navbar";
 import CourseAttendance from "../pages/CourseAttendance";
 import ChangePassword from "../pages/ChangePassword";
 import Context from "./Context";
+import UserProfile from "../pages/UserProfile";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 function App() {
   return (
@@ -17,6 +18,7 @@ function App() {
           <Route exact path="courseslist" element={<CoursesList />} />
           <Route path="login" element={<Login />} />
           <Route path="studentslist" element={<StudentsList />} />
+          <Route path="profile" element={<UserProfile />} />
           <Route path="set_password" element={<ChangePassword />} />
           <Route path="courseattendance" element={<CourseAttendance />} />
         </Routes>

@@ -19,13 +19,18 @@ const Navbar = ({ children }) => {
 
           <li>
             <img src={ProfileIcon} alt="" />
-            <NavLink to="/studentslist">profile</NavLink>
+            <NavLink to="/profile">profile</NavLink>
           </li>
           <li>
             <img src={LogoutIcon} alt="" />
-            <NavLink to="/" onClick={()=>{
-              Axios.get("http://localhost:80/logout")
-            }}>logout</NavLink>
+            <NavLink
+              to="/"
+              onClick={() => {
+                Axios.get("http://localhost:80/logout");
+              }}
+            >
+              logout
+            </NavLink>
           </li>
         </ul>
       </nav>

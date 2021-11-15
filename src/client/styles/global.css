@@ -117,7 +117,6 @@ input[type="number"] {
 
 .contribute-button {
   padding: 30px;
-  border: 1px solid;
   display: inline-block;
   position: relative;
   width: 300px;
@@ -287,7 +286,7 @@ a .button {
 }
 .button {
   /* Change to 80% if button is not wrapped in Link router elemnt */
-  width: 80%;
+  /* width: 80%; */
   padding: 20px;
   border-radius: 10px;
   font-size: var(--md);
@@ -539,14 +538,46 @@ a .button {
   flex-direction: column;
   width: 500px;
   align-items: center;
+  padding: 20px;
   justify-content: space-evenly;
-  height: 70%;
+  height: 700px;
   /* border: 1px solid #ececec; */
   box-shadow: rgba(91, 110, 129, 0.2) 0px 8px 24px;
 }
 
 .login-form img {
   width: 300px;
+}
+.user-profile {
+  display: grid;
+  place-items: center;
+  width: 100%;
+  height: 100vh;
+  padding-top: 30px;
+  grid-template-rows: 1fr 1fr 1fr;
+}
+.user-info {
+  width: 400px;
+  padding: 20px;
+  border-radius: 20px;
+  margin-bottom: 20px;
+  box-shadow: rgba(91, 110, 129, 0.2) 0px 8px 24px;
+}
+.user-info div p:nth-child(2) {
+  font-weight: bold;
+}
+.user-info div p:nth-child(1) {
+  color: #cecece;
+  font-weight: bold;
+}
+.my-account-tittle {
+  color: #aeaeae;
+  text-align: center;
+  margin-top: 30px;
+}
+
+.profile-button {
+  font-weight: bold;
 }
 
 @media screen and (max-width: 960px) {
