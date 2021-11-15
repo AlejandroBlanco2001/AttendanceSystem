@@ -2,13 +2,13 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import AttendanceLogo from "../assets/logoattendance.png";
 import { Link } from "react-router-dom";
+import axios from "axios";
+// navigate("../studentslist", { replace: true });
 
 const Login = () => {
   const [data, setData] = useState({});
   const navigate = useNavigate();
   const handleInputChange = (event) => {
-    // console.log(event.target.name);
-    // console.log(event.target.value);
     setData({
       ...data,
       [event.target.name]: event.target.value,
@@ -19,26 +19,16 @@ const Login = () => {
     event.preventDefault();
     console.log("enviando datos..." + data.username + " " + data.password);
     event.preventDefault();
-    fetch("http://localhost:80/login/auth", {
-      method: "POST",
-      body: JSON.stringify(data),
-      credentials: "include",
-      headers: {
-        "Content-Type": "application/json",
-      },
-    })
-      .then((res) => {
-        if (res.status === 200) {
-          navigate("../studentslist", { replace: true });
-        } else {
-          const error = new Error(res.error);
-          throw error;
-        }
-      })
-      .catch((err) => {
-        console.error(err);
-        alert("Error logging in please try again");
-      });
+    axios
+      .post(
+        "http://localhost:80/login",
+        {
+          username: data.username,
+          password: data.password,
+        },
+        { withCredentials: true }
+      )
+      .then((res) => {});
   };
   return (
     <main class="login">

@@ -28,8 +28,21 @@ a {
   justify-content: space-between;
   box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
 }
+.nav-link {
+  color: var(--uninorte-red);
+  text-decoration: underline;
+}
 .nav-center {
   justify-content: center;
+}
+.nav-center li {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.nav-center li img {
+  width: 24px;
 }
 
 .nav-logo {
@@ -298,7 +311,10 @@ a .button {
   color: var(--uninorte-red);
   border: 2px solid var(--uninorte-red);
 }
-
+.courses-title,
+.courses-subtitle {
+  text-align: center;
+}
 .courses-title span {
   color: var(--uninorte-red);
 }
