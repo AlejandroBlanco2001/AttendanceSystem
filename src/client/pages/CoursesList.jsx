@@ -1,11 +1,15 @@
-import React from "react";
+import React, { useContext } from "react";
 import MathIcon from "../assets/icons/math.png";
 import ProgrammingIcon from "../assets/icons/programming.png";
 import EthicsIcon from "../assets/icons/ethics.png";
+import Navbar from "../components/Navbar";
+import { myContext } from "../components/Context";
 const CoursesList = (props) => {
-  // const data = props.location.state || {};
+  const context = useContext(myContext);
+  console.log("CONTEXT: ", context);
   return (
     <>
+      <Navbar />
       <h1 class="courses-title">
         Welcome, <span>{"Jonathan"}</span>
       </h1>
