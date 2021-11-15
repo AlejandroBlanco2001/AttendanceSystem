@@ -35,6 +35,9 @@ passport.use(new localStrategy(
         }else {
             let user = {...res[0],...rol[0]};
             let passwordDB = user['passcode'];
+            if(passwordDB == 'test'){
+                done(null,false)
+            }
             bcrypt.genSalt(saltRound, (err, salt) => {
                 bcrypt.hash(password, salt, (err, hash) => {
                     password = hash;

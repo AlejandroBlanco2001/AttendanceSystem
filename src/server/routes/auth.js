@@ -10,14 +10,15 @@ const db = require('./database')
 router.post("/auth", 
 passport.authenticate("local"),
 async (req, res) => {
-    console.log(req.user);
+    console.log(req.user)
     res.sendStatus(200);
 });
 
-router.post("/setPassword", async (req, res) => {
+router.post('/setPassword', async (req, res) => {
     let username = req.body['username'];
     let id_person = req.body['id_code'];
     let new_password = req.body['new_password'];
+    if(new_password == 'test') res.sendStatus(500);
     let conn;
     try {
         conn = await db.pool.getConnection();

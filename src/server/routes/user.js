@@ -3,6 +3,7 @@ const qr = require('qrcode');
 
 const {Router} = require('express');
 const router = Router();
+const db = require('./database');
 
 const path = require('path');
 
@@ -13,11 +14,11 @@ io.on('codeCreated', (arg) => {
 
 router.get('/me',async (req,res) =>{
     if(req.user){
-
-        res.json()
-    }else{
-    
+        let conn = await db.pool.getConnection();
+        let result = await conn.query(`SELECT * FROM Person WHERE id=${req.user['id_pers']}`)
+        res.json(result);
     }
+    res.send("You are not logged in");
 })
 
 // Watch the class list of that student

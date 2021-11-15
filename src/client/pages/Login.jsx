@@ -28,6 +28,7 @@ const Login = () => {
       },
     })
       .then((res) => {
+        console.log(res.status)
         if (res.status === 200) {
           navigate("../studentslist", { replace: true });
         } else {
