@@ -19,7 +19,7 @@ const Navbar = ({ children }) => {
 
           <li>
             <img src={ProfileIcon} alt="" />
-            <NavLink to="/profile">profile</NavLink>
+            <NavLink to="/profile">Profile</NavLink>
           </li>
           <li>
             <img src={LogoutIcon} alt="" />
@@ -29,7 +29,7 @@ const Navbar = ({ children }) => {
                 Axios.get("http://localhost:80/logout");
               }}
             >
-              logout
+              Logout
             </NavLink>
           </li>
         </ul>

@@ -9,7 +9,7 @@ const path = require('path');
 
 
 io.on('codeCreated', (arg) => {
-    console.log('The teacher is in class')
+    console.log('The teacher arrived to class')
 })
 
 router.get('/me', async (req,res) =>{
@@ -48,8 +48,6 @@ router.get('/checkList/:id',(req,res) =>{
 router.get('/createQR', (req,res) => {
     //if(req.user['type'] == 1){
         //let teacherUsername = req.user['username'];
-    
-        // Query to get info of the teacher and build a specif code
         qr.toFile('./teacher_code.png','123',{
             color: {
                 dark: '#FFF',
@@ -61,7 +59,7 @@ router.get('/createQR', (req,res) => {
             console.log('Code generated')
         })
         res.sendFile(path.resolve('teacher_code.png'));
-        //io.emit('codeCreated','Code activaded')
+        //io.emit('classReady','Code activaded')
     //}
 })
 
