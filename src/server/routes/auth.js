@@ -28,6 +28,7 @@ router.post('/setPassword', async (req, res) => {
             });
         });
         conn.end();
+       
         res.sendStatus(200);
     } catch (err) {
         throw err;
