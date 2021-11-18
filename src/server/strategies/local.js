@@ -12,13 +12,11 @@ passport.serializeUser(async (user,done) => {
 passport.deserializeUser(async (username,done) => {
     try{
         conn = await db.pool.getConnection();
-        const res = await conn.query(`SELECT * FROM User WHERE userName="${username}"`);
+        const res = await conn.query(`SELECT * FROM User WHERE username="${username}"`);
         const rol = await conn.query(`SELECT type FROM Person WHERE id="${res[0]['id_pers']}"`);
         let user = {...res[0],...rol[0]};
         conn.end();
-        if(res[0]){
-            done(null, user);
-        }
+        if(res[0]) done(null, user);
     }catch(err){
         done(err,null)
     }
@@ -29,7 +27,7 @@ passport.use(new localStrategy(
     var conn;
     try {
         conn = await db.pool.getConnection();
-        const res = await conn.query(`SELECT * FROM User WHERE userName="${username}"`);
+        const res = await conn.query(`SELECT * FROM User WHERE username="${username}"`);
         const rol = await conn.query(`SELECT type FROM Person WHERE id="${res[0]['id_pers']}"`);
         if (res.length === 0){
             done(null, false);

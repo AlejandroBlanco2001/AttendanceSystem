@@ -71,7 +71,7 @@ INSERT INTO Subject VALUES
 ('DIN7080', 'Digital Design I', 3, '', 'Theory and Laboratory', 'https://cdn-icons-png.flaticon.com/512/2721/2721291.png', 2);
 
 -- In Syllabus Industrial Design
-INSERT INTO In_syllabus VALUES
+INSERT INTO in_syllabus VALUES
 ('DIN5050', '20477_1', 1), ('DIN5060', '20477_1', 1), ('DIN5070', '20477_1', 1),
 ('DIN5010', '20477_1', 2), ('DIN7120', '20477_1', 2), ('DIN5020', '20477_1', 2),
 ('DIN0033', '20477_1', 3), ('DIN7040', '20477_1', 3), ('FIS1080', '20477_1', 3),
@@ -162,7 +162,7 @@ INSERT INTO Subject VALUES
 ('IST4021', 'Data Structure I', 4, '', 'Theory and Laboratory', 'https://cdn-icons.flaticon.com/png/512/3080/premium/3080750.png?token=exp=1636990726~hmac=1708e97734e58509d6a24dc76fd1791e', 6),
 -- Semester 3 Systems Engineering
 ('FIS1043', 'Physics Heat Waves', 4, '', 'Theory and Laboratory', 'https://cdn-icons.flaticon.com/png/512/1533/premium/1533931.png?token=exp=1636990813~hmac=2e5b6bfbd0b4428b72a8ba3e3e37ac1c', 3),
-('IST2110', 'Object Oriented Programming', 4, '', 'Theory and Laboratory', 'https://cdn-icons.flaticon.com/png/512/4248/premium/4248159.png?token=exp=1636990882~hmac=8aa97751683fc8204d9fb33ff094bd21', 6),
+('IST2110', 'Object Oriented Programming', 4, '', 'Theory and Laboratory', 'https://cdn-icons.flaticon.com/png/512/5815/premium/5815526.png?token=exp=1637272232~hmac=6f5186e845d85ab96b9a86cc266844cd', 6),
 ('MAT4011', 'Differential Equations', 3, '', 'Theory', 'https://cdn-icons-png.flaticon.com/512/3402/3402282.png', 4),
 -- Semester 4 Systems Engineering
 ('MAT4022', 'Discrete Mathematics', 3, '', 'Theory', 'https://cdn-icons-png.flaticon.com/512/647/647857.png', 4),
@@ -190,12 +190,13 @@ INSERT INTO User (username, passcode, id_pers) VALUES
 INSERT INTO Person (id, name1, lastname1, gender, birthdate, type, id_dept) VALUES
 ('42224748', 'Kelsey', 'Guthrie', 'F', '1970-06-24', '1', 1),
 ('40712706', 'Hedley', 'Fulton', 'M', '1971-11-16', '1', 2),
-('13988897', 'Teagan', 'York', 'M', '1972-03-09', '1', 3),
-('31324943', 'Joan', 'Richmond', 'M', '1973-02-15', '1', 4),
-('32482114', 'Aristotle', 'Mcdonald', 'M', '1974-03-19', '1', 5),
-('49183669', 'Deirdre', 'Nunez', 'F', '1975-07-29', '1', 6),
-('26322523', 'Justin', 'Gonzalez', 'M', '1976-01-10', '1', 7),
-('38988417', 'Eleanor', 'Brock', 'F', '1977-11-18', '1', 8);
+('11950408', 'Montana', 'Morris', 'F', '1972-02-10', '1', 2),
+('13988897', 'Teagan', 'York', 'M', '1973-03-09', '1', 3),
+('31324943', 'Joan', 'Richmond', 'M', '1974-02-15', '1', 4),
+('32482114', 'Aristotle', 'Mcdonald', 'M', '1975-03-19', '1', 5),
+('49183669', 'Deirdre', 'Nunez', 'F', '1976-07-29', '1', 6),
+('26322523', 'Justin', 'Gonzalez', 'M', '1977-01-10', '1', 7),
+('38988417', 'Eleanor', 'Brock', 'F', '1978-11-18', '1', 8);
 
 -- Users Teacher
 INSERT INTO User (username, passcode, id_pers) VALUES
@@ -267,10 +268,10 @@ INSERT INTO Offered_In VALUES
 
 -- Courses Graphic Design
 INSERT INTO Course VALUES
-('0036_01', 'DIG0036', '40712706'), ('3020_01', 'CAS3020', '26322523'), ('5070_02', 'DIN5070', '40712706'),
-('0020_01', 'ART0020', '38988417'), ('3030_01', 'CAS3030', '26322523'), ('5020_02', 'DIN5020', '40712706'),
-('0037_01', 'DIG0037', '40712706'), ('1060_01', 'CMN1060', '38988417'), ('4010_01', 'DIG4010', '40712706'),
-('0034_01', 'DIG0034', '40712706'), ('4000_01', 'DIG4000', '40712706'), ('0032_01', 'DIG0032', '40712706');
+('0036_01', 'DIG0036', '11950408'), ('3020_01', 'CAS3020', '26322523'), ('5070_02', 'DIN5070', '11950408'),
+('0020_01', 'ART0020', '38988417'), ('3030_01', 'CAS3030', '26322523'), ('5020_02', 'DIN5020', '11950408'),
+('0037_01', 'DIG0037', '11950408'), ('1060_01', 'CMN1060', '38988417'), ('4010_01', 'DIG4010', '11950408'),
+('0034_01', 'DIG0034', '11950408'), ('4000_01', 'DIG4000', '11950408'), ('0032_01', 'DIG0032', '11950408');
 
 -- Offered_In Graphic Design
 INSERT INTO Offered_In VALUES
@@ -315,47 +316,47 @@ INSERT INTO Classroom VALUES
 
 -- Schedules Architecture
 INSERT INTO Schedule (weekday, start_time, duration) VALUES 
-('Monday', '08:30:00', 2), ('Monday', '10:30:00', 2), ('Monday', '14:30:00', 2),
-('Tuesday', '08:30:00', 2), ('Tuesday', '10:30:00', 2), ('Tuesday', '14:30:00', 2),
-('Wednesday', '08:30:00', 2), ('Wednesday', '10:30:00', 2), ('Wednesday', '14:30:00', 2),
-('Thursday', '08:30:00', 2), ('Thursday', '10:30:00', 2), ('Thursday', '14:30:00', 2),
-('Friday', '08:30:00', 2), ('Friday', '10:30:00', 2), ('Friday', '14:30:00', 2),
+('Monday', '08:30:00', 2), ('Monday', '10:30:00', 2), ('Monday', '14:30:00', 2), ('Monday', '16:30:00', 2),
+('Tuesday', '08:30:00', 2), ('Tuesday', '10:30:00', 2), ('Tuesday', '14:30:00', 2), ('Tuesday', '16:30:00', 2),
+('Wednesday', '08:30:00', 2), ('Wednesday', '10:30:00', 2), ('Wednesday', '14:30:00', 2), ('Wednesday', '16:30:00', 2),
+('Thursday', '08:30:00', 2), ('Thursday', '10:30:00', 2), ('Thursday', '14:30:00', 2), ('Thursday', '16:30:00', 2),
+('Friday', '08:30:00', 2), ('Friday', '10:30:00', 2), ('Friday', '14:30:00', 2), ('Friday', '16:30:00', 2),
 ('Saturday', '10:30:00', 2);
 
 -- Spaces Courses Architecture
 INSERT INTO Space (code_cour, weekday_sche, start_time_sche, code_clasR) VALUES 
 ('4071_01', 'Monday', '08:30:00', 'L-01'), ('1011_01', 'Tuesday', '08:30:00', 'L-02'), ('4125_01', 'Wednesday', '08:30:00', 'L-03'),
-('4072_01', 'Thursday', '08:30:00', 'L-01'), ('4027_01', 'Monday', '08:30:00', 'L-02'), ('4120_01', 'Tuesday', '08:30:00', 'L-03'),
-('4018_01', 'Wednesday', '08:30:00', 'L-01'), ('4050_01', 'Thursday', '08:30:00', 'L-02'), ('4023_01', 'Monday', '08:30:00', 'L-03'),
-('4014_01', 'Tuesday', '08:30:00', 'L-01'), ('4019_01', 'Wednesday', '08:30:00', 'L-02'), ('2024_01', 'Thursday', '08:30:00', 'L-03');
+('4072_01', 'Monday', '10:30:00', 'L-01'), ('4027_01', 'Tuesday', '10:30:00', 'L-02'), ('4120_01', 'Wednesday', '10:30:00', 'L-03'),
+('4018_01', 'Monday', '14:30:00', 'L-01'), ('4050_01', 'Tuesday', '14:30:00', 'L-02'), ('4023_01', 'Wednesday', '14:30:00', 'L-03'),
+('4014_01', 'Monday', '16:30:00', 'L-01'), ('4019_01', 'Tuesday', '16:30:00', 'L-02'), ('2024_01', 'Wednesday', '16:30:00', 'L-03');
 
 -- Spaces Courses Industrial Design
 INSERT INTO Space (code_cour, weekday_sche, start_time_sche, code_clasR) VALUES 
-('5050_01', 'Friday', '10:30:00', 'L-01'), ('5060_01', 'Saturday', '10:30:00', 'L-02'), ('5070_01', 'Monday', '10:30:00', 'L-03'),
-('5010_01', 'Tuesday', '10:30:00', 'L-01'), ('7120_01', 'Friday', '10:30:00', 'L-02'), ('5020_01', 'Saturday', '10:30:00', 'L-03'),
-('0033_01', 'Monday', '10:30:00', 'L-01'), ('7040_01', 'Tuesday', '10:30:00', 'L-02'), ('1080_01', 'Friday', '10:30:00', 'L-03'),
-('0035_01', 'Saturday', '10:30:00', 'L-01'), ('5040_01', 'Monday', '10:30:00', 'L-02'), ('7080_01', 'Tuesday', '10:30:00', 'L-03');
+('5050_01', 'Thursday', '08:30:00', 'L-01'), ('5060_01', 'Friday', '08:30:00', 'L-02'), ('5070_01', 'Monday', '08:30:00', 'L-03'),
+('5010_01', 'Thursday', '10:30:00', 'L-01'), ('7120_01', 'Friday', '10:30:00', 'L-02'), ('5020_01', 'Monday', '10:30:00', 'L-03'),
+('0033_01', 'Thursday', '14:30:00', 'L-01'), ('7040_01', 'Friday', '14:30:00', 'L-02'), ('1080_01', 'Monday', '14:30:00', 'L-03'),
+('0035_01', 'Thursday', '16:30:00', 'L-01'), ('5040_01', 'Friday', '16:30:00', 'L-02'), ('7080_01', 'Monday', '16:30:00', 'L-03');
 
 -- Spaces Courses Graphic Design
 INSERT INTO Space (code_cour, weekday_sche, start_time_sche, code_clasR) VALUES 
-('0036_01', 'Wednesday', '14:30:00', 'L-01'), ('3020_01', 'Thursday', '14:30:00', 'L-02'), ('5070_02', 'Friday', '14:30:00', 'L-03'),
-('0020_01', 'Monday', '14:30:00', 'L-01'), ('3030_01', 'Wednesday', '14:30:00', 'L-02'), ('5020_02', 'Thursday', '14:30:00', 'L-03'),
-('0037_01', 'Friday', '14:30:00', 'L-01'), ('1060_01', 'Monday', '14:30:00', 'L-02'), ('4010_01', 'Wednesday', '14:30:00', 'L-03'),
-('0034_01', 'Thursday', '14:30:00', 'L-01'), ('4000_01', 'Friday', '14:30:00', 'L-02'), ('0032_01', 'Monday', '14:30:00', 'L-03');
+('0036_01', 'Tuesday', '08:30:00', 'L-01'), ('3020_01', 'Wednesday', '08:30:00', 'L-02'), ('5070_02', 'Thursday', '08:30:00', 'L-03'),
+('0020_01', 'Tuesday', '10:30:00', 'L-01'), ('3030_01', 'Wednesday', '10:30:00', 'L-02'), ('5020_02', 'Thursday', '10:30:00', 'L-03'),
+('0037_01', 'Tuesday', '14:30:00', 'L-01'), ('1060_01', 'Wednesday', '14:30:00', 'L-02'), ('4010_01', 'Thursday', '14:30:00', 'L-03'),
+('0034_01', 'Tuesday', '16:30:00', 'L-01'), ('4000_01', 'Wednesday', '16:30:00', 'L-02'), ('0032_01', 'Thursday', '16:30:00', 'L-03');
 
 -- Spaces Courses Mathematics
 INSERT INTO Space (code_cour, weekday_sche, start_time_sche, code_clasR) VALUES 
 ('0040_01', 'Friday', '08:30:00', 'K-01'), ('1101_01', 'Wednesday', '08:30:00', 'K-02'), ('2088_01', 'Thursday', '08:30:00', 'K-03'),
 ('1031_01', 'Tuesday', '10:30:00', 'K-01'), ('4263_01', 'Friday', '10:30:00', 'K-02'), ('1111_01', 'Wednesday', '10:30:00', 'K-03'),
-('4261_01', 'Thursday', '10:30:00', 'K-01'), ('1221_01', 'Tuesday', '10:30:00', 'K-02'), ('1121_01', 'Friday', '10:30:00', 'K-03'),
+('4261_01', 'Thursday', '10:30:00', 'K-01'), ('1221_01', 'Tuesday', '16:30:00', 'K-02'), ('1121_01', 'Friday', '16:30:00', 'K-03'),
 ('8570_01', 'Wednesday', '14:30:00', 'K-01'), ('4160_01', 'Thursday', '14:30:00', 'K-02'), ('4264_01', 'Tuesday', '14:30:00', 'K-03');
 
 -- Spaces Courses Systems Engineering
 INSERT INTO Space (code_cour, weekday_sche, start_time_sche, code_clasR) VALUES 
 ('0010_01', 'Monday', '08:30:00', 'L-04'), ('1031_02', 'Tuesday', '08:30:00', 'V-01'), ('2088_02', 'Wednesday', '08:30:00', 'V-02'),
 ('1023_01', 'Thursday', '10:30:00', 'V-03'), ('2089_01', 'Friday', '10:30:00', 'V-04'), ('4021_01', 'Saturday', '10:30:00', 'L-04'),
-('1043_01', 'Monday', '14:30:00', 'V-01'), ('2110_01', 'Tuesday', '14:30:00', 'V-02'), ('4011_01', 'Wednesday', '14:30:00', 'V-03'),
-('4022_01', 'Thursday', '08:30:00', 'V-04'), ('1033_01', 'Friday', '14:30:00', 'L-04'), ('7111_01', 'Saturday', '10:30:00', 'V-01'),
+('1043_01', 'Monday', '08:30:00', 'V-01'), ('2110_01', 'Tuesday', '14:30:00', 'V-02'), ('4011_01', 'Wednesday', '16:30:00', 'V-03'),
+('4022_01', 'Thursday', '08:30:00', 'V-04'), ('1033_01', 'Friday', '14:30:00', 'L-04'), ('7111_01', 'Friday', '08:30:00', 'V-01'),
 ('7111_01', 'Monday', '10:30:00', 'V-01');
 
 ALTER TABLE Contract AUTO_INCREMENT = 10001;

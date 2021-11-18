@@ -99,6 +99,24 @@ CREATE TABLE In_Syllabus (
 	FOREIGN KEY (code_syll) REFERENCES Syllabus(code)
 );
 
+DELIMITER $$
+
+CREATE TRIGGER subjpersem 
+	BEFORE INSERT ON In_Syllabus
+	FOR EACH ROW
+	BEGIN
+		if (
+			SELECT COUNT(*)
+			FROM in_syllabus AS i INNER JOIN syllabus AS s
+			ON i.code_syll = s.code
+			WHERE s.code = NEW.code_syll AND i.semester = NEW.semester
+			) = 3 then 
+			SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'only 3 subjects per semester';
+		end if;
+	END $$
+
+DELIMITER ;
+
 CREATE TABLE Period (
 	year YEAR NOT NULL,
 	term ENUM('01', '02') NOT NULL,
@@ -164,14 +182,44 @@ CREATE TABLE Space (
 
 DELIMITER $$
 
-CREATE TRIGGER correctAuto_Incr BEFORE INSERT ON Space
-FOR EACH ROW BEGIN
-	SET NEW.code = (
-	    SELECT IFNULL(MAX(code), 0) + 1
-	    FROM Space
-	    WHERE code_cour  = NEW.code_cour
-	);
-END $$
+CREATE TRIGGER correctAuto_Incr 
+	BEFORE INSERT ON Space
+	FOR EACH ROW 
+	BEGIN
+		SET NEW.code = (
+		    SELECT IFNULL(MAX(code), 0) + 1
+		    FROM Space
+		    WHERE code_cour  = NEW.code_cour
+		);
+	END $$
+
+DELIMITER ;
+
+DELIMITER $$
+
+CREATE TRIGGER conflict_teacher_schedule
+	BEFORE INSERT ON `space`
+	FOR EACH ROW 
+	BEGIN
+		if (SELECT COUNT(*)
+				FROM (
+					SELECT sp.*
+					FROM person AS p INNER JOIN course AS c
+					ON p.id = c.id_teach INNER JOIN subject AS s
+					ON s.code = c.code_subj INNER JOIN `space` AS sp
+					ON sp.code_cour = c.code
+					WHERE p.id = (
+						SELECT p1.id
+						FROM course AS c1 INNER JOIN person AS p1
+						ON c1.id_teach = p1.id
+						WHERE NEW.code_cour = c1.code
+					)
+				) AS t
+				WHERE NEW.weekday_sche = t.weekday_sche AND NEW.start_time_sche = t.start_time_sche
+			) = 1 then
+			SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'schedule conflict teacher';
+		end if;
+	END $$
 
 DELIMITER ;
 

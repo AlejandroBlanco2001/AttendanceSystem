@@ -10,7 +10,6 @@ const db = require('./database')
 router.post("/auth", 
 passport.authenticate("local"),
 async (req, res) => {
-    console.log(req.user)
     res.sendStatus(200);
 });
 
@@ -24,11 +23,10 @@ router.post('/setPassword', async (req, res) => {
         conn = await db.pool.getConnection();
         bcrypt.genSalt(saltRound, (err, salt) => {
             bcrypt.hash(new_password, salt, (err, hash) => {
-                conn.query(`UPDATE User SET passcode='${hash}' WHERE userName='${username}' AND passcode='test' AND id_pers='${id_person}'`);
+                conn.query(`UPDATE User SET passcode='${hash}' WHERE username='${username}' AND passcode='test' AND id_pers='${id_person}'`);
             });
         });
         conn.end();
-       
         res.sendStatus(200);
     } catch (err) {
         throw err;

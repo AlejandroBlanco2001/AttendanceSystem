@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 
 function CourseCard({ icon, title, teacher, credits, schedule }) {
   return (
@@ -7,12 +8,12 @@ function CourseCard({ icon, title, teacher, credits, schedule }) {
       <h4 class="course-title">{title}</h4>
       <div class="course-data">
         <p class="course-teacher">{teacher}</p>
-        <p class="course-length">{credits + "creds"}</p>
+        <p class="course-length">{credits + " creds"}</p>
         <p className="course-length">
-          W:13:00 - 15:00 <br /> F: 7:00 - 10:00
+          {schedule}
         </p>
       </div>
-      <button className="button secondary-button">START</button>
+      {/* <Link state = {} to = "/courseattendance" className = "button secondary-button">START</Link> */}
     </div>
   );
 }

@@ -5,11 +5,13 @@ const app = express();
 const path = require('path');
 const session = require('express-session');
 const cors = require('cors');
+const fs = require('fs')
+
 const passport = require('passport');
 const engine = require('react-engine');
 
+const db = require('./routes/database')
 const local = require('./strategies/local')
-
 
 const usersRoute = require('./routes/user');
 const authRoute = require('./routes/auth');
