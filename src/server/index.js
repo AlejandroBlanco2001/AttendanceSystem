@@ -64,6 +64,7 @@ io.on('connection', (socket) => {
     });
 
     socket.on('checkMyClass', async (data) => {
+        console.log("testeo");
         let conn;
         try{
             conn = await db.pool.getConnection();

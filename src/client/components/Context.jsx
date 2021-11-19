@@ -10,17 +10,17 @@ useEffect(() => {
     axios
       .get("http://localhost:80/user/me", { withCredentials: true })
       .then((res) => {
-        setUser(res.data);
-        console.log(user);
+        setUser(res.data); 
+        socket.on("sendNotification", (data) => {
+          console.log("entre" + res.data.id)
+          socket.emit('checkMyClass',{code: data, id_pers:res.data.id})
+        });
+        socket.on('sendNotificationClass', (data) => {
+          // Display the notification
+        })
+        // console.log(user);
       });
-    socket.on("sendNotification", (data) => {
-      console.log(user);
-      console.table({code: data, id_pers:user.id_pers})
-      socket.emit('checkMyClass',{code: data, id_pers:user.id_pers})
-    });
-    socket.on('sendNotificationClass', (data) => {
-      console.table(data);
-    })
+
   }, []);
   return <myContext.Provider value={{user, setUser, socket}}>{props.children}</myContext.Provider>;
 }
