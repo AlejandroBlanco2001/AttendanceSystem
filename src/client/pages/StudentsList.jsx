@@ -3,9 +3,7 @@ import IMGCodeTest from "../assets/qrrrr.jpg";
 import Navbar from "../components/Navbar";
 import { useLocation } from 'react-router-dom';
 import { myContext } from "../components/Context";
-import axios from "axios";
 
-const io = require("socket.io-client");
 const StudentsList = () => {
   const [data, setData] = useState(null);
   let location = useLocation();
@@ -14,17 +12,11 @@ const StudentsList = () => {
   console.log("data", data);
 
   const handleGenerateCodes = () => {
-    if(data){
-      axios.post('http://localhost:80/classStarted',{code: data.code },{withCredentials: true })
-      .then((res) => {
-        console.log("Sirvio")
-      })
-    }
+    context.socket.emit("classStarted",data.code);
   }; 
 
 useEffect(()=>{
   setData(location.state);  
-
 },[location])
 
   return (

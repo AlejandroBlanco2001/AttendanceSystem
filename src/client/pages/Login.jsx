@@ -24,7 +24,7 @@ const Login = () => {
 
   const sendForm = (event) => {
     event.preventDefault();
-    console.log("enviando datos..." + data.username + " " + data.password);
+    console.log("enviando datos..." + data.username + " " + data.password + " " + context.socket.id);
     event.preventDefault();
     axios
       .post(
@@ -32,6 +32,7 @@ const Login = () => {
         {
           username: data.username,
           password: data.password,
+          socket: context.socket.id
         },
         { withCredentials: true }
       )

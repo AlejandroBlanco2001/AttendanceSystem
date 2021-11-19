@@ -4,6 +4,8 @@ const router = Router();
 const util = require('../../utils');
 const db = require('./database');
 
+const io = require('../controllers/socket').getio();
+
 router.get('/subject/:id', async (req,res) => {
     let id = req.params.id;
     let conn = await db.pool.getConnection();
