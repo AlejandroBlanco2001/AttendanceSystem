@@ -11,6 +11,7 @@ const CoursesList = (props) => {
   console.log("CONTEXT: ", context);
   const [classes, setClasses] =  useState([])
   const [userExists, setUserExists] = useState(false);
+
   useEffect(()=>{
     console.log("Fetching data from Courses list")
     axios.get("http://localhost:80/user/classes", {withCredentials: true}).then(response=> {
@@ -31,16 +32,31 @@ const CoursesList = (props) => {
     <>
       <Navbar />
       <h1 class="courses-title">
-        Welcome, <span>{context.user.name1}</span>
+        Welcome, <span>{context.user.name1 || "   "}</span>
       </h1>
       <h2 class="courses-subtitle">Courses list</h2>
       <main class="courses-container">
       {
+        
         classes.map((myClass, index) => {
-          const {name, urlimage, weekday_sche , start_time_sc, Nombre, credits, schedule} = myClass
-          return(
-            <CourseCard icon = {urlimage} schedule = {schedule} title = {name} teacher = {Nombre} credits = {credits}/>
-          )
+          const {name, urlimage, weekday_sche , start_time_sc, Nombre, credits, schedule, code} = myClass;
+          if(context){
+            if(context.user.type == "1"){
+              return(
+                <CourseCard icon = {urlimage} schedule = {schedule} title = {name} teacher = {context.user.name1} credits = {credits} type = {(context.user.type?context.user.type:"0")} code = {code}/>
+              )
+            }else{
+              return (
+    
+                  <CourseCard icon = {urlimage} schedule = {schedule} title = {name} teacher = {Nombre} credits = {credits} type = {(context.user.type?context.user.type:"0")} code = {code}/>
+            
+              )
+            }
+
+          }else{
+           return(<></>)
+          }
+         
         })
       }
       </main>

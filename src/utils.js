@@ -13,13 +13,26 @@ async function getAllSubjetctsStudent(conn, id){
 }
 
 async function getAllSubjetctsTeacher(conn, id){
-    let result = await conn.query(`SELECT s.name, sp.weekday_sche, sp.start_time_sche
-    FROM person AS p INNER JOIN course AS c
-    ON p.id = c.id_teach INNER JOIN subject AS s
-    ON s.code = c.code_subj INNER JOIN space AS sp
-    ON sp.code_cour = c.code
-    WHERE p.id = '${id}}';
-    `);
+    console.log(id);
+    let result = await conn.query(`
+    SELECT DISTINCT s.name, s.credits, c.code, s.urlimage, sp.weekday_sche, sp.start_time_sche
+    FROM person AS p INNER JOIN enrollment AS e ON p.id = e.id_stud INNER JOIN cour_enro AS ce
+    ON ce.id_enro = e.id INNER JOIN course AS c ON c.code = ce.code_cour INNER JOIN subject AS s 
+    ON s.code = c.code_subj INNER JOIN space AS sp ON sp.code_cour = c.code WHERE c.id_teach = "${id}";`);
+    if(result) return result;
+    else return -1;
+}
+
+async function getStudentsClass(conn,args){
+    let {code,id_pers} = args;
+    let result = await conn.query(`SELECT s.name,sp.weekday_sche, sp.start_time_sche FROM course c
+    INNER JOIN subject s ON s.code = c.code_subj
+    INNER JOIN space sp ON c.code = sp.code_cour
+    INNER JOIN schedule sc ON sp.weekday_sche = sc.weekday AND sp.start_time_sche = sc.start_time 
+    INNER JOIN cour_enro ce ON c.code = ce.code_cour
+    INNER JOIN enrollment e ON ce.id_enro = e.id
+    INNER JOIN person p ON p.id = e.id_stud
+    WHERE c.code = '${code}' AND p.id='${id_pers}';`);
     if(result) return result;
     else return -1;
 }
@@ -49,7 +62,6 @@ function separateSameClass(classes){
     for (var [key, value] of Object.entries(seen)) {
         res.push(value);
     }
-    console.log(res);
     return res;
 }
 
@@ -57,5 +69,6 @@ module.exports = {
     getAllSubjetctsStudent,
     getAllSubjetctsTeacher,
     getSubjectInfo,
-    separateSameClass
+    separateSameClass,
+    getStudentsClass
 }

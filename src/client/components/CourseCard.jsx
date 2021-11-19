@@ -1,7 +1,13 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+// Profesor = 1, estudiante = 2
+function CourseCard({ icon, title, teacher, credits, schedule , code, type}) {
+  const navigate = useNavigate();
+  const handleClick = () => {
+    navigate("../studentslist", {replace:true, state:{code, title, teacher, credits, schedule}})
+  }
 
-function CourseCard({ icon, title, teacher, credits, schedule }) {
   return (
     <div class="course-card">
       <img src={icon} alt="" class="course-image" />
@@ -13,7 +19,8 @@ function CourseCard({ icon, title, teacher, credits, schedule }) {
           {schedule}
         </p>
       </div>
-      {/* <Link state = {} to = "/courseattendance" className = "button secondary-button">START</Link> */}
+    <button className = "button secondary-button" onClick = {handleClick}>start</button>
+     
     </div>
   );
 }
