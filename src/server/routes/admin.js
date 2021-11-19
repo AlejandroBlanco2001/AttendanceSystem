@@ -3,9 +3,12 @@ const router = Router();
 const path = require('path');
 const db = require('./database')
 
-router.get('/users', async (req, res) => {
+//Read Gets 
+const routeStr = ['/users','/persons','/subjects']
+router.get(routeStr, async (req, res) => {
     if (req.user) {
         if (req.user.type == '0') {
+            
             let conn;
             try {
                 conn = await db.pool.getConnection();
@@ -326,6 +329,15 @@ router.get('/programs', async (req, res) => {
     }
     res.send('Not logged in')
 })
+
+//Insert Posts
+
+
+//Update Posts
+
+
+//Delete Posts
+
 
 async function insertData(table, values) {
     let conn;
