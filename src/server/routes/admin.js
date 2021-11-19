@@ -93,7 +93,7 @@ router.get('/courses', async (req, res) => {
     res.send('Not logged in')
 })
 
-router.get('/coursesPeriod', async (req, res) => {
+router.get('/periodCourses', async (req, res) => {
     if (req.user) {
         if (req.user.type == '0') {
             let conn;
