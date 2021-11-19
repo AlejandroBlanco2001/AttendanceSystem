@@ -70,8 +70,6 @@ a {
   color: var(--uninorte-red);
   border-bottom: 1px solid;
 }
-.home {
-}
 
 .home-container {
   display: flex;
@@ -378,11 +376,12 @@ a .button {
 }
 
 .course-teacher {
-  color: #dedede;
+  color: gray;
   font-weight: 700;
 }
 .course-length {
-  color: #cecece;
+  color:gray;
+  font-weight: 800;
 }
 .course-card:hover {
   transition: 0.3s;

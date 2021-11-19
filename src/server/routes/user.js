@@ -1,18 +1,12 @@
-const io = require('socket.io')();
 const qr = require('qrcode');
 
 const {Router} = require('express');
 const router = Router();
 const path = require('path');
 
+
 const db = require('./database');
 const util = require('../../utils');
-const { unstable_isMuiElement } = require('@mui/utils');
-
-// Check if the user is in the class
-io.on('codeCreated', (arg) => {
-    console.log('The teacher arrived to class')
-})
 
 // Request the user profile information
 router.get('/me', async (req,res) =>{
@@ -33,7 +27,7 @@ router.get('/classes', async (req,res) =>{
             let conn = await db.pool.getConnection();
             let result = type == '2' ? await util.getAllSubjetctsStudent(conn,id) : await util.getAllSubjetctsTeacher(conn,id);
             conn.end();
-            result = util.separateSameClass(result);
+            result = type == '2' ? util.separateSameClass(result) : result;
             res.json(result);
         }
     }
