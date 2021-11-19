@@ -14,12 +14,18 @@ const db = require('./routes/database');
 const local = require('./strategies/local');
 const util = require('../utils');
 
+const port = process.env.PORT || 80; 
+
+const serverInstance = app.listen(port, () =>{
+    console.log(`Back-End is listening in http://localhost:${port}`)
+});
+
+const io = require('./controllers/socket').init(serverInstance);
+
 const usersRoute = require('./routes/user');
 const authRoute = require('./routes/auth');
 const adminRoute = require('./routes/admin');
 const classRoute = require('./routes/class');
-
-const port = process.env.PORT || 80; 
 
 app.engine('.jsx', engine.server.create());
 app.set('views', path.join(__dirname,'src','client','pages'));
@@ -46,32 +52,29 @@ app.use('/login', authRoute);
 app.use('/admin', adminRoute);
 app.use('/class', classRoute);
 
-const serverInstance = app.listen(port, () =>{
-    console.log(`Back-End is listening in http://localhost:${port}`)
-});
-
 app.get('/logout',(req, res) => {
     req.logout();
     res.redirect('localhost:9000/');
 });
 
-var io = require('socket.io')(serverInstance,{
-    cors: {origin: '*'}
-});
-
-app.post('/classStarted',async (req,res) => {
-    let data = {code: req.body.code,id_pers: req.user.id_pers}
-    let conn = await db.pool.getConnection();
-    let resp = await util.getStudentsClass(conn,data);
-    if(resp.length != 0){
-        console.log('entre');
-        io.emit('showNotificationUser',resp);
-    }
-})
-
 io.on('connection', (socket) => {
-    socket.send("Te escucho");
-    socket.on('showNotificationUser', (res) => {
-        console.log(res);
-    })
+
+    socket.on('classStarted', (data) => {
+        socket.broadcast.emit('sendNotification',data)
+    });
+
+    socket.on('checkMyClass', async (data) => {
+        let conn;
+        try{
+            conn = await db.pool.getConnection();
+            let result = await util.getStudentsClass(conn,{code: data.code, id_pers: data.id_pers});
+            conn.end();
+            console.log(result.length);
+            if(result.length != 0) socket.emit('sendNotificationClass', result);
+        }catch(err){
+            throw err;
+        }
+    });
+
+    console.log("hello " + socket.id);
 })

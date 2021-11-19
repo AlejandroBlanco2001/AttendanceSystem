@@ -28,10 +28,10 @@ passport.use(new localStrategy(
     try {
         conn = await db.pool.getConnection();
         const res = await conn.query(`SELECT * FROM User WHERE username="${username}"`);
-        const rol = await conn.query(`SELECT type FROM Person WHERE id="${res[0]['id_pers']}"`);
         if (res.length === 0){
             done(null, false);
         }else {
+            const rol = await conn.query(`SELECT type FROM Person WHERE id="${res[0]['id_pers']}"`);
             conn.end();
             let user = {...res[0],...rol[0]};
             let passwordDB = user['passcode'];

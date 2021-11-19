@@ -5,7 +5,8 @@ import { useNavigate } from "react-router-dom";
 function CourseCard({ icon, title, teacher, credits, schedule , code, type}) {
   const navigate = useNavigate();
   const handleClick = () => {
-    navigate("../studentslist", {replace:true, state:{code, title, teacher, credits, schedule}})
+    if(type == '1') navigate("../studentslist", {replace:true, state:{code, title, teacher, credits, schedule}})
+    else navigate("../courseattendance", {replace: true, state:{code, title, teacher, credits, schedule}})
   }
 
   return (
@@ -19,8 +20,7 @@ function CourseCard({ icon, title, teacher, credits, schedule , code, type}) {
           {schedule}
         </p>
       </div>
-    <button className = "button secondary-button" onClick = {handleClick}>start</button>
-     
+    <button className = "button secondary-button" onClick = {handleClick}>start</button>  
     </div>
   );
 }
