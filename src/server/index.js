@@ -64,11 +64,12 @@ io.on('connection', (socket) => {
     });
 
     socket.on('checkMyClass', async (data) => {
-        console.log("testeo");
         let conn;
         try{
             conn = await db.pool.getConnection();
             let result = await util.getStudentsClass(conn,{code: data.code, id_pers: data.id_pers});
+            conn.end();
+            console.log(result.length);
             if(result.length != 0) socket.emit('sendNotificationClass', result);
         }catch(err){
             throw err;
