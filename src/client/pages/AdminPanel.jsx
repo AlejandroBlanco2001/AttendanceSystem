@@ -25,91 +25,96 @@ const AdminPanel = () => {
             <h2 className="card-title">Persons</h2>
           </Link>
 
-          <div className="opciones--card">
+          <Link to="/subjects" className="opciones--card">
           <img src={father} alt="" />
             <h2 className="card-title">Subjets</h2>
-          </div>
+          </Link>
 
-          <div className="opciones--card">
+          <Link to="/deparments" className="opciones--card">
+          <img src={father} alt="" />
+            <h2 className="card-title">Deparments</h2>
+          </Link>
+
+          <Link to="/courses" className="opciones--card">
           <img src={father} alt="" />
             <h2 className="card-title">Courses</h2>
-          </div>
+          </Link>
 
-          <div className="opciones--card">
+          <Link to="/spaces" className="opciones--card">
           <img src={father} alt="" />
             <h2 className="card-title">Spaces</h2>
-          </div>
+          </Link>
 
-          <div className="opciones--card">
+          
+          <Link to="/schedules" className="opciones--card">
           <img src={father} alt="" />
             <h2 className="card-title">Schedules</h2>
-          </div>
+          </Link>
 
           
-          <div className="opciones--card">
+          <Link to="/classrooms" className="opciones--card">
           <img src={father} alt="" />
-            <h2 className="card-title">Classrooms</h2>
-          </div>
+            <h2 className="card-title">ClassRooms</h2>
+          </Link>
 
           
-          <div className="opciones--card">
+          <Link to="/classes" className="opciones--card">
           <img src={father} alt="" />
             <h2 className="card-title">Classes</h2>
-          </div>
+          </Link>
 
           
-          <div className="opciones--card">
+          <Link to="/enrollments" className="opciones--card">
           <img src={father} alt="" />
             <h2 className="card-title">Enrollments</h2>
-          </div>
+          </Link>
 
           
-          <div className="opciones--card">
+          <Link to="/periods" className="opciones--card">
           <img src={father} alt="" />
             <h2 className="card-title">Periods</h2>
-          </div>
+          </Link>
 
           
-          <div className="opciones--card">
+          <Link to="/contracts" className="opciones--card">
           <img src={father} alt="" />
             <h2 className="card-title">Contracts</h2>
-          </div>
+          </Link>
 
           
-          <div className="opciones--card">
+          <Link to="/syllabuses" className="opciones--card">
           <img src={father} alt="" />
             <h2 className="card-title">Syllabuses</h2>
-          </div>
+          </Link>
 
           
-          <div className="opciones--card">
+          <Link to="/programs" className="opciones--card">
           <img src={father} alt="" />
             <h2 className="card-title">Programs</h2>
-          </div>
+          </Link>
 
-          
-          <div className="opciones--card">
+
+          <Link to="/periodCourses" className="opciones--card">
           <img src={father} alt="" />
             <h2 className="card-title">Period Courses</h2>
-          </div>
-
-
-          <div className="opciones--card">
-          <img src={father} alt="" />
-            <h2 className="card-title">Enrollments Courses</h2>
-          </div>
+          </Link>
 
   
-          <div className="opciones--card">
+          <Link to="enrollmentCourses" className="opciones--card">
+          <img src={father} alt="" />
+            <h2 className="card-title">Enrollment Classes</h2>
+          </Link>
+
+
+          <Link to="/studentClasses" className="opciones--card">
           <img src={father} alt="" />
             <h2 className="card-title">Student Classes</h2>
-          </div>
+          </Link>
 
-
-          <div className="opciones--card">
+          <Link to="/syllabusSubjects" className="opciones--card">
           <img src={father} alt="" />
             <h2 className="card-title">Syllabus Subjects</h2>
-          </div>
+          </Link>
         </div>
       </main>
       </div>
