@@ -45,7 +45,12 @@ const Login = () => {
           .then((res) => {
             context.setUser(res.data);
             setOpen(false);
-            navigate("../courseslist", { replace: true });
+            console.log("tipo: "+context.user.type)
+            if(context.user.type == '0'){
+              navigate("../adminpanel",{replace: true});
+            }else{
+              navigate("../courseslist", { replace: true });
+           }
           });
       })
       .catch((err) => {
