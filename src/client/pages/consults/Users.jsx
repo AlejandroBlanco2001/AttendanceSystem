@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-//import background from "../images/background1.svg";
 import axios from "axios";
 import Table from "../../components/Table";
 import "../../styles/table.css";
@@ -10,6 +9,10 @@ const Users= () => {
   const [updatedUser, setUpdatedUser] = useState({})
   const [listaUsers, setListaUsers] = useState([]);
   const [needUpdate, setNeedUpdate] = useState(false);
+  const [username, setUserName]= useState("");
+  const [passcode, setPasscode]= useState("");
+  const [urlimage, setUrlImage]= useState("");
+  const [id_person, setIdPerson]= useState("");
 
   const handleInputChange = (event) => {
     setData({
@@ -19,31 +22,29 @@ const Users= () => {
   };
 
 
-  // const addUser = () => {
-  //   Axios.post("http://localhost:3004/crearpadre", {
-  //     username,
-  //     passcode,
-  //     urlimage,
-  //     id_person,
-  //   })
-  //     .then((response) => {
-  //       console.log("Success");
-  //       setListaUsers([
-  //         ...listaUsers,
-  //         {
-  //           username,
-  //           passcode,
-  //           urlimage,
-  //           id_person,
-  //         },
-  //       ]);
-  //       window.location.reload(false);
-  //     })
-  //     .catch((er) =>{
-  //       alert("Disculpe esta ingresando un usuario ya existente")
-  //       console.log(er)
-  //     });
-  // };
+  const addUser = () => {
+    axios.post("http://localhost:80/admin/create/users", {
+      username,
+      passcode,
+      id_person,
+    })
+      .then((response) => {
+        console.log("Success");
+        setListaUsers([
+          ...listaUsers,
+          {
+            username,
+            passcode,
+            id_person,
+          },
+        ]);
+        window.location.reload(false);
+      })
+      .catch((er) =>{
+        alert("Disculpe esta ingresando un usuario ya existente")
+        console.log(er)
+      });
+  };
 
 
   // const deletePadre = (cedula) => {
@@ -82,17 +83,25 @@ useEffect(() => {
 
 }, [isData])
 
+const sendInfo = (e) => {
+  console.log("Procesando registro");
+  e.preventDefault();
+  addUser();
+};
+
+
  return (
  <main>
- <form action="" className="login-form">
+ <form action="" className="login-form" onSubmit={sendInfo}>
           <img  alt="" />
           <div className="form-block">
             <label htmlFor="username">USERNAME</label>
             <input
               type="text"
               id="username"
+              value={username || "" || updatedUser.username}
               placeholder="type the username"
-             onChange={handleInputChange}
+              onChange={(e)=>setUserName(e.target.value)}
               name="username"
             />
           </div>
@@ -101,8 +110,9 @@ useEffect(() => {
             <input
               type="password"
               placeholder="*****"
-              id="password"
-               onChange={handleInputChange}
+              id="passcode"
+              value={passcode || "" || updatedUser.passcode}
+              onChange={(e)=>setPasscode(e.target.value)}
               name="password"
             />
           </div>
@@ -111,28 +121,30 @@ useEffect(() => {
             <input
               type="text"
               id="urlimage"
+              value={urlimage || "" || updatedUser.urlimage}
               placeholder="type the url of the image profile"
-             onChange={handleInputChange}
+              onChange={(e)=>setUrlImage(e.target.value)}
               name="urlimage"
               />
           </div>
-           <div className="form-block">
+          <div className="form-block">
             <label htmlFor="id_person">ID Person</label>
             <input
               type="text"
               id="id_person"
-              placeholder="type the id of the person"
-             onChange={handleInputChange}
+              value={id_person || "" || updatedUser.id_person}
+              placeholder="type the url of the image profile"
+              onChange={(e)=>setIdPerson(e.target.value)}
               name="id_person"
               />
           </div>
           <input
             type="submit"
-            className="button primary-button"
+            className="button primary-button button-row"
             value="ADD"
           />
           <button
-           className="button primary-button"
+           className="button primary-button button-row"
           // onClick={updateUser}
           disabled={!needUpdate}
           type="button"

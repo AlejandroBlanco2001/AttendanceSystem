@@ -9,12 +9,10 @@ const Table = ({
   handleUpdateUser,
 
 }) => {
-console.log("DATA IN TABLE ", data)
   return (
     <table>
       <thead>
         <tr>
-         
           {
           (tableheads?
           tableheads.map((header) => {
@@ -36,8 +34,7 @@ console.log("DATA IN TABLE ", data)
               collection={row}
               setNeedUpdate
               handleDeleteUser={handleDeleteUser}
-              handleUpdateUser={handleUpdateUser}
-              ced={row.cedula}
+              handleUpdateUser={handleUpdateUser} 
             />
           );
         })

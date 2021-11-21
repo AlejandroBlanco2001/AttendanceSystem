@@ -7,15 +7,14 @@ const Row = ({
   handleUpdateUser,
   collection,
 }) => {
-  console.log("DATA IN ROW ", Object.entries(data));
   return (
     <tr>
-      {(data ? Object.entries(data).map((value, index)=>{ console.log("VALUE ", value); return(<td key = {index}>{value[1]}</td>)}) : <></>)}
-      <td class="select">
+      {(data ? Object.entries(data).map((value, index)=>{ return(<td key = {index}>{value[1]}</td>)}) : <></>)}
+      <td className="select">
         <button
           className=" button primary-button button-row"
           onClick={() => {
-            handleDeleteUser(collection.cedula || collection.tarjetaIdentidad);
+            //handleDeleteUser(collection.cedula || collection.tarjetaIdentidad);
           }}
         >
           ELIMINAR
@@ -24,7 +23,7 @@ const Row = ({
         <button className="
         button secondary-button button-row"
           onClick={() => {
-            handleUpdateUser(collection);
+           // handleUpdateUser(collection);
           }}
         >
           EDITAR

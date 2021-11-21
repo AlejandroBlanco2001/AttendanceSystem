@@ -10,6 +10,7 @@ import ChangePassword from "../pages/ChangePassword";
 import Context from "./Context";
 import UserProfile from "../pages/UserProfile";
 import User from "../pages/consults/Users";
+import Person from "../pages/consults/Persons";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 function App() {
   return (
@@ -25,6 +26,7 @@ function App() {
           <Route path="courseattendance" element={<CourseAttendance />} />
           <Route path="adminpanel" element={<AdminPanel />}/>
           <Route exact path="/users" element={<User />}/>
+          <Route exact path="/persons" element={<Person />}/>
 
         </Routes>
       </Context>

@@ -19,11 +19,11 @@ const AdminPanel = () => {
           <img src={father} alt="" />
             <h2 className="card-title">Users</h2>
           </Link>
-
-           <div className="opciones--card">
+          
+           <Link to="/persons" className="opciones--card">
            <img src={father} alt="" />
             <h2 className="card-title">Persons</h2>
-          </div>
+          </Link>
 
           <div className="opciones--card">
           <img src={father} alt="" />

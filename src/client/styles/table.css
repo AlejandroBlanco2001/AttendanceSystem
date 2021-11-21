@@ -6,6 +6,11 @@
     --md: 16px;
     --lg: 20px;
   }
+
+  .login-form{
+    height: 100%;
+  }
+  input[type="date"],
  main{
      display:flex;
      flex-direction: row;
