@@ -27,7 +27,7 @@ const AdminPanel = () => {
 
           <Link to="/subjects" className="opciones--card">
           <img src={father} alt="" />
-            <h2 className="card-title">Subjets</h2>
+            <h2 className="card-title">Subjects</h2>
           </Link>
 
           <Link to="/deparments" className="opciones--card">
