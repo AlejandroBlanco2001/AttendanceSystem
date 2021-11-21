@@ -24,7 +24,7 @@ import Contract from "../pages/consults/Contracts";
 import Syllabus from "../pages/consults/Syllabuses";
 import Program from "../pages/consults/Programs";
 import PeriodCourse from "../pages/consults/PeriodCourses";
-import EnrollmentCourse from "../pages/consults/EnrollmentsCourses";
+import EnrollmentCourse from "../pages/consults/EnrollmentCourses";
 import StudentClass from "../pages/consults/StudentClasses";
 import SyllabusSubject from "../pages/consults/SyllabusSubjects";
 

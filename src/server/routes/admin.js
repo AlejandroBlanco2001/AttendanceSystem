@@ -39,9 +39,14 @@ router.get(routeStr, async (req, res) => {
       let conn;
       try {
         conn = await db.pool.getConnection();
-        results = await conn.query('SELECT * FROM ' + queryTable)
+        if(req.path == routeStr[1]){
+          results = await conn.query("SELECT id, name1, name2, lastname1, lastname2, gender, DATE_FORMAT(birthdate,'%d/%m/%Y'), type, id_dept FROM " + queryTable)
+        }else{
+          results = await conn.query('SELECT * FROM ' + queryTable)
+        }
         conn.end();
       } catch (e) {
+        throw e
         res.sendStatus(500)
       }
       res.json(results);

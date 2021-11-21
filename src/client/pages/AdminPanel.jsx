@@ -100,9 +100,9 @@ const AdminPanel = () => {
           </Link>
 
   
-          <Link to="enrollmentCourses" className="opciones--card">
+          <Link to="/enrollmentCourses" className="opciones--card">
           <img src={father} alt="" />
-            <h2 className="card-title">Enrollment Classes</h2>
+            <h2 className="card-title">Enrollment Courses</h2>
           </Link>
 
 

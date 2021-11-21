@@ -93,16 +93,16 @@ const sendInfo = (e) => {
               type="text"
               id="weekday"
               value={weekday || "" || updatedUser.weekday}
-              placeholder="type the weeekday"
+              placeholder="type the day of the week"
               onChange={(e)=>setWeekday(e.target.value)}
               name="weekday"
             />
           </div>
           <div className="form-block">
-            <label htmlFor="start_timeSch">Start time Schedule</label>
+            <label htmlFor="start_timeSch">Start time</label>
             <input
               type="text"
-              placeholder="type the Start Time Schedule"
+              placeholder="type the Start Time"
               id="start_timeSch"
               value={start_timeSch || "" || updatedUser.start_timeSch}
               onChange={(e)=>setWeekdaySche(e.target.value)}
@@ -139,9 +139,9 @@ const sendInfo = (e) => {
         <Table
           tableheads={[
             "Weekday",
-            "Start time Schedule",
-            "Duration Schedule",
-            "End time Schedule",
+            "Start time",
+            "Duration",
+            "End time",
             "Accions"
           ]}
           data={isData?schedules:null}

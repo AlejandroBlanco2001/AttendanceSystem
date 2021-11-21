@@ -87,7 +87,7 @@ const sendInfo = (e) => {
  <form action="" className="login-form" onSubmit={sendInfo}>
           <img  alt="" />
           <div className="form-block">
-            <label htmlFor="id_studEr">Id Student</label>
+            <label htmlFor="id_studEr">Student's ID</label>
             <input
               type="text"
               id="id_studEr"
@@ -98,7 +98,7 @@ const sendInfo = (e) => {
             />
           </div>
           <div className="form-block">
-            <label htmlFor="year_periEr">Year Period</label>
+            <label htmlFor="year_periEr">Period's Year</label>
             <input
               type="text"
               placeholder="type the year of the Period"
@@ -109,14 +109,14 @@ const sendInfo = (e) => {
             />
           </div>
           <div className="form-block">
-            <label htmlFor="term_periEr">End of Period</label>
+            <label htmlFor="year_termEr">Period's Term</label>
             <input
               type="text"
-              placeholder="type the year of the Period"
-              id="term_periEr"
-              value={term_periEr || "" || updatedUser.term_periEr}
-              onChange={(e)=>setTermPeriEr(e.target.value)}
-              name="term_periEr"
+              placeholder="type the term of the Period"
+              id="year_termEr"
+              value={year_termEr || "" || updatedUser.year_termEr}
+              onChange={(e)=>setYearPeriEr(e.target.value)}
+              name="year_termEr"
             />
           </div>
           <input
@@ -138,10 +138,10 @@ const sendInfo = (e) => {
         <Table
           tableheads={[
               "ID",
-            "ID Student Enrollment",
-            "Year Period Enrollment",
-            "End Period Enrollment",
-            "Accions"
+            "Student's ID",
+            "Period's Year",
+            "Period's Term",
+            "Actions"
           ]}
           data={isData?enrollments:null}
           setNeedUpdate={setNeedUpdate}

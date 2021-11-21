@@ -41,7 +41,7 @@ const Users= () => {
         window.location.reload(false);
       })
       .catch((er) =>{
-        alert("Disculpe esta ingresando un usuario ya existente")
+        alert("El usuario que está intentando ingresar ya existe.")
         console.log(er)
       });
   };
@@ -95,7 +95,7 @@ const sendInfo = (e) => {
  <form action="" className="login-form" onSubmit={sendInfo}>
           <img  alt="" />
           <div className="form-block">
-            <label htmlFor="username">USERNAME</label>
+            <label htmlFor="username">Username</label>
             <input
               type="text"
               id="username"
@@ -117,23 +117,23 @@ const sendInfo = (e) => {
             />
           </div>
           <div className="form-block">
-            <label htmlFor="urlimage">URL Image Profile</label>
+            <label htmlFor="urlimage">Profile Picture URL</label>
             <input
               type="text"
               id="urlimage"
               value={urlimage || "" || updatedUser.urlimage}
-              placeholder="type the url of the image profile"
+              placeholder="type the url of the profile picture"
               onChange={(e)=>setUrlImage(e.target.value)}
               name="urlimage"
               />
           </div>
           <div className="form-block">
-            <label htmlFor="id_person">ID Person</label>
+            <label htmlFor="id_person">Person's ID</label>
             <input
               type="text"
               id="id_person"
               value={id_person || "" || updatedUser.id_person}
-              placeholder="type the url of the image profile"
+              placeholder="type the id of the person"
               onChange={(e)=>setIdPerson(e.target.value)}
               name="id_person"
               />
@@ -159,8 +159,8 @@ const sendInfo = (e) => {
             "Username",
             "Passcode",
             "URL Image",
-            "ID Person",
-            "Accions"
+            "Person's ID",
+            "Actions"
           ]}
           data={isData?users:null}
           setNeedUpdate={setNeedUpdate}
