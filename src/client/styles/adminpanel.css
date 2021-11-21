@@ -1,0 +1,79 @@
+:root {
+    --uninorte-red: #c51618;
+  
+    --sm: 12px;
+    --md: 16px;
+    --lg: 20px;
+  }
+  
+  main {
+   
+    width: 100%;
+    height: 100%;
+    display:flex;
+  }
+ 
+.header-admin{
+  width: 100%;
+  padding: 15px;  
+  box-shadow: rgba(91, 110, 129, 0.1) 0px 8px 24px;
+  margin-bottom: 100px;
+}
+  .title {
+    text-align: center;
+    padding: 10px;
+    justify-content: space-between;
+    
+  }
+
+  .opciones--card {
+    cursor: pointer;
+    background-color: white;
+    transition: 0.5s;
+    width: 100%;
+    height:150px;
+    box-shadow: rgba(91, 110, 129, 0.1) 0px 8px 24px;
+    border-width: 1px;
+    border-radius: 6px;
+    padding: 20px;
+    margin-bottom: 15px;
+    display: flex;
+    justify-content: left;
+    align-items: center;
+  }
+  
+  .opciones {
+    width: 100%;
+    display: grid;
+    padding: 0 200px;
+    width: 100%;
+    place-items: center;
+    place-content: center;
+    grid-template-columns: repeat(auto-fill, 350px);
+    gap: 20px;
+  }
+  a {
+    text-decoration: none;
+    color: initial;
+  }
+  
+  .card-title {
+      padding-left: 10px;
+    text-align:center;
+  }
+  p {
+    font-size: 12px;
+    text-align: justify;
+  }
+  
+  .opciones--card:hover {
+    transition: 0.3s;
+  border-color: var(--uninorte-red);
+  background-color: rgba(197, 22, 24, 0.05);;
+  }
+  
+  .opciones--card img {
+    width: 40px;
+    height: 40px;
+  }
+  

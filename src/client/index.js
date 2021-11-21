@@ -5,6 +5,7 @@ import Start from "./pages/Start";
 import Login from "./pages/Login";
 import StudentsList from "./pages/StudentsList";
 import CoursesList from "./pages/CoursesList";
+import AdminPanel from "./pages/AdminPanel";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import "./styles/global.css";
 ReactDOM.render(<App />, document.getElementById("app"));
