@@ -26,6 +26,7 @@ const usersRoute = require('./routes/user');
 const authRoute = require('./routes/auth');
 const adminRoute = require('./routes/admin');
 const classRoute = require('./routes/class');
+const { setInterval } = require('timers/promises');
 
 app.engine('.jsx', engine.server.create());
 app.set('views', path.join(__dirname,'src','client','pages'));
@@ -52,12 +53,22 @@ app.use('/login', authRoute);
 app.use('/admin', adminRoute);
 app.use('/class', classRoute);
 
-app.get('/logout',(req, res) => {
+app.get('/logout',(req, res) => { 
     req.logout();
     res.redirect('localhost:9000/');
 });
 
 io.on('connection', (socket) => {
+
+    var checkInterval;
+    socket.on('checkClassAlreadyStarted', async (data) => {
+        clearInterval(checkInterval);
+        checkInterval = setInterval(async () => {
+            let conn = await db.pool.getConnection(); 
+            let result = await util.getClassHours(conn,data.id_pers);
+            if(result.length != 0) socket.emit('classAlreadyStarted', result)
+        },180000)
+    })
 
     socket.on('classStarted', (data) => {
         socket.broadcast.emit('sendNotification',data)

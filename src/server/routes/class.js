@@ -15,6 +15,7 @@ router.get('/subject/:id', async (req,res) => {
     else res.json(result);
 });
 
+
 router.get('/join_class/:id', (req, res) => {
     let class_id = req.params.id;
     // Query para verificar existencia de la clase
