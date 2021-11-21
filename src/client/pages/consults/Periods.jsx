@@ -109,10 +109,10 @@ const sendInfo = (e) => {
             />
           </div>
           <div className="form-block">
-            <label htmlFor="descriptionPd">Description Period</label>
+            <label htmlFor="descriptionPd">Period's Description</label>
             <input
               type="text"
-              placeholder="type the description"
+              placeholder="type the descriptionof the period"
               id="descriptionPd"
               value={descriptionPd || "" || updatedUser.descriptionPd}
               onChange={(e)=>setDescription(e.target.value)}
@@ -140,7 +140,7 @@ const sendInfo = (e) => {
             "Year",
             "Term",
             "Description",
-            "Accions"
+            "Actions"
           ]}
           data={isData?periods:null}
           setNeedUpdate={setNeedUpdate}

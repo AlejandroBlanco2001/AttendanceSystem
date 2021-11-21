@@ -86,7 +86,7 @@ const sendInfo = (e) => {
  <form action="" className="login-form" onSubmit={sendInfo}>
           <img  alt="" />
           <div className="form-block">
-            <label htmlFor="codeSy">Code Syllabus</label>
+            <label htmlFor="codeSy">Syllabus' Code</label>
             <input
               type="text"
               id="codeSy"
@@ -97,10 +97,10 @@ const sendInfo = (e) => {
             />
           </div>
           <div className="form-block">
-            <label htmlFor="snies_prog">Program</label>
+            <label htmlFor="snies_prog">Program's SNIES</label>
             <input
               type="text"
-              placeholder="type the program"
+              placeholder="type the SNIES of the program"
               id="snies_prog"
               value={snies_prog || "" || updatedUser.snies_prog}
               onChange={(e)=>setSniesProg(e.target.value)}
@@ -125,9 +125,9 @@ const sendInfo = (e) => {
     <div className="table">
         <Table
           tableheads={[
-            "Code Syllabus",
-            "SNIES Program",
-            "Accions"
+            "Syllabus' Code",
+            "Program's SNIES",
+            "Actions"
           ]}
           data={isData?syllabuses:null}
           setNeedUpdate={setNeedUpdate}

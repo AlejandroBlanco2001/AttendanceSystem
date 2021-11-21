@@ -91,7 +91,7 @@ const sendInfo = (e) => {
  <form action="" className="login-form" onSubmit={sendInfo}>
           <img  alt="" />
           <div className="form-block">
-            <label htmlFor="code">Code Subject</label>
+            <label htmlFor="code">Subject's Code</label>
             <input
               type="text"
               id="code"
@@ -102,7 +102,7 @@ const sendInfo = (e) => {
             />
           </div>
           <div className="form-block">
-            <label htmlFor="name">Name subject</label>
+            <label htmlFor="name">Subject's Name</label>
             <input
               type="text"
               placeholder="type the name of the subject"
@@ -113,7 +113,7 @@ const sendInfo = (e) => {
             />
           </div>
           <div className="form-block">
-            <label htmlFor="credits"># Credits</label>
+            <label htmlFor="credits">No. of Credits</label>
             <input
               type="number"
               placeholder="type the number of credits"
@@ -135,7 +135,7 @@ const sendInfo = (e) => {
               />
           </div>
           <div className="form-block">
-            <label htmlFor="type">Type</label>
+            <label htmlFor="type">Subject Type</label>
             <input
               type="text"
               placeholder="type the type of the subject"
@@ -185,14 +185,14 @@ const sendInfo = (e) => {
     <div className="table">
         <Table
           tableheads={[
-            "Code Subject",
-            "Name Subject",
+            "Subject's Code",
+            "Subject's Name",
             "Credits",
             "Description",
-            "Type Subject",
+            "Subject Type",
             "URL Image",
             "ID Deparment",
-            "Accions"
+            "Actions"
           ]}
           data={isData?subjects:null}
           setNeedUpdate={setNeedUpdate}
