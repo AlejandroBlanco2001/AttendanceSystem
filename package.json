@@ -60,6 +60,7 @@
     "webpack-dev-server": "^4.4.0"
   },
   "devDependencies": {
+    "@types/node": "^16.11.9",
     "css-loader": "^6.5.1",
     "mini-css-extract-plugin": "^2.4.4",
     "sass": "^1.43.4",

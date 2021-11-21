@@ -1,4 +1,5 @@
-require('dotenv').config({path: 'variables.env'});
+const dotenv = require('dotenv');
+const envConfig = dotenv.config({path: 'variables.env'});
 
 const express = require('express');
 const app = express();
@@ -14,7 +15,7 @@ const db = require('./routes/database');
 const local = require('./strategies/local');
 const util = require('../utils');
 
-const port = process.env.PORT || 80; 
+const port = process.env.PORT || 80;
 
 const serverInstance = app.listen(port, () =>{
     console.log(`Back-End is listening in http://localhost:${port}`)
@@ -26,7 +27,6 @@ const usersRoute = require('./routes/user');
 const authRoute = require('./routes/auth');
 const adminRoute = require('./routes/admin');
 const classRoute = require('./routes/class');
-const { setInterval } = require('timers/promises');
 
 app.engine('.jsx', engine.server.create());
 app.set('views', path.join(__dirname,'src','client','pages'));

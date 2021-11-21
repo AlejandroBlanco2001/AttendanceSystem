@@ -50,7 +50,7 @@ const Login = () => {
               navigate("../adminpanel",{replace: true});
             }else{
               navigate("../courseslist", { replace: true });
-           }
+            }
           });
       })
       .catch((err) => {
