@@ -39,9 +39,14 @@ router.get(routeStr, async (req, res) => {
       let conn;
       try {
         conn = await db.pool.getConnection();
-        results = await conn.query('SELECT * FROM ' + queryTable)
+        if(req.path == routeStr[1]){
+          results = await conn.query("SELECT id, name1, name2, lastname1, lastname2, gender, DATE_FORMAT(birthdate,'%d/%m/%Y'), type, id_dept FROM " + queryTable)
+        }else{
+          results = await conn.query('SELECT * FROM ' + queryTable)
+        }
         conn.end();
       } catch (e) {
+        throw e
         res.sendStatus(500)
       }
       res.json(results);
@@ -68,6 +73,7 @@ router.post('/create/:record', async (req, res) => {
             res.sendStatus(200);
           }).catch((err) => {
             console.error(500);
+            res.sendStatus(500);
           });
           break
         case 1:
@@ -80,6 +86,7 @@ router.post('/create/:record', async (req, res) => {
             res.sendStatus(200);
           }).catch((err) => {
             console.error(500);
+            res.sendStatus(500);
           });
           break
         case 2:
@@ -92,6 +99,7 @@ router.post('/create/:record', async (req, res) => {
             res.sendStatus(200);
           }).catch((err) => {
             console.error(500);
+            res.sendStatus(500);
           });
           break
         case 3:
@@ -104,6 +112,7 @@ router.post('/create/:record', async (req, res) => {
             res.sendStatus(200);
           }).catch((err) => {
             console.error(500);
+            res.sendStatus(500);
           });
           break
         case 4:
@@ -116,6 +125,7 @@ router.post('/create/:record', async (req, res) => {
             res.sendStatus(200);
           }).catch((err) => {
             console.error(500);
+            res.sendStatus(500);
           });
           break
         case 5:
@@ -128,6 +138,7 @@ router.post('/create/:record', async (req, res) => {
             res.sendStatus(200);
           }).catch((err) => {
             console.error(500);
+            res.sendStatus(500);
           });
           break
         case 6:
@@ -140,6 +151,7 @@ router.post('/create/:record', async (req, res) => {
             res.sendStatus(200);
           }).catch((err) => {
             console.error(500);
+            res.sendStatus(500);
           });
           break
         case 7:
@@ -152,6 +164,7 @@ router.post('/create/:record', async (req, res) => {
             res.sendStatus(200);
           }).catch((err) => {
             console.error(500);
+            res.sendStatus(500);
           });
           break
         case 8:
@@ -164,6 +177,7 @@ router.post('/create/:record', async (req, res) => {
             res.sendStatus(200);
           }).catch((err) => {
             console.error(500);
+            res.sendStatus(500);
           });
           break
         case 9:
@@ -176,6 +190,7 @@ router.post('/create/:record', async (req, res) => {
             res.sendStatus(200);
           }).catch((err) => {
             console.error(500);
+            res.sendStatus(500);
           });
           break
         case 10:
@@ -188,6 +203,7 @@ router.post('/create/:record', async (req, res) => {
             res.sendStatus(200);
           }).catch((err) => {
             console.error(500);
+            res.sendStatus(500);
           });
           break
         case 11:
@@ -200,6 +216,7 @@ router.post('/create/:record', async (req, res) => {
             res.sendStatus(200);
           }).catch((err) => {
             console.error(500);
+            res.sendStatus(500);
           });
           break
         case 12:
@@ -212,6 +229,7 @@ router.post('/create/:record', async (req, res) => {
             res.sendStatus(200);
           }).catch((err) => {
             console.error(500);
+            res.sendStatus(500);
           });
           break
         case (12 + 1):
@@ -224,6 +242,7 @@ router.post('/create/:record', async (req, res) => {
             res.sendStatus(200);
           }).catch((err) => {
             console.error(500);
+            res.sendStatus(500);
           });
           break
         case 14:
@@ -236,6 +255,7 @@ router.post('/create/:record', async (req, res) => {
             res.sendStatus(200);
           }).catch((err) => {
             console.error(500);
+            res.sendStatus(500);
           });
           break
         case 15:
@@ -248,6 +268,7 @@ router.post('/create/:record', async (req, res) => {
             res.sendStatus(200);
           }).catch((err) => {
             console.error(500);
+            res.sendStatus(500);
           });
           break
         case 16:
@@ -260,6 +281,7 @@ router.post('/create/:record', async (req, res) => {
             res.sendStatus(200);
           }).catch((err) => {
             console.error(500);
+            res.sendStatus(500);
           });
           break
         case 17:
@@ -272,6 +294,8 @@ router.post('/create/:record', async (req, res) => {
             res.sendStatus(200);
           }).catch((err) => {
             console.error(500);
+            res.sendStatus(500);
+
           });
           break
         default:
@@ -283,11 +307,37 @@ router.post('/create/:record', async (req, res) => {
   res.send('Not logged in.')
 })
 
-router.get('/update/:record/:key1(-:key2)?', async (req, res)=>{
-  req.params.forEach(param => console.log(param))
-})
 //Update Posts
-router.post('/update/:record/:key1-:key2', async (req, res)=>{
+router.post('/update/:record', async (req, res) => {
+  if (req.user) {
+    if (req.user.type == '0') {
+      const rec = req.params;
+      let query;
+      const i = routeStr.indexOf('/' + rec, 0)
+      switch (i) {
+        case 0:
+          const {
+            tarjetaIdentidad, primerNombre, segundoNombre, genero, hijode, fechaNacimiento, updatedUser,
+          } = req.body;
+          const query = `UPDATE padre SET primerNombre = ?, segundoNombre = ? , apellido = ?, genero = ? , direccion = ?, ciudad = ?, fechaNacimiento = ? WHERE cedula = ${primaryKey.toString()};`;
+          updateOne([primerNombre, segundoNombre, genero, fechaNacimiento, hijode], query)
+            .then((response) => {
+              res.sendStatus(200);
+            })
+            .catch((err) => {
+              console.log(err);
+              res.sendStatus(500);
+            });
+          break
+        default:
+          res.sendStatus(404)
+      }
+      //const key = req.params.key.split(':')
+
+    }
+    res.send('You´re not an admin.')
+  }
+  res.send('Not logged in.')
 
 })
 
@@ -306,6 +356,18 @@ async function insertData(table, values) {
     return res;
   } catch (error) {
     throw error
+  }
+}
+
+async function updateOne(data, query) {
+  let conn;
+  try {
+    conn = await config.getConnection();
+    const results = await conn.query(query, data);
+    conn.end();
+    return results;
+  } catch (error) {
+    throw error;
   }
 }
 
