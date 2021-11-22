@@ -1,10 +1,12 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import axios from "axios";
 import Table from "../../components/Table";
 import "../../styles/table.css";
 import "../../styles/forms.css";
+import {myContext} from '../../components/Context';
 
 const Persons = () => {
+  const context = useContext(myContext);
   const [isData, setIsData] = useState(false);
   const [persons, setPerson] = useState([]);
   const [updatedPerson, setUpdatedUser] = useState({})
@@ -82,19 +84,20 @@ const handleDeleteUser = (user)=>{
     }
 
   const deletePerson = (id) => {
-    console.log("DELETE GONORREA");
-    axios.post(`http://localhost:80/admin/delete/persons/${id}`, {withCredentials: true})
+    console.log("contex user in delete: ", context.user);
+    axios.post(`http://localhost:80/admin/delete/persons/${id}`,{1: true},{withCredentials: true})
       .then((response) => {
         console.log("Eliminado correctamente");
-        // window.location.reload(true);
-        // reload();
+        console.log("RESPONSE: ", response);
+        window.location.reload(true);
+        reload();
       })
       .catch((err) => {
         console.log("ERROR ELIMINANDO");
         console.log(err);
       });
   };
-   
+  
   const updatePerson = () => {
     axios.post(`http://localhost:80/admin/update/persons/${updatedPerson.id}`, {
       id: id || updatedPerson.id,

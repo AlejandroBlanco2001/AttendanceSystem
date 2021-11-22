@@ -437,11 +437,8 @@ router.post('/update/:record/:pkey', async (req, res) => {
   }
 })
 
-
-
 //Delete Posts
 router.post('/delete/:record/:pkey', async (req, res) => {
-  console.log(req.user)
   if (req.user) {
     if (req.user.type == '0') {
       let pkeysV = req.params.pkey.split(':')
