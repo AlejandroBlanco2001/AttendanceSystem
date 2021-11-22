@@ -75,6 +75,8 @@ useEffect(() => {
     console.log("DATA FROM ADMIN: ", res.data);
     setIsData(true);
     setSubject(res.data)
+  }).catch((e)=>{
+    throw e
   });
 
 }, [isData])
