@@ -104,11 +104,10 @@ async function getClassSession(conn,id){
 
 async function addTeacherCode(conn,id){
     let code_class = await conn.query(`
-    SELECT cl.code
-    FROM course c INNER JOIN space sp 
-    ON c.code = sp.code_cour INNER JOIN class cl 
-    ON cl.code_spac = sp.code INNER JOIN schedule AS sc
-    ON sp.weekday_sche = sc.weekday AND sp.start_time_sche = sc.start_time
+    SELECT cl.code FROM course c 
+    INNER JOIN space sp ON c.code = sp.code_cour 
+    INNER JOIN class cl ON cl.code_spac = sp.code 
+    INNER JOIN schedule AS sc ON sp.weekday_sche = sc.weekday AND sp.start_time_sche = sc.start_time
     WHERE c.code = '${id}' AND NOW() BETWEEN sp.start_time_sche AND ADDTIME(sp.start_time_sche, sc.duration * 10000);
     '   
     `)[0].code;
