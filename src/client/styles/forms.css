@@ -1,0 +1,38 @@
+input[type="texte"],
+input[type="date"],
+input[type="number"],
+select {
+    width: 100%;
+    padding: 12px 20px;
+    margin: 8px 0;
+    display: inline-block;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    color: black;
+    box-sizing: border-box;
+  }
+  
+
+  
+  .data-form {
+    padding: 80px;
+    width: 50%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    position: relative;
+  }
+  
+  .container {
+    display: flex;
+    height: 100vh;
+  }
+  
+  .data-form img {
+    position: absolute;
+    width: 100%;
+    height: auto;
+    bottom: 0px;
+    z-index: -1;
+    opacity: 0.3;
+  }

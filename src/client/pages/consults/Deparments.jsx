@@ -13,29 +13,25 @@ const Deparment= () => {
   const [name, setName]= useState("");
 
 
-//   const addUser = () => {
-//     axios.post("http://localhost:80/admin/create/users", {
-//       username,
-//       passcode,
-//       id_person,
-//     })
-//       .then((response) => {
-//         console.log("Success");
-//         setListaUsers([
-//           ...listaUsers,
-//           {
-//             username,
-//             passcode,
-//             id_person,
-//           },
-//         ]);
-//         window.location.reload(false);
-//       })
-//       .catch((er) =>{
-//         alert("Disculpe esta ingresando un usuario ya existente")
-//         console.log(er)
-//       });
-//   };
+  const addDeparment = () => {
+    axios.post("http://localhost:80/admin/create/departments", {
+      name,
+    })
+      .then((response) => {
+        console.log("Success");
+        setListaDeparments([
+          ...listaDeparments,
+          {
+            name,
+          },
+        ]);
+        window.location.reload(false);
+      })
+      .catch((er) =>{
+        alert("Disculpe esta ingresando un usuario ya existente")
+        console.log(er)
+      });
+  };
 
 
   // const deletePadre = (cedula) => {
@@ -77,7 +73,7 @@ useEffect(() => {
 const sendInfo = (e) => {
   console.log("Procesando registro");
   e.preventDefault();
-//   addUser();
+  addDeparment();
 };
 
 
@@ -86,20 +82,9 @@ const sendInfo = (e) => {
  <form action="" className="login-form" onSubmit={sendInfo}>
           <img  alt="" />
           <div className="form-block">
-            <label htmlFor="code">Department's Code</label>
-            <input
-              type="text"
-              id="code"
-              value={code || "" || updatedUser.code}
-              placeholder="type the code of the Subject"
-              onChange={(e)=>setCode(e.target.value)}
-              name="code"
-            />
-          </div>
-          <div className="form-block">
             <label htmlFor="name">Department's Name</label>
             <input
-              type="text"
+              type="texte"
               placeholder="type the name of the subject"
               id="name"
               value={name || "" || updatedUser.name}

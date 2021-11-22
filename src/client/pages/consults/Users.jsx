@@ -12,7 +12,7 @@ const Users= () => {
   const [username, setUserName]= useState("");
   const [passcode, setPasscode]= useState("");
   const [urlimage, setUrlImage]= useState("");
-  const [id_person, setIdPerson]= useState("");
+  const [id_pers, setIdPerson]= useState("");
 
   const handleInputChange = (event) => {
     setData({
@@ -26,7 +26,7 @@ const Users= () => {
     axios.post("http://localhost:80/admin/create/users", {
       username,
       passcode,
-      id_person,
+      id_pers,
     })
       .then((response) => {
         console.log("Success");
@@ -35,7 +35,7 @@ const Users= () => {
           {
             username,
             passcode,
-            id_person,
+            id_pers,
           },
         ]);
         window.location.reload(false);
@@ -97,7 +97,7 @@ const sendInfo = (e) => {
           <div className="form-block">
             <label htmlFor="username">Username</label>
             <input
-              type="text"
+              type="texte"
               id="username"
               value={username || "" || updatedUser.username}
               placeholder="type the username"
@@ -108,7 +108,7 @@ const sendInfo = (e) => {
           <div className="form-block">
             <label htmlFor="passcode">Passcode</label>
             <input
-              type="password"
+              type="texte"
               placeholder="*****"
               id="passcode"
               value={passcode || "" || updatedUser.passcode}
@@ -119,7 +119,7 @@ const sendInfo = (e) => {
           <div className="form-block">
             <label htmlFor="urlimage">Profile Picture URL</label>
             <input
-              type="text"
+              type="texte"
               id="urlimage"
               value={urlimage || "" || updatedUser.urlimage}
               placeholder="type the url of the profile picture"
@@ -130,9 +130,9 @@ const sendInfo = (e) => {
           <div className="form-block">
             <label htmlFor="id_person">Person's ID</label>
             <input
-              type="text"
+              type="texte"
               id="id_person"
-              value={id_person || "" || updatedUser.id_person}
+              value={id_pers || "" || updatedUser.id_pers}
               placeholder="type the id of the person"
               onChange={(e)=>setIdPerson(e.target.value)}
               name="id_person"
