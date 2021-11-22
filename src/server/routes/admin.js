@@ -29,7 +29,7 @@ router.get(routeStr, async (req, res) => {
               if (req.path == routeStr[8] || req.path == routeStr[12]) {
                 r = 2
               } else {
-                r = 1;
+                r = 1
               }
               queryTable = req.path.substring(1, req.path.length - r)
             }
@@ -39,9 +39,9 @@ router.get(routeStr, async (req, res) => {
       let conn;
       try {
         conn = await db.pool.getConnection();
-        if(req.path == routeStr[1]){
+        if (req.path == routeStr[1]) {
           results = await conn.query("SELECT id, name1, name2, lastname1, lastname2, gender, DATE_FORMAT(birthdate,'%d/%m/%Y'), type, id_dept FROM " + queryTable)
-        }else{
+        } else {
           results = await conn.query('SELECT * FROM ' + queryTable)
         }
         conn.end();
@@ -60,244 +60,244 @@ router.get(routeStr, async (req, res) => {
 router.post('/create/:record', async (req, res) => {
   if (req.user) {
     if (req.user.type == '0') {
-      const i = routeStr.indexOf('/' + req.params, 0)
+      const i = routeStr.indexOf('/' + req.params.record, 0)
       let response;
       switch (i) {
         case 0:
-          const { username, passcode, id_pers } = req.body;
-
-          response = insertData(
-            req.params + "(username, passcode, id_pers)",
-            [username, passcode, id_pers]
-          ).then((response) => {
-            res.sendStatus(200);
-          }).catch((err) => {
-            console.error(500);
-            res.sendStatus(500);
-          });
-          break
+          {
+            let { username, passcode, id_pers } = req.body;
+            response = insertData(
+              req.params.record.slice(0, -1) + "(username, passcode, id_pers)",
+              [username, passcode, id_pers]
+            ).then((response) => {
+              res.sendStatus(200);
+            }).catch((err) => {
+              res.sendStatus(500);
+            });
+            break
+          }
         case 1:
-          const { id, name1, name2, lastname1, lastname2, gender, birthdate, typeP, id_deptP } = req.body;
-
-          response = insertData(
-            req.params + "(id, name1, name2, lastname1, lastname2, gender, birthdate, type, id_dept)",
-            [id, name1, name2, lastname1, lastname2, gender, birthdate, typeP, id_deptP]
-          ).then((response) => {
-            res.sendStatus(200);
-          }).catch((err) => {
-            console.error(500);
-            res.sendStatus(500);
-          });
-          break
+          {
+            let { id, name1, name2, lastName1, lastName2, gender, birthdate, type, id_dept } = req.body;
+            response = insertData(
+              req.params.record.slice(0, -1) + "(id, name1, name2, lastname1, lastname2, gender, birthdate, type, id_dept)",
+              [id, name1, name2, lastName1, lastName2, gender, birthdate, type, id_dept]
+            ).then((response) => {
+              res.sendStatus(200);
+            }).catch((err) => {
+              res.sendStatus(500);
+            });
+            break
+          }
         case 2:
-          const { codeSub, nameSub, creditsSub, descriptionSub, typeSub, urlimage, id_deptSub } = req.body;
-
-          response = insertData(
-            req.params,
-            [codeSub, nameSub, creditsSub, descriptionSub, typeSub, urlimage, id_deptSub]
-          ).then((response) => {
-            res.sendStatus(200);
-          }).catch((err) => {
-            console.error(500);
-            res.sendStatus(500);
-          });
-          break
+          {
+            let { code, name, credits, description, type, urlimage, id_dept } = req.body;
+            response = insertData(
+              req.params.record.slice(0, -1),
+              [code, name, credits, description, type, urlimage, id_dept]
+            ).then((response) => {
+              res.sendStatus(200);
+            }).catch((err) => {
+              res.sendStatus(500);
+            });
+            break
+          }
         case 3:
-          const { nameDep } = req.body;
-
-          response = insertData(
-            req.params + "(name)",
-            [nameDep]
-          ).then((response) => {
-            res.sendStatus(200);
-          }).catch((err) => {
-            console.error(500);
-            res.sendStatus(500);
-          });
+          {
+            let { name } = req.body;
+            response = insertData(
+              req.params.record.slice(0, -1) + "(name)",
+              [name]
+            ).then((response) => {
+              res.sendStatus(200);
+            }).catch((err) => {
+              res.sendStatus(500);
+            });
+          }
           break
         case 4:
-          const { codeCr, code_subjCr, id_teach } = req.body;
-
-          response = insertData(
-            req.params,
-            [codeCr, code_subjCr, id_teach]
-          ).then((response) => {
-            res.sendStatus(200);
-          }).catch((err) => {
-            console.error(500);
-            res.sendStatus(500);
-          });
-          break
+          {
+            let { code, code_subj, id_teach } = req.body;
+            response = insertData(
+              req.params.record.slice(0, -1),
+              [code, code_subj, id_teach]
+            ).then((response) => {
+              res.sendStatus(200);
+            }).catch((err) => {
+              res.sendStatus(500);
+            });
+            break
+          }
         case 5:
-          const { code_courSp, weekday_sche, start_time_sche, code_clasR } = req.body;
-
-          response = insertData(
-            req.params + "(code_cour, weekday_sche, start_time_sche, code_clasR)",
-            [code_courSp, weekday_sche, start_time_sche, code_clasR]
-          ).then((response) => {
-            res.sendStatus(200);
-          }).catch((err) => {
-            console.error(500);
-            res.sendStatus(500);
-          });
-          break
+          {
+            let { code_cour, weekday_sche, start_time_sche, code_clasR } = req.body;
+            response = insertData(
+              req.params.record.slice(0, -1) + "(code_cour, weekday_sche, start_time_sche, code_clasR)",
+              [code_cour, weekday_sche, start_time_sche, code_clasR]
+            ).then((response) => {
+              res.sendStatus(200);
+            }).catch((err) => {
+              res.sendStatus(500);
+            });
+            break
+          }
         case 6:
-          const { weekday, start_timeSch, durationSch } = req.body;
-
-          response = insertData(
-            req.params + "(weekday, start_time, duration)",
-            [weekday, start_timeSch, durationSch]
-          ).then((response) => {
-            res.sendStatus(200);
-          }).catch((err) => {
-            console.error(500);
-            res.sendStatus(500);
-          });
-          break
+          {
+            let { weekday, start_time, duration } = req.body;
+            response = insertData(
+              req.params.record.slice(0, -1) + "(weekday, start_time, duration)",
+              [weekday, start_time, duration]
+            ).then((response) => {
+              res.sendStatus(200);
+            }).catch((err) => {
+              res.sendStatus(500);
+            });
+            break
+          }
         case 7:
-          const { codeClr, typeClr } = req.body;
-
-          response = insertData(
-            req.params,
-            [codeClr, typeClr]
-          ).then((response) => {
-            res.sendStatus(200);
-          }).catch((err) => {
-            console.error(500);
-            res.sendStatus(500);
-          });
-          break
+          {
+            let { code, type } = req.body;
+            response = insertData(
+              req.params.record.slice(0, -1),
+              [code, type]
+            ).then((response) => {
+              res.sendStatus(200);
+            }).catch((err) => {
+              res.sendStatus(500);
+            });
+            break
+          }
         case 8:
-          const { codeCl, start_timeCl, code_spac } = req.body;
-
-          response = insertData(
-            req.params,
-            [codeCl, start_timeCl, code_spac]
-          ).then((response) => {
-            res.sendStatus(200);
-          }).catch((err) => {
-            console.error(500);
-            res.sendStatus(500);
-          });
-          break
+          {
+            let { code, start_time, code_spac } = req.body;
+            response = insertData(
+              req.params.record.slice(0, -2),
+              [code, start_time, code_spac]
+            ).then((response) => {
+              res.sendStatus(200);
+            }).catch((err) => {
+              res.sendStatus(500);
+            });
+            break
+          }
         case 9:
-          const { id_studEr, year_periEr, term_periEr } = req.body;
-
-          response = insertData(
-            req.params + "(id_stud, year_peri, term_peri)",
-            [id_studEr, year_periEr, term_periEr]
-          ).then((response) => {
-            res.sendStatus(200);
-          }).catch((err) => {
-            console.error(500);
-            res.sendStatus(500);
-          });
-          break
+          {
+            let { id_stud, year_peri, term_peri } = req.body;
+            response = insertData(
+              req.params.record.slice(0, -1) + "(id_stud, year_peri, term_peri)",
+              [id_stud, year_peri, term_peri]
+            ).then((response) => {
+              res.sendStatus(200);
+            }).catch((err) => {
+              res.sendStatus(500);
+            });
+            break
+          }
         case 10:
-          const { year, term, descriptionPd } = req.body;
-
-          response = insertData(
-            req.params,
-            [year, term, descriptionPd]
-          ).then((response) => {
-            res.sendStatus(200);
-          }).catch((err) => {
-            console.error(500);
-            res.sendStatus(500);
-          });
-          break
+          {
+            let { year, term, description } = req.body;
+            response = insertData(
+              req.params.record.slice(0, -1),
+              [year, term, description]
+            ).then((response) => {
+              res.sendStatus(200);
+            }).catch((err) => {
+              res.sendStatus(500);
+            });
+            break
+          }
         case 11:
-          const { id_studCtr, code_syllCtr, year_periCtr, term_periCtr } = req.body;
-
-          response = insertData(
-            req.params + "(id_stud, code_syll, year_peri, term_peri)",
-            [id_studCtr, code_syllCtr, year_periCtr, term_periCtr]
-          ).then((response) => {
-            res.sendStatus(200);
-          }).catch((err) => {
-            console.error(500);
-            res.sendStatus(500);
-          });
-          break
+          {
+            let { id_stud, code_syll, year_peri, term_peri } = req.body;
+            response = insertData(
+              req.params.record.slice(0, -1) + "(id_stud, code_syll, year_peri, term_peri)",
+              [id_stud, code_syll, year_peri, term_peri]
+            ).then((response) => {
+              res.sendStatus(200);
+            }).catch((err) => {
+              res.sendStatus(500);
+            });
+            break
+          }
         case 12:
-          const { codeSy, snies_prog } = req.body;
-
-          response = insertData(
-            req.params + "(code, snies_prog)",
-            [codeSy, snies_prog]
-          ).then((response) => {
-            res.sendStatus(200);
-          }).catch((err) => {
-            console.error(500);
-            res.sendStatus(500);
-          });
-          break
+          {
+            let { code, snies_prog } = req.body;
+            response = insertData(
+              req.params.record.slice(0, -2) + "(code, snies_prog)",
+              [code, snies_prog]
+            ).then((response) => {
+              res.sendStatus(200);
+            }).catch((err) => {
+              res.sendStatus(500);
+            });
+            break
+          }
         case (12 + 1):
-          const { snies, nameProg, typeProg, title, durationProg, creditsProg, id_deptProg } = req.body;
-
-          response = insertData(
-            req.params + "(snies, name, type, title, duration, credits, id_dept)",
-            [snies, nameProg, typeProg, title, durationProg, creditsProg, id_deptProg]
-          ).then((response) => {
-            res.sendStatus(200);
-          }).catch((err) => {
-            console.error(500);
-            res.sendStatus(500);
-          });
-          break
+          {
+            let { snies, name, type, title, duration, credits, id_dept } = req.body;
+            response = insertData(
+              req.params.record.slice(0, -1) + "(snies, name, type, title, duration, credits, id_dept)",
+              [snies, name, type, title, duration, credits, id_dept]
+            ).then((response) => {
+              res.sendStatus(200);
+            }).catch((err) => {
+              res.sendStatus(500);
+            });
+            break
+          }
         case 14:
-          const { code_courPC, year_periPC, term_periPC } = req.body;
-
-          response = insertData(
-            req.params,
-            [code_courPC, year_periPC, term_periPC]
-          ).then((response) => {
-            res.sendStatus(200);
-          }).catch((err) => {
-            console.error(500);
-            res.sendStatus(500);
-          });
-          break
+          {
+            let { code_cour, year_peri, term_peri } = req.body;
+            response = insertData(
+              'offered_in',
+              [code_cour, year_peri, term_peri]
+            ).then((response) => {
+              res.sendStatus(200);
+            }).catch((err) => {
+              res.sendStatus(500);
+            });
+            break
+          }
         case 15:
-          const { code_courEC, id_enro } = req.body;
-
-          response = insertData(
-            req.params + "(code_cour, id_enro)",
-            [code_courEC, id_enro]
-          ).then((response) => {
-            res.sendStatus(200);
-          }).catch((err) => {
-            console.error(500);
-            res.sendStatus(500);
-          });
-          break
+          {
+            let { code_cour, id_enro } = req.body;
+            response = insertData(
+              "cour_enro (code_cour, id_enro)",
+              [code_cour, id_enro]
+            ).then((response) => {
+              res.sendStatus(200);
+            }).catch((err) => {
+              res.sendStatus(500);
+            });
+            break
+          }
         case 16:
-          const { code_clas, id_studSC, attendance } = req.body;
-
-          response = insertData(
-            req.params,
-            [code_clas, id_studSC, attendance]
-          ).then((response) => {
-            res.sendStatus(200);
-          }).catch((err) => {
-            console.error(500);
-            res.sendStatus(500);
-          });
-          break
+          {
+            let { code_clas, id_stud, attendance } = req.body;
+            response = insertData(
+              'clas_stud',
+              [code_clas, id_stud, attendance]
+            ).then((response) => {
+              res.sendStatus(200);
+            }).catch((err) => {
+              res.sendStatus(500);
+            });
+            break
+          }
         case 17:
-          const { code_subjSS, code_syllSS, semester } = req.body;
+          {
+            let { code_subj, code_syll, semester } = req.body;
+            response = insertData(
+              'in_syllabus',
+              [code_subj, code_syll, semester]
+            ).then((response) => {
+              res.sendStatus(200);
+            }).catch((err) => {
+              res.sendStatus(500);
 
-          response = insertData(
-            req.params,
-            [code_subjSS, code_syllSS, semester]
-          ).then((response) => {
-            res.sendStatus(200);
-          }).catch((err) => {
-            console.error(500);
-            res.sendStatus(500);
-
-          });
-          break
+            });
+            break
+          }
         default:
           res.sendStatus(404)
       }
@@ -311,29 +311,29 @@ router.post('/create/:record', async (req, res) => {
 router.post('/update/:record', async (req, res) => {
   if (req.user) {
     if (req.user.type == '0') {
-      const rec = req.params;
+      const rec = req.params.record;
       let query;
+      let results;
       const i = routeStr.indexOf('/' + rec, 0)
+      console.log(req.body)
       switch (i) {
         case 0:
           const {
-            tarjetaIdentidad, primerNombre, segundoNombre, genero, hijode, fechaNacimiento, updatedUser,
+            username, passcode, urlimage, id_pers
           } = req.body;
-          const query = `UPDATE padre SET primerNombre = ?, segundoNombre = ? , apellido = ?, genero = ? , direccion = ?, ciudad = ?, fechaNacimiento = ? WHERE cedula = ${primaryKey.toString()};`;
-          updateOne([primerNombre, segundoNombre, genero, fechaNacimiento, hijode], query)
+          query = `UPDATE ${rec.slice(0, -1)} SET username = ?, passcode = ? , urlimage = ?, id_pers = ? WHERE username = '${req.body.username}' AND id_pers = '${req.body.id_pers}';`;
+          results = updateOne([username, passcode, urlimage, id_pers], query)
             .then((response) => {
               res.sendStatus(200);
             })
             .catch((err) => {
-              console.log(err);
+              console.log(err)
               res.sendStatus(500);
             });
           break
         default:
           res.sendStatus(404)
       }
-      //const key = req.params.key.split(':')
-
     }
     res.send('You´re not an admin.')
   }
@@ -348,8 +348,9 @@ async function insertData(table, values) {
   let conn;
   try {
     conn = await db.pool.getConnection();
+    const str = '?,'.repeat(values.length).slice(0, -1)
     const res = await conn.query(
-      'INSERT INTO ' + table + ' VALUES (?,?,?,?,?,?,?,?,?)',
+      'INSERT INTO ' + table + ' VALUES (' + str + ')',
       values
     );
     conn.end();
@@ -362,7 +363,7 @@ async function insertData(table, values) {
 async function updateOne(data, query) {
   let conn;
   try {
-    conn = await config.getConnection();
+    conn = await db.pool.getConnection();
     const results = await conn.query(query, data);
     conn.end();
     return results;
