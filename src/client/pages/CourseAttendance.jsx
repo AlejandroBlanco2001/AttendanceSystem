@@ -1,15 +1,19 @@
 import React, {useState} from "react";
 import AttendanceLogo from "../assets/logoattendance.png";
 import { Link } from "react-router-dom";
+import { myContext } from "../components/Context";
+
 import axios from 'axios';
 const CourseAttendance = () => {
   const [data, setData] = useState({})
+  const context = useContext(myContext);
+  
   const sendForm = () => {
     event.preventDefault();
     console.log("Sending attendance data ", data );
     axios.post("http://localhost:80/class/takeAttendance",{id_class: data.id_class, id_teacher: data.id_teacher}, {withCredentials: true})
     .then((response) => {
-      console.log("Attendance taken zapzesfuli")
+      console.log("Attendance taken zapzesfuli"); 
     })
     .catch((error) => {
       console.log("ERROR ON ATTENDANCE")

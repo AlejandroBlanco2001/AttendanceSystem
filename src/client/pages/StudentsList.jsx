@@ -4,6 +4,7 @@ import Navbar from "../components/Navbar";
 import { useLocation } from 'react-router-dom';
 import { myContext } from "../components/Context";
 import StudentCard from '../components/StudentCard';
+import axios from "axios";
 
 const StudentsList = () => {
   const [data, setData] = useState(null);
@@ -19,7 +20,16 @@ const StudentsList = () => {
   }; 
 
 useEffect(()=>{
-  setData(location.state);  
+  setData(location.state);
+  setInterval(() => {
+    axios.get("http://localhost:80/class/getAttendance", {params: {code: data.code}}).
+    then((response) => {
+      // Update table
+    }).catch((err) => {
+      console.log("Updating list ERROR");
+      console.error(new Error(error));
+    })
+  },120000)
 },[location])
 
   return (

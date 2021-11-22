@@ -31,7 +31,7 @@ async function getStudentsClass(conn,args){
     SELECT s.name,sp.weekday_sche, sp.start_time_sche, cl.qr_teach "teacherCode" FROM course c
     INNER JOIN subject s ON s.code = c.code_subj
     INNER JOIN space sp ON c.code = sp.code_cour
-    INNER JOIN class cl ON cl.code_spac = sp.code;
+    INNER JOIN class cl ON cl.code_spac = sp.code
     INNER JOIN schedule sc ON sp.weekday_sche = sc.weekday AND sp.start_time_sche = sc.start_time 
     INNER JOIN cour_enro ce ON c.code = ce.code_cour
     INNER JOIN enrollment e ON ce.id_enro = e.id
@@ -57,7 +57,8 @@ async function getClassHours(conn,id){
     INNER JOIN enrollment e ON ce.id_enro = e.id 
     INNER JOIN space sp ON sp.code_cour = c.code
     INNER JOIN subject se ON se.code = c.code_subj 
-    WHERE DAYNAME(CURRENT_DATE()) = sp.weekday_sche  AND timediff(CURTIME(),sp.start_time_sche) >= 0 AND e.id_stud = '${id}'; 
+    INNER JOIN schedule sc ON sc.weekday = sp.weekday_sche AND sc.start_time = sp.start_time_sche 
+    WHERE DAYNAME(CURRENT_DATE()) = sp.weekday_sche AND NOW() BETWEEN sp.start_time_sche AND ADDTIME(sp.start_time_sche, sc.duration * 10000) AND e.id_stud = '${id}'; 
     `)
     if(result) return result;
     else return -1;
@@ -102,23 +103,42 @@ async function getClassSession(conn,id){
     else return -1;
 }
 
-async function addTeacherCode(conn,id){
-    let code_class = await conn.query(`
-    SELECT cl.code FROM course c 
+async function getCodeClassCreated(conn,id){
+    let result = await conn.query(`
+    SELECT cl.code, cl.qr_teach FROM course c 
     INNER JOIN space sp ON c.code = sp.code_cour 
     INNER JOIN class cl ON cl.code_spac = sp.code 
     INNER JOIN schedule AS sc ON sp.weekday_sche = sc.weekday AND sp.start_time_sche = sc.start_time
     WHERE c.code = '${id}' AND NOW() BETWEEN sp.start_time_sche AND ADDTIME(sp.start_time_sche, sc.duration * 10000);
-    '   
-    `)[0].code;
+    `);
+    if(result) return result[0];
+    else return -1;
+}
+
+async function addTeacherCode(conn,id){
+    let code_class = await getCodeClassCreated(conn,id)
     let randomCode = randomstring.generate({
         length: 10,
         charset: 'alphanumerical'
     });
-    await conn.query(`UPDATE Class c SET qr_teach = ${randomCode} WHERE c.code = ${code_class}`);
+    await conn.query(`UPDATE Class c SET qr_teach = '${randomCode}' WHERE c.code = ${code_class.code}`);
     return randomCode;
 }
 
+async function getAttendanceClass(conn,id){
+    let result = await conn.query(`
+    SELECT CONCAT(p.name1,' ', p.lastName1,) 'name', CONCAT(s.code,'/',c.code) 'codigo', cs.logAttendace FROM course c 
+    INNER JOIN space sp ON c.code = sp.code_cour 
+    INNER JOIN subject s ON s.code = c.code_subj
+    INNER JOIN class cl ON cl.code_spac = sp.code 
+    INNER JOIN clas_stud cs ON cs.code_clas = cl.code
+    INNER JOIN person p ON p.id = cs.id_stud 
+    INNER JOIN schedule AS sc ON sp.weekday_sche = sc.weekday AND sp.start_time_sche = sc.start_time
+    WHERE c.code = '${id}' AND NOW() BETWEEN sp.start_time_sche AND ADDTIME(sp.start_time_sche, sc.duration * 10000);
+    `)
+    if(result) return result;
+    else return -1;
+}
 
 function separateSameClass(classes){
     let seen = {};
@@ -142,12 +162,14 @@ function separateSameClass(classes){
 
 module.exports = {
     getAllSubjetctsStudent,
+    getCodeClassCreated,
     getAllSubjetctsTeacher,
     getSubjectInfo,
     getStudentsClass,
     getClassHours,
     getHourClass,
     addTeacherCode,
+    getAttendanceClass,
     getClassSession,
     checkCodesClass,
     checkCodesTeacher,

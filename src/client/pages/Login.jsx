@@ -46,8 +46,7 @@ const Login = () => {
             context.setUser(res.data);
             setOpen(false);
             if(res.data.type == '2'){
-              console.log(context.socket)
-              context.socket.emit('checkClassAlreadyStarted',res.data.id_pers);
+              context.socket.emit('checkClassAlreadyStarted',res.data.id);
             }
             console.log("tipo: "+res.data.type)
             if(res.data.type == '0'){
