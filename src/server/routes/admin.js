@@ -53,8 +53,11 @@ router.get(routeStr, async (req, res) => {
 
 //Insert Posts
 router.post('/create/:record', async (req, res) => {
+  console.log("si pase por aqui -1")
   if (req.user) {
+    console.log("si pase por aqui 0")
     if (req.user.type == '0') {
+      console.log("si pase por aqui 1")
       const i = routeStr.indexOf('/' + req.params, 0)
       let response;
       switch (i) {
@@ -72,7 +75,7 @@ router.post('/create/:record', async (req, res) => {
           break
         case 1:
           const { id, name1, name2, lastname1, lastname2, gender, birthdate, typeP, id_deptP } = req.body;
-
+          console.log("si pase por aqui 2")
           response = insertData(
             req.params + "(id, name1, name2, lastname1, lastname2, gender, birthdate, type, id_dept)",
             [id, name1, name2, lastname1, lastname2, gender, birthdate, typeP, id_deptP]

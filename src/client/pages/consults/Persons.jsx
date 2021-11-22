@@ -28,29 +28,41 @@ const Persons= () => {
   };
 
 
-  // const addUser = () => {
-  //   axios.post("http://localhost:80/admin/create/users", {
-  //     username,
-  //     passcode,
-  //     id_person,
-  //   })
-  //     .then((response) => {
-  //       console.log("Success");
-  //       setListaUsers([
-  //         ...listaUsers,
-  //         {
-  //           username,
-  //           passcode,
-  //           id_person,
-  //         },
-  //       ]);
-  //       window.location.reload(false);
-  //     })
-  //     .catch((er) =>{
-  //       alert("Disculpe esta ingresando un usuario ya existente")
-  //       console.log(er)
-  //     });
-  // };
+  const addPerson = () => {
+    axios.post("http://localhost:80/admin/create/persons", {
+      id,
+      name1,
+      name2,
+      lastName1,
+      lastName2,
+      gender,
+      birthdate,
+      type,
+      id_deptP
+    }, {withCredentials: true }) 
+      .then((response) => {
+        console.log("Success");
+        setListaPersons([
+          ...listaPersons,
+          {
+          id,
+          name1,
+          name2,
+          lastName1,
+          lastName2,
+          gender,
+          birthdate,
+          type,
+          id_deptP
+          },
+        ]);
+        // window.location.reload(false);
+      })
+      .catch((er) =>{
+        alert("Disculpe esta ingresando un usuario ya existente")
+        console.log(er)
+      });
+  };
 
 
   // const deletePadre = (cedula) => {
@@ -92,7 +104,7 @@ useEffect(() => {
 const sendInfo = (e) => {
   console.log("Procesando registro");
   e.preventDefault();
-  // addUser();
+  addPerson();
 };
 
 
@@ -105,7 +117,7 @@ const sendInfo = (e) => {
             <input
               type="text"
               id="id"
-              value={id || "" || parseInt(updatedUser.id)}
+              value={id || "" ||updatedUser.id}
               placeholder="type the ID"
               onChange={(e)=>setID(e.target.value)}
               name="id"
