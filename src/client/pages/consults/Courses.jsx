@@ -7,36 +7,36 @@ const Course= () => {
   const [isData, setIsData] = useState(false);
   const [courses, setCourses] = useState([]);
   const [updatedUser, setUpdatedUser] = useState({})
-  const [listaCourses, setListaCoursees] = useState([]);
+  const [listaCourses, setListaCourses] = useState([]);
   const [needUpdate, setNeedUpdate] = useState(false);
-  const [codeCr, setCodeCr]= useState(0);
-  const [code_subjCr, setCodeSubjCr]= useState("");
+  const [code, setCodeCr]= useState("");
+  const [code_subj, setCodeSubjCr]= useState("");
   const [id_teach, setIdTeach]= useState("");
 
 
-//   const addUser = () => {
-//     axios.post("http://localhost:80/admin/create/users", {
-//       username,
-//       passcode,
-//       id_person,
-//     })
-//       .then((response) => {
-//         console.log("Success");
-//         setListaUsers([
-//           ...listaUsers,
-//           {
-//             username,
-//             passcode,
-//             id_person,
-//           },
-//         ]);
-//         window.location.reload(false);
-//       })
-//       .catch((er) =>{
-//         alert("Disculpe esta ingresando un usuario ya existente")
-//         console.log(er)
-//       });
-//   };
+  const addCourse = () => {
+    axios.post("http://localhost:80/admin/create/courses", {
+      code,
+      code_subj,
+      id_teach,
+    })
+      .then((response) => {
+        console.log("Success");
+        setListaCourses([
+          ...listaCourses,
+          {
+              code,
+              code_subj,
+              id_teach,
+          },
+        ]);
+        window.location.reload(false);
+      })
+      .catch((er) =>{
+        alert("Disculpe esta ingresando un usuario ya existente")
+        console.log(er)
+      });
+  };
 
 
   // const deletePadre = (cedula) => {
@@ -78,7 +78,7 @@ useEffect(() => {
 const sendInfo = (e) => {
   console.log("Procesando registro");
   e.preventDefault();
-//   addUser();
+  addCourse();
 };
 
 
@@ -87,35 +87,35 @@ const sendInfo = (e) => {
  <form action="" className="login-form" onSubmit={sendInfo}>
           <img  alt="" />
           <div className="form-block">
-            <label htmlFor="codeCr">Course's Code</label>
+            <label htmlFor="code">Course's Code</label>
             <input
-              type="text"
-              id="codeCr"
-              value={codeCr || "" || updatedUser.codeCr}
+              type="texte"
+              id="code"
+              value={code|| "" || updatedUser.code}
               placeholder="type the code of the Course"
               onChange={(e)=>setCodeCr(e.target.value)}
-              name="codeCr"
+              name="code"
             />
           </div>
           <div className="form-block">
-            <label htmlFor="code_subjCr">Subject's Code</label>
+            <label htmlFor="code_subj">Subject's Code</label>
             <input
-              type="text"
+              type="texte"
               placeholder="type the code of the subject"
-              id="code_subjCr"
-              value={code_subjCr || "" || updatedUser.code_subjCr}
-              onChange={(e)=>setName(e.target.value)}
-              name="code_subjCr"
+              id="code_subj"
+              value={code_subj || "" || updatedUser.code_subj}
+              onChange={(e)=>setCodeSubjCr(e.target.value)}
+              name="code_subj"
             />
           </div>
           <div className="form-block">
             <label htmlFor="id_teach">Teacher's ID</label>
             <input
-              type="text"
+              type="texte"
               placeholder="type the ID of the teacher"
               id="id_teach"
               value={id_teach || "" || updatedUser.id_teach}
-              onChange={(e)=>setName(e.target.value)}
+              onChange={(e)=>setIdTeach(e.target.value)}
               name="id_teach"
             />
           </div>

@@ -9,33 +9,33 @@ const Class= () => {
   const [updatedUser, setUpdatedUser] = useState({})
   const [listaClasses, setListaClasses] = useState([]);
   const [needUpdate, setNeedUpdate] = useState(false);
-  const [codeCl, setCodeCl]= useState(0);
-  const [start_timeCl, setStartTimeCl]= useState("");
+  const [code, setCodeCl]= useState(0);
+  const [start_time, setStartTimeCl]= useState();
   const [code_spac, setCodeSpac]= useState("");
 
-//   const addUser = () => {
-//     axios.post("http://localhost:80/admin/create/users", {
-//       username,
-//       passcode,
-//       id_person,
-//     })
-//       .then((response) => {
-//         console.log("Success");
-//         setListaUsers([
-//           ...listaUsers,
-//           {
-//             username,
-//             passcode,
-//             id_person,
-//           },
-//         ]);
-//         window.location.reload(false);
-//       })
-//       .catch((er) =>{
-//         alert("Disculpe esta ingresando un usuario ya existente")
-//         console.log(er)
-//       });
-//   };
+  const addClass = () => {
+    axios.post("http://localhost:80/admin/create/classes", {
+     code,
+     start_time,
+     code_spac,
+    })
+      .then((response) => {
+        console.log("Success");
+        setListaClasses([
+          ...listaClasses,
+          {
+            code,
+            start_time,
+            code_spac,
+          },
+        ]);
+        window.location.reload(false);
+      })
+      .catch((er) =>{
+        alert("Disculpe esta ingresando un usuario ya existente")
+        console.log(er)
+      });
+  };
 
 
   // const deletePadre = (cedula) => {
@@ -77,7 +77,7 @@ useEffect(() => {
 const sendInfo = (e) => {
   console.log("Procesando registro");
   e.preventDefault();
-//   addUser();
+  addClass();
 };
 
 
@@ -86,31 +86,31 @@ const sendInfo = (e) => {
  <form action="" className="login-form" onSubmit={sendInfo}>
           <img  alt="" />
           <div className="form-block">
-            <label htmlFor="codeCl">Class' Code</label>
+            <label htmlFor="code">Class' Code</label>
             <input
-              type="text"
-              id="codeCl"
-              value={codeCl || "" || updatedUser.codeCl}
+              type="texte"
+              id="code"
+              value={code || "" || updatedUser.code}
               placeholder="type the code of the class"
               onChange={(e)=>setCodeCl(e.target.value)}
-              name="codeCl"
+              name="code"
             />
           </div>
           <div className="form-block">
-            <label htmlFor="start_timeCl">Start Time</label>
+            <label htmlFor="start_time">Start Time</label>
             <input
-              type="text"
+              type="texte"
               placeholder="type the start time of the class"
-              id="start_timeCl"
-              value={start_timeCl || "" || updatedUser.start_timeCl}
+              id="start_time"
+              value={start_time || "" || updatedUser.start_time}
               onChange={(e)=>setStartTimeCl(e.target.value)}
-              name="start_timeCl"
+              name="start_time"
             />
           </div>
           <div className="form-block">
             <label htmlFor="code_spac">Space's Code</label>
             <input
-              type="text"
+              type="texte"
               placeholder="type the code of the Space"
               id="code_spac"
               value={code_spac || "" || updatedUser.code_spac}
@@ -136,7 +136,7 @@ const sendInfo = (e) => {
     <div className="table">
         <Table
           tableheads={[
-            "Class' Code",
+            "Class Code",
             "Start Time",
             "Space's Code",
             "Actions"

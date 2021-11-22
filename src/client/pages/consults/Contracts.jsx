@@ -9,35 +9,37 @@ const Contract= () => {
   const [updatedUser, setUpdatedUser] = useState({})
   const [listContracts, setListContracts] = useState([]);
   const [needUpdate, setNeedUpdate] = useState(false);
-  const [id_studCtr, setIDStudCtr]= useState(0);
-  const [code_syllCtr, setCodeSyllCtr]= useState("");
-  const [year_periCtr, setYearPeriCtr]= useState("");
-  const [term_periCtr, setTermPeriCtr]= useState("");
+  const [id_stud, setIDStudCtr]= useState();
+  const [code_syll, setCodeSyllCtr]= useState();
+  const [year_peri, setYearPeriCtr]= useState();
+  const [term_peri, setTermPeriCtr]= useState();
 
 
-//   const addUser = () => {
-//     axios.post("http://localhost:80/admin/create/users", {
-//       username,
-//       passcode,
-//       id_person,
-//     })
-//       .then((response) => {
-//         console.log("Success");
-//         setListaUsers([
-//           ...listaUsers,
-//           {
-//             username,
-//             passcode,
-//             id_person,
-//           },
-//         ]);
-//         window.location.reload(false);
-//       })
-//       .catch((er) =>{
-//         alert("Disculpe esta ingresando un usuario ya existente")
-//         console.log(er)
-//       });
-//   };
+  const addContract = () => {
+    axios.post("http://localhost:80/admin/create/contracts", {
+      id_stud,
+      code_syll,
+      year_peri,
+      term_peri
+    })
+      .then((response) => {
+        console.log("Success");
+        setListaUsers([
+          ...listaUsers,
+          {
+            id_stud,
+            code_syll,
+            year_peri,
+            term_peri
+          },
+        ]);
+        window.location.reload(false);
+      })
+      .catch((er) =>{
+        alert("Disculpe esta ingresando un usuario ya existente")
+        console.log(er)
+      });
+  };
 
 
   // const deletePadre = (cedula) => {
@@ -79,7 +81,7 @@ useEffect(() => {
 const sendInfo = (e) => {
   console.log("Procesando registro");
   e.preventDefault();
-//   addUser();
+  addContract();
 };
 
 
@@ -88,47 +90,47 @@ const sendInfo = (e) => {
  <form action="" className="login-form" onSubmit={sendInfo}>
           <img  alt="" />
           <div className="form-block">
-            <label htmlFor="id_studCtr">Hiring Student's ID</label>
+            <label htmlFor="id_stud">Hiring Student's ID</label>
             <input
-              type="text"
-              id="id_studCtr"
-              value={id_studCtr || "" || updatedUser.id_studCtr}
+              type="texte"
+              id="id_stud"
+              value={id_stud || "" || updatedUser.id_stud}
               placeholder="type the ID of the hiring student"
               onChange={(e)=>setIDStudCtr(e.target.value)}
               name="id_studCr"
             />
           </div>
           <div className="form-block">
-            <label htmlFor="code_syllCtr">Syllabus' Code</label>
+            <label htmlFor="code_syll">Syllabus' Code</label>
             <input
-              type="text"
+              type="texte"
               placeholder="type the syllabus' code"
-              id="code_syllCtr"
-              value={code_syllCtr || "" || updatedUser.code_syllCtr}
+              id="code_syll"
+              value={code_syll || "" || updatedUser.code_syll}
               onChange={(e)=>setCodeSyllCtr(e.target.value)}
-              name="code_syllCtr"
+              name="code_syll"
             />
           </div>
           <div className="form-block">
-            <label htmlFor="year_periCtr">Period's Year</label>
+            <label htmlFor="year_peri">Period's Year</label>
             <input
-              type="text"
+              type="texte"
               placeholder="type the period's year"
-              id="year_periCtr"
-              value={year_periCtr || "" || updatedUser.year_periCtr}
+              id="year_peri"
+              value={year_peri || "" || updatedUser.year_peri}
               onChange={(e)=>setYearPeriCtr(e.target.value)}
-              name="year_periCtr"
+              name="year_peri"
             />
           </div>
           <div className="form-block">
-            <label htmlFor="term_periCtr">Period's Term</label>
+            <label htmlFor="term_peri">Period's Term</label>
             <input
-              type="text"
+              type="texte"
               placeholder="type the period's term"
-              id="term_periCtr"
-              value={term_periCtr || "" || updatedUser.term_periCtr}
+              id="term_peri"
+              value={term_peri || "" || updatedUser.term_peri}
               onChange={(e)=>setTermPeriCtr(e.target.value)}
-              name="term_periCtr"
+              name="term_peri"
             />
           </div>
           <input

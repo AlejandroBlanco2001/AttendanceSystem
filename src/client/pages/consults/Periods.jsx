@@ -9,34 +9,34 @@ const Periods= () => {
   const [updatedUser, setUpdatedUser] = useState({})
   const [listaPeriods, setListaPeriods] = useState([]);
   const [needUpdate, setNeedUpdate] = useState(false);
-  const [year, setYear]= useState("");
-  const [term, setTerm]= useState("");
-  const [descriptionPd, setDescription]= useState("");
+  const [year, setYear]= useState();
+  const [term, setTerm]= useState();
+  const [description, setDescription]= useState("");
 
 
-//   const addUser = () => {
-//     axios.post("http://localhost:80/admin/create/users", {
-//       username,
-//       passcode,
-//       id_person,
-//     })
-//       .then((response) => {
-//         console.log("Success");
-//         setListaUsers([
-//           ...listaUsers,
-//           {
-//             username,
-//             passcode,
-//             id_person,
-//           },
-//         ]);
-//         window.location.reload(false);
-//       })
-//       .catch((er) =>{
-//         alert("Disculpe esta ingresando un usuario ya existente")
-//         console.log(er)
-//       });
-//   };
+  const addPeriod = () => {
+    axios.post("http://localhost:80/admin/create/periods", {
+     year,
+     term,
+     description
+    })
+      .then((response) => {
+        console.log("Success");
+        setListaPeriods([
+          ...listaPeriods,
+          {
+            year,
+            term,
+            description
+          },
+        ]);
+        window.location.reload(false);
+      })
+      .catch((er) =>{
+        alert("Disculpe esta ingresando un usuario ya existente")
+        console.log(er)
+      });
+  };
 
 
   // const deletePadre = (cedula) => {
@@ -78,7 +78,7 @@ useEffect(() => {
 const sendInfo = (e) => {
   console.log("Procesando registro");
   e.preventDefault();
-//   addUser();
+  addPeriod();
 };
 
 
@@ -89,7 +89,7 @@ const sendInfo = (e) => {
           <div className="form-block">
             <label htmlFor="year">Year</label>
             <input
-              type="text"
+              type="texte"
               id="year"
               value={year || "" || updatedUser.year}
               placeholder="type the year"
@@ -99,24 +99,27 @@ const sendInfo = (e) => {
           </div>
           <div className="form-block">
             <label htmlFor="term">Term</label>
-            <input
-              type="text"
+            <select
+              type="texte"
               placeholder="type the Term"
               id="term"
               value={term|| "" || updatedUser.term}
               onChange={(e)=>setTerm(e.target.value)}
               name="term"
-            />
+            >
+              <option value="01">01</option>
+              <option value="02">02</option>
+            </select>
           </div>
           <div className="form-block">
-            <label htmlFor="descriptionPd">Period's Description</label>
+            <label htmlFor="description">Period's Description</label>
             <input
-              type="text"
+              type="texte"
               placeholder="type the descriptionof the period"
-              id="descriptionPd"
-              value={descriptionPd || "" || updatedUser.descriptionPd}
+              id="description"
+              value={description || "" || updatedUser.description}
               onChange={(e)=>setDescription(e.target.value)}
-              name="descriptionPd"
+              name="description"
             />
           </div>
           <input

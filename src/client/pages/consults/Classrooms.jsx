@@ -9,33 +9,31 @@ const Classroom= () => {
   const [updatedUser, setUpdatedUser] = useState({})
   const [listaClassrooms, setListaClassrooms] = useState([]);
   const [needUpdate, setNeedUpdate] = useState(false);
-  const [codeClr, setCodeClr]= useState("");
-  const [typeClr, setTypeClr]= useState("");
+  const [code, setCodeClr]= useState("");
+  const [type, setTypeClr]= useState("");
 
 
-//   const addUser = () => {
-//     axios.post("http://localhost:80/admin/create/users", {
-//       username,
-//       passcode,
-//       id_person,
-//     })
-//       .then((response) => {
-//         console.log("Success");
-//         setListaUsers([
-//           ...listaUsers,
-//           {
-//             username,
-//             passcode,
-//             id_person,
-//           },
-//         ]);
-//         window.location.reload(false);
-//       })
-//       .catch((er) =>{
-//         alert("Disculpe esta ingresando un usuario ya existente")
-//         console.log(er)
-//       });
-//   };
+  const addClassroom = () => {
+    axios.post("http://localhost:80/admin/create/classrooms", {
+      code,
+      type,
+    })
+      .then((response) => {
+        console.log("Success");
+        setListaClassrooms([
+          ...listaClassrooms,
+          {
+            code,
+            type,
+          },
+        ]);
+        window.location.reload(false);
+      })
+      .catch((er) =>{
+        alert("Disculpe esta ingresando un usuario ya existente")
+        console.log(er)
+      });
+  };
 
 
   // const deletePadre = (cedula) => {
@@ -77,7 +75,7 @@ useEffect(() => {
 const sendInfo = (e) => {
   console.log("Procesando registro");
   e.preventDefault();
-//   addUser();
+  addClassroom();
 };
 
 
@@ -86,26 +84,29 @@ const sendInfo = (e) => {
  <form action="" className="login-form" onSubmit={sendInfo}>
           <img  alt="" />
           <div className="form-block">
-            <label htmlFor="codeClr">Classroom's Code</label>
+            <label htmlFor="code">Classroom's Code</label>
             <input
-              type="text"
-              id="codeClr"
-              value={codeClr || "" || updatedUser.codeClr}
+              type="texte"
+              id="code"
+              value={code || "" || updatedUser.code}
               placeholder="type the code of the Classroom"
               onChange={(e)=>setCodeClr(e.target.value)}
-              name="codeClr"
+              name="code"
             />
           </div>
           <div className="form-block">
-            <label htmlFor="typeClr">Classroom Type</label>
-            <input
-              type="text"
+            <label htmlFor="type">Classroom Type</label>
+            <select
+              type="texte"
               placeholder="type the type classroom"
-              id="typeClr"
-              value={typeClr || "" || updatedUser.typeClr}
+              id="type"
+              value={type || "" || updatedUser.type}
               onChange={(e)=>setTypeClr(e.target.value)}
-              name="typeClr"
-            />
+              name="type"
+            >
+              <option value="Physical">Physical</option>
+              <option value="Virtual">Virtual</option>
+            </select>
           </div>
           <input
             type="submit"

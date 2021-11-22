@@ -9,33 +9,31 @@ const Syllabus= () => {
   const [updatedUser, setUpdatedUser] = useState({})
   const [listaSyllabuses, setListaSyllabuses] = useState([]);
   const [needUpdate, setNeedUpdate] = useState(false);
-  const [codeSy, setCodeSy]= useState("");
+  const [code, setCodeSy]= useState("");
   const [snies_prog, setSniesProg]= useState("");
 
 
-//   const addUser = () => {
-//     axios.post("http://localhost:80/admin/create/users", {
-//       username,
-//       passcode,
-//       id_person,
-//     })
-//       .then((response) => {
-//         console.log("Success");
-//         setListaUsers([
-//           ...listaUsers,
-//           {
-//             username,
-//             passcode,
-//             id_person,
-//           },
-//         ]);
-//         window.location.reload(false);
-//       })
-//       .catch((er) =>{
-//         alert("Disculpe esta ingresando un usuario ya existente")
-//         console.log(er)
-//       });
-//   };
+  const addSyllabus = () => {
+    axios.post("http://localhost:80/admin/create/syllabuses", {
+      code,
+      snies_prog,
+    })
+      .then((response) => {
+        console.log("Success");
+        setListaSyllabuses([
+          ...listaSyllabuses,
+          {
+            code,
+            snies_prog
+          },
+        ]);
+        window.location.reload(false);
+      })
+      .catch((er) =>{
+        alert("Disculpe esta ingresando un usuario ya existente")
+        console.log(er)
+      });
+  };
 
 
   // const deletePadre = (cedula) => {
@@ -77,7 +75,7 @@ useEffect(() => {
 const sendInfo = (e) => {
   console.log("Procesando registro");
   e.preventDefault();
-//   addUser();
+  addSyllabus();
 };
 
 
@@ -86,20 +84,20 @@ const sendInfo = (e) => {
  <form action="" className="login-form" onSubmit={sendInfo}>
           <img  alt="" />
           <div className="form-block">
-            <label htmlFor="codeSy">Syllabus' Code</label>
+            <label htmlFor="code">Syllabus' Code</label>
             <input
-              type="text"
-              id="codeSy"
-              value={codeSy || "" || updatedUser.codeSy}
+              type="texte"
+              id="code"
+              value={code || "" || updatedUser.code}
               placeholder="type the code of the Syllabus"
               onChange={(e)=>setCodeSy(e.target.value)}
-              name="codeSy"
+              name="code"
             />
           </div>
           <div className="form-block">
             <label htmlFor="snies_prog">Program's SNIES</label>
             <input
-              type="text"
+              type="texte"
               placeholder="type the SNIES of the program"
               id="snies_prog"
               value={snies_prog || "" || updatedUser.snies_prog}

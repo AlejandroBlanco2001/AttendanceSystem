@@ -9,35 +9,35 @@ const syllabusSubjects= () => {
   const [updatedUser, setUpdatedUser] = useState({})
   const [listaSyllabusSubjects, setListaSyllabusSubjects] = useState([]);
   const [needUpdate, setNeedUpdate] = useState(false);
-  const [code_sub, setCodeSubj]= useState("");
+  const [code_subj, setCodeSubj]= useState("");
   const [code_syll, setCodeSyll]= useState("");
   const [semester, setSemester]= useState("");
 
 
 
-//   const addUser = () => {
-//     axios.post("http://localhost:80/admin/create/users", {
-//       username,
-//       passcode,
-//       id_person,
-//     })
-//       .then((response) => {
-//         console.log("Success");
-//         setListaUsers([
-//           ...listaUsers,
-//           {
-//             username,
-//             passcode,
-//             id_person,
-//           },
-//         ]);
-//         window.location.reload(false);
-//       })
-//       .catch((er) =>{
-//         alert("Disculpe esta ingresando un usuario ya existente")
-//         console.log(er)
-//       });
-//   };
+  const addSyllabuSubject = () => {
+    axios.post("http://localhost:80/admin/create/syllabusSubjects", {
+      code_subj,
+      code_syll,
+      semester,
+    })
+      .then((response) => {
+        console.log("Success");
+        setListaSyllabusSubjects([
+          ...listaSyllabusSubjects,
+          {
+            code_subj,
+            code_syll,
+            semester,
+          },
+        ]);
+        window.location.reload(false);
+      })
+      .catch((er) =>{
+        alert("Disculpe esta ingresando un usuario ya existente")
+        console.log(er)
+      });
+  };
 
 
   // const deletePadre = (cedula) => {
@@ -79,7 +79,7 @@ useEffect(() => {
 const sendInfo = (e) => {
   console.log("Procesando registro");
   e.preventDefault();
-//   addUser();
+  addSyllabuSubject();
 };
 
 
@@ -88,20 +88,20 @@ const sendInfo = (e) => {
  <form action="" className="login-form" onSubmit={sendInfo}>
           <img  alt="" />
           <div className="form-block">
-            <label htmlFor="code_sub">Subject's Code</label>
+            <label htmlFor="code_subj">Subject's Code</label>
             <input
-              type="text"
-              id="code_sub"
-              value={code_sub || "" || updatedUser.code_sub}
+              type="texte"
+              id="code_subj"
+              value={code_subj || "" || updatedUser.code_subj}
               placeholder="type the code of the Subject"
               onChange={(e)=>setCodeSubj(e.target.value)}
-              name="code_sub"
+              name="code_subj"
             />
           </div>
           <div className="form-block">
             <label htmlFor="code_syll">Syllabus's Code</label>
             <input
-              type="text"
+              type="texte"
               placeholder="type the code of the syllabus"
               id="code_syll"
               value={code_syll || "" || updatedUser.code_syll}
@@ -112,7 +112,7 @@ const sendInfo = (e) => {
           <div className="form-block">
             <label htmlFor="semester">Semester</label>
             <input
-              type="text"
+              type="texte"
               placeholder="type the Semester"
               id="semester"
               value={semester || "" || updatedUser.semester}

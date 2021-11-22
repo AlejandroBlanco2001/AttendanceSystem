@@ -10,34 +10,34 @@ const Schedules= () => {
   const [listaSchedules, setListaSchudeles] = useState([]);
   const [needUpdate, setNeedUpdate] = useState(false);
   const [weekday, setWeekday]= useState("");
-  const [start_timeSch, setStartTimeSch]= useState("");
-  const [durationSch, setDurationSch]= useState("");
+  const [start_time, setStartTimeSch]= useState("");
+  const [duration, setDurationSch]= useState("");
 
 
 
-//   const addUser = () => {
-//     axios.post("http://localhost:80/admin/create/users", {
-//       username,
-//       passcode,
-//       id_person,
-//     })
-//       .then((response) => {
-//         console.log("Success");
-//         setListaUsers([
-//           ...listaUsers,
-//           {
-//             username,
-//             passcode,
-//             id_person,
-//           },
-//         ]);
-//         window.location.reload(false);
-//       })
-//       .catch((er) =>{
-//         alert("Disculpe esta ingresando un usuario ya existente")
-//         console.log(er)
-//       });
-//   };
+  const addSchedules = () => {
+    axios.post("http://localhost:80/admin/create/schedules", {
+      weekday,
+      start_time,
+      duration,
+    })
+      .then((response) => {
+        console.log("Success");
+        setListaSchudeles([
+          ...listaSchedules,
+          {
+            weekday,
+            start_time,
+            duration,
+          },
+        ]);
+        window.location.reload(false);
+      })
+      .catch((er) =>{
+        alert("Disculpe esta ingresando un usuario ya existente")
+        console.log(er)
+      });
+  };
 
 
   // const deletePadre = (cedula) => {
@@ -79,7 +79,7 @@ useEffect(() => {
 const sendInfo = (e) => {
   console.log("Procesando registro");
   e.preventDefault();
-//   addUser();
+  addSchedules();
 };
 
 
@@ -89,35 +89,44 @@ const sendInfo = (e) => {
           <img  alt="" />
           <div className="form-block">
             <label htmlFor="weekday">Weekday</label>
-            <input
-              type="text"
+            <select
+              type="texte"
               id="weekday"
               value={weekday || "" || updatedUser.weekday}
               placeholder="type the day of the week"
               onChange={(e)=>setWeekday(e.target.value)}
               name="weekday"
-            />
+            >
+              <option value="Monday">Monday</option>
+              <option value="Tuesday">Tuesday</option>
+              <option value="Wednesday">Wednesday</option>
+              <option value="Thursday">Thursday</option>
+              <option value="Friday">Friday</option>
+              <option value="Saturday">Saturday</option>
+
+            </select>
+          
           </div>
           <div className="form-block">
-            <label htmlFor="start_timeSch">Start time</label>
+            <label htmlFor="start_time">Start time</label>
             <input
-              type="text"
+              type="texte"
               placeholder="type the Start Time"
-              id="start_timeSch"
-              value={start_timeSch || "" || updatedUser.start_timeSch}
-              onChange={(e)=>setWeekdaySche(e.target.value)}
-              name="start_timeSch"
+              id="start_time"
+              value={start_time || "" || updatedUser.start_time}
+              onChange={(e)=>setStartTimeSch(e.target.value)}
+              name="start_time"
             />
           </div>
           <div className="form-block">
             <label htmlFor="duration">Duration</label>
             <input
-              type="text"
+              type="texte"
               placeholder="type the Duration of the class"
               id="duration"
-              value={durationSch|| "" || updatedUser.durationSch}
+              value={duration|| "" || updatedUser.duration}
               onChange={(e)=>setDurationSch(e.target.value)}
-              name="durationSch"
+              name="duration"
             />
           </div>
           <input
