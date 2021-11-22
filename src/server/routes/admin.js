@@ -40,7 +40,7 @@ router.get(routeStr, async (req, res) => {
       try {
         conn = await db.pool.getConnection();
         if (req.path == routeStr[1]) {
-          results = await conn.query("SELECT id, name1, name2, lastname1, lastname2, gender, DATE_FORMAT(birthdate,'%d/%m/%Y'), type, id_dept FROM " + queryTable)
+          results = await conn.query("SELECT id, name1, name2, lastname1, lastname2, gender, DATE_FORMAT(birthdate,'%d/%m/%Y'), age,type, id_dept FROM " + queryTable)
         } else {
           results = await conn.query('SELECT * FROM ' + queryTable)
         }
@@ -308,41 +308,155 @@ router.post('/create/:record', async (req, res) => {
 })
 
 //Update Posts
-router.post('/update/:record', async (req, res) => {
+router.post('/update/:record/:pkey', async (req, res) => {
   if (req.user) {
     if (req.user.type == '0') {
-      const rec = req.params.record;
-      let query;
-      let results;
-      const i = routeStr.indexOf('/' + rec, 0)
-      console.log(req.body)
-      switch (i) {
-        case 0:
-          const {
-            username, passcode, urlimage, id_pers
-          } = req.body;
-          query = `UPDATE ${rec.slice(0, -1)} SET username = ?, passcode = ? , urlimage = ?, id_pers = ? WHERE username = '${req.body.username}' AND id_pers = '${req.body.id_pers}';`;
-          results = updateOne([username, passcode, urlimage, id_pers], query)
-            .then((response) => {
-              res.sendStatus(200);
-            })
-            .catch((err) => {
-              console.log(err)
-              res.sendStatus(500);
-            });
-          break
-        default:
-          res.sendStatus(404)
+      let pkeysV = req.params.pkey.split(':')
+      let rec = req.params.record
+      let update = req.body
+      let query, table
+      let results
+      table = await identifyTable(rec)
+      query = `UPDATE ${table} SET `
+      for (var [key, value] of Object.entries(update)) {
+        if (table == 'user') {
+          if (key != 'type') {
+            query += (typeof value.type == 'number' || typeof value.type == 'object') ? `${key} = ${value},` : `${key} = '${value}',`
+          }
+        } else {
+          query += (typeof value.type == 'number' || typeof value.type == 'object') ? `${key} = ${value},` : `${key} = '${value}',`
+        }
+      }
+      query = query.slice(0, -1)
+      query += ` WHERE `
+      let pkeys
+      try {
+        let conn = await db.pool.getConnection()
+        pkeys = await conn.query(`SELECT k.COLUMN_NAME
+        FROM information_schema.table_constraints t
+        LEFT JOIN information_schema.key_column_usage k
+        USING(constraint_name,table_schema,table_name)
+        WHERE t.constraint_type='PRIMARY KEY'
+            AND t.table_schema=DATABASE()
+            AND t.table_name='${table}';`)
+        await conn.end()
+      } catch (e) {
+        console.log(e)
+      }
+      for (let j = 0; j < pkeysV.length; j++) {
+        query += `${pkeys[j].COLUMN_NAME} = '${pkeysV[j]}'`
+        if (j == pkeys.length - 1) {
+          query += ';'
+        } else {
+          query += ' AND '
+        }
+      }
+      try {
+        let conn = await db.pool.getConnection()
+        results = await conn.query(query)
+          .then((response) => {
+            res.sendStatus(200);
+          }).catch((err) => {
+            throw err
+          })
+        conn.end()
+        return results
+      } catch (e) {
+        res.sendStatus(500)
       }
     }
     res.send('You´re not an admin.')
   }
   res.send('Not logged in.')
-
 })
 
-//Delete Posts
 
+
+//Delete Posts
+router.post('/delete/:record/:pkey', async (req, res) => {
+  if (req.user) {
+    if (req.user.type) {
+      let pkeysV = req.params.pkey.split(':')
+      let rec = req.params.record
+      let query, results, pkeys
+      let table = await identifyTable(rec)
+      query = `DELETE FROM ${table} WHERE `
+      try {
+        let conn = await db.pool.getConnection()
+        pkeys = await conn.query(`SELECT k.COLUMN_NAME
+        FROM information_schema.table_constraints t
+        LEFT JOIN information_schema.key_column_usage k
+        USING(constraint_name,table_schema,table_name)
+        WHERE t.constraint_type='PRIMARY KEY'
+            AND t.table_schema=DATABASE()
+            AND t.table_name='${table}';`)
+        await conn.end()
+      } catch (e) {
+        console.log(e)
+      }
+      console.log(pkeys)
+      for (let j = 0; j < pkeysV.length; j++) {
+        query += `${pkeys[j].COLUMN_NAME} = '${pkeysV[j]}'`
+        if (j == pkeysV.length - 1) {
+          query += ';'
+        } else {
+          query += ' AND '
+        }
+      }
+      console.log(query)
+      try {
+        let conn = await db.pool.getConnection()
+        results = await conn.query(query)
+          .then((response) => {
+            res.sendStatus(200);
+          }).catch((err) => {
+            throw err
+          })
+        conn.end()
+        return results
+      } catch (e) {
+        res.sendStatus(500)
+      }
+    }
+    res.send('You`re not an admin.')
+  }
+  res.send('Not logged in.')
+})
+
+async function identifyTable(record) {
+  let table
+  if ([8, 12].includes(routeStr.indexOf('/' + record, 0))) {
+    table = record.slice(0, -2)
+  } else {
+    if (routeStr.indexOf('/' + record, 0) >= 14) {
+      switch (routeStr.indexOf('/' + record, 0)) {
+        case 14:
+          {
+            table = 'offered_in';
+            break
+          }
+        case 15:
+          {
+            table = 'cour_enro';
+            break
+          }
+        case 16:
+          {
+            table = 'clas_stud';
+            break
+          }
+        case 17:
+          {
+            table = 'in_syllabus';
+            break
+          }
+      }
+    } else {
+      table = record.slice(0, -1)
+    }
+  }
+  return table
+}
 
 async function insertData(table, values) {
   let conn;
