@@ -46,14 +46,13 @@ router.get(routeStr, async (req, res) => {
         }
         conn.end();
       } catch (e) {
-        throw e
         res.sendStatus(500)
       }
       res.json(results);
     }
-    res.send('You´re not an admin.')
+    res.send('You´re not an admin.');
   }
-  res.send('Not logged in.')
+  res.send('Not logged in.');
 })
 
 //Insert Posts
@@ -78,7 +77,7 @@ router.post('/create/:record', async (req, res) => {
           break
         case 1:
           const { id, name1, name2, lastname1, lastname2, gender, birthdate, typeP, id_deptP } = req.body;
-
+          console.log(req.body)
           response = insertData(
             req.params + "(id, name1, name2, lastname1, lastname2, gender, birthdate, type, id_dept)",
             [id, name1, name2, lastname1, lastname2, gender, birthdate, typeP, id_deptP]

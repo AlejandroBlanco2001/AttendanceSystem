@@ -45,10 +45,12 @@
     "html-webpack-plugin": "^5.5.0",
     "install": "^0.13.0",
     "mariadb": "^2.5.5",
+    "moment": "^2.29.1",
     "nodemon": "^2.0.14",
     "passport": "^0.5.0",
     "passport-local": "^1.0.0",
     "qrcode": "^1.4.4",
+    "randomstring": "^1.2.1",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
     "react-engine": "^4.5.1",
@@ -57,6 +59,7 @@
     "react-router-dom": "^6.0.1",
     "socket.io": "^4.3.1",
     "socket.io-client": "^4.4.0",
+    "sweetalert": "^2.1.2",
     "webpack-dev-server": "^4.4.0"
   },
   "devDependencies": {

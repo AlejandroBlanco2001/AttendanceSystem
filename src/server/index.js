@@ -62,11 +62,14 @@ io.on('connection', (socket) => {
 
     var checkInterval;
     socket.on('checkClassAlreadyStarted', async (data) => {
-        clearInterval(checkInterval);
         checkInterval = setInterval(async () => {
             let conn = await db.pool.getConnection(); 
             let result = await util.getClassHours(conn,data.id_pers);
-            if(result.length != 0) socket.emit('classAlreadyStarted', result)
+            if(result.length != 0){
+                let code = await util.addTeacherCode(conn,result[0].codigo.split('\/')[1]);
+                conn.end();
+                socket.emit('classAlreadyStarted', {...result[0],codeTeacher: code})
+            }
         },180000)
     })
 
@@ -80,8 +83,9 @@ io.on('connection', (socket) => {
             conn = await db.pool.getConnection();
             let result = await util.getStudentsClass(conn,{code: data.code, id_pers: data.id_pers});
             conn.end();
-            console.log(result.length);
-            if(result.length != 0) socket.emit('sendNotificationClass', result);
+            if(true){
+                socket.emit('sendNotificationClass',result);
+            }
         }catch(err){
             throw err;
         }

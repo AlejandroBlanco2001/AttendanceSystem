@@ -20,7 +20,7 @@ function CourseCard({ icon, title, teacher, credits, schedule , code, type}) {
           {schedule}
         </p>
       </div>
-    <button className = "button secondary-button" onClick = {handleClick}>start</button>  
+    <button className = "button secondary-button" onClick = {handleClick}>Start</button>  
     </div>
   );
 }

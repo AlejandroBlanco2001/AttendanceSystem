@@ -227,6 +227,7 @@ CREATE TABLE Class (
 	code VARCHAR(2) NOT NULL, 
 	start_time DATETIME NOT NULL,
 	code_spac INTEGER NOT NULL,
+	qr_teach VARCHAR(80) NOT NULL,
 	-- Primary Key
 	PRIMARY KEY (code),
 	-- Foreign Key
@@ -236,7 +237,7 @@ CREATE TABLE Class (
 CREATE TABLE Clas_Stud (
 	code_clas VARCHAR(2) NOT NULL,
 	id_stud VARCHAR(10) NOT NULL,
-	attendance BOOLEAN NOT NULL,
+	attendance VARCHAR(2) NOT NULL,
 	-- Primary Key
 	PRIMARY KEY (code_clas, id_stud),
 	-- Foreign Key
