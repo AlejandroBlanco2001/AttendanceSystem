@@ -58,7 +58,7 @@ router.get(routeStr, async (req, res) => {
 //Insert Posts
 router.post('/create/:record', async (req, res) => {
   console.log("si pase por aqui -1")
- /* if (req.user) {
+/* if (req.user) {
     console.log("si pase por aqui 0")
     if (req.user.type == '0') {*/
       const i = routeStr.indexOf('/' + req.params.record, 0)

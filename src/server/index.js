@@ -6,7 +6,6 @@ const app = express();
 const path = require('path');
 const session = require('express-session');
 const cors = require('cors');
-const fs = require('fs');
 
 const passport = require('passport');
 const engine = require('react-engine');
@@ -61,16 +60,30 @@ app.get('/logout',(req, res) => {
 io.on('connection', (socket) => {
 
     var checkInterval;
+    var cont = 0;
     socket.on('checkClassAlreadyStarted', async (data) => {
+        let code;
         checkInterval = setInterval(async () => {
             let conn = await db.pool.getConnection(); 
-            let result = await util.getClassHours(conn,data.id_pers);
+            let result = await util.getClassHours(conn,data);
             if(result.length != 0){
-                let code = await util.addTeacherCode(conn,result[0].codigo.split('\/')[1]);
-                conn.end();
-                socket.emit('classAlreadyStarted', {...result[0],codeTeacher: code})
+                if(cont < 3){
+                    if(cont == 0){
+                        code = await util.addTeacherCode(conn,result[0].codigo.split('\/')[1]);
+                    }else{
+                        code = await util.getCodeClassCreated(conn,result[0].codigo.split('\/')[1]);
+                        code = code.qr_teach;
+                    }
+                    
+                    conn.end();
+                    cont = cont + 1;
+                    result[0].codeTeacher = code;
+                    socket.emit('classAlreadyStarted',result[0])
+                }
+            }else{
+                cont = 0;
             }
-        },180000)
+        },5000)
     })
 
     socket.on('classStarted', (data) => {

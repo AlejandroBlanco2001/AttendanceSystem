@@ -40,7 +40,7 @@ const Persons = () => {
       birthdate,
       type,
       id_dept
-    }, {withCredentials: true }) 
+    }, {withCredentials: true })
       .then((response) => {
         console.log("Success");
         setListaPersons([
@@ -55,30 +55,13 @@ const Persons = () => {
           birthdate,
           type,
           id_dept
-  const addUser = () => {
-    axios.post("http://localhost:80/admin/create/users", {
-      username,
-      passcode,
-      id_person,
-    })
-      .then((response) => {
-        console.log("Success");
-        setListaUsers([
-          ...listaUsers,
-          {
-            username,
-            passcode,
-            id_person,
-          },
-        ]);
-        window.location.reload(false);
-      })
-      .catch((er) =>{
-        alert("Disculpe esta ingresando un usuario ya existente")
+          }
+        ])
+      }).catch((err)=>{
+        alert("You`re trying to add a person whose primary key is already in existance.")
         console.log(er)
-      });
-  };
-
+      })
+    }
 
   // const deletePadre = (cedula) => {
   //   Axios.delete(`http://localhost:3004/deletepadre/${cedula}`)

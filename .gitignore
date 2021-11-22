@@ -119,4 +119,4 @@ dist
 
 # Config data
 ./src/config/config.json
-.variables.env
+./variables.env

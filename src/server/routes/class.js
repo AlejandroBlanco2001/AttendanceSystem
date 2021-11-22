@@ -15,6 +15,14 @@ router.get('/subject/:id', async (req,res) => {
     else res.json(result);
 });
 
+router.get('/getAttendance', async (req,res) => {
+    let {code} = req.body;
+    let conn = await db.pool.getConnection();
+    let result = await util.getAttendanceClass(conn,code);
+    if(result == -1) res.sendStatus(500);
+    else res.json(result);
+})
+
 router.post('/takeAttendance', async (req,res) => {
     let {id_class, id_teacher} = req.body;
     id_class = id_class.split('\/')[1];
@@ -35,11 +43,14 @@ router.post('/takeAttendance', async (req,res) => {
             let clas = await util.getClassSession(conn,id_class)[0].code;
             if(curr <= limit_assist){
                 await conn.query('INSERT INTO clas_stud VALUES(?,?,?)',[clas,req.user.id_pers," "])
+                asiss = ' ';
             }else if(curr <= limit_late){
                 await conn.query('INSERT INTO clas_stud VALUES(?,?,?)',[clas,req.user.id_pers,"-"])
+                asiss = '-';
             }else{
                 await conn.query('INSERT INTO clas_stud VALUES(?,?,?)',[clas,req.user.id_pers,"+"])
-            } 
+                asiss = '+';
+            }
             conn.end();
             res.sendStatus(200);
         }
