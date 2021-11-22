@@ -9,34 +9,34 @@ const Enrollment= () => {
   const [updatedUser, setUpdatedUser] = useState({})
   const [listaEnrollments, setListaEnrollments] = useState([]);
   const [needUpdate, setNeedUpdate] = useState(false);
-  const [id_studEr, setIdStudEr]= useState("");
-  const [year_periEr, setYearPeriEr]= useState("");
-  const [term_periEr, setTermPeriEr]= useState("");
+  const [id_stud, setIdStudEr]= useState("");
+  const [year_peri, setYearPeriEr]= useState("");
+  const [term_peri, setTermPeriEr]= useState("");
   
 
-//   const addUser = () => {
-//     axios.post("http://localhost:80/admin/create/users", {
-//       username,
-//       passcode,
-//       id_person,
-//     })
-//       .then((response) => {
-//         console.log("Success");
-//         setListaUsers([
-//           ...listaUsers,
-//           {
-//             username,
-//             passcode,
-//             id_person,
-//           },
-//         ]);
-//         window.location.reload(false);
-//       })
-//       .catch((er) =>{
-//         alert("Disculpe esta ingresando un usuario ya existente")
-//         console.log(er)
-//       });
-//   };
+  const addEnrollment = () => {
+    axios.post("http://localhost:80/admin/create/enrollments", {
+      id_stud,
+      year_peri,
+      term_peri,
+    })
+      .then((response) => {
+        console.log("Success");
+        setListaEnrollments([
+          ...listaEnrollments,
+          {
+            id_stud,
+            year_peri,
+            term_peri,
+          },
+        ]);
+        window.location.reload(false);
+      })
+      .catch((er) =>{
+        alert("Disculpe esta ingresando un usuario ya existente")
+        console.log(er)
+      });
+  };
 
 
   // const deletePadre = (cedula) => {
@@ -78,7 +78,7 @@ useEffect(() => {
 const sendInfo = (e) => {
   console.log("Procesando registro");
   e.preventDefault();
-//   addUser();
+  addEnrollment();
 };
 
 
@@ -87,35 +87,35 @@ const sendInfo = (e) => {
  <form action="" className="login-form" onSubmit={sendInfo}>
           <img  alt="" />
           <div className="form-block">
-            <label htmlFor="id_studEr">Student's ID</label>
+            <label htmlFor="id_stud">Student's ID</label>
             <input
-              type="text"
-              id="id_studEr"
-              value={id_studEr || "" || updatedUser.id_studEr}
+              type="texte"
+              id="id_stud"
+              value={id_stud || "" || updatedUser.id_stud}
               placeholder="type the ID of the Student"
               onChange={(e)=>setIdStudEr(e.target.value)}
-              name="id_studEr"
+              name="id_stud"
             />
           </div>
           <div className="form-block">
-            <label htmlFor="year_periEr">Period's Year</label>
+            <label htmlFor="year_peri">Period's Year</label>
             <input
-              type="text"
+              type="texte"
               placeholder="type the year of the Period"
-              id="year_periEr"
-              value={year_periEr || "" || updatedUser.year_periEr}
+              id="year_peri"
+              value={year_peri || "" || updatedUser.year_peri}
               onChange={(e)=>setYearPeriEr(e.target.value)}
-              name="year_periEr"
+              name="year_peri"
             />
           </div>
           <div className="form-block">
             <label htmlFor="year_termEr">Period's Term</label>
             <input
-              type="text"
+              type="texte"
               placeholder="type the term of the Period"
               id="year_termEr"
-              value={year_termEr || "" || updatedUser.year_termEr}
-              onChange={(e)=>setYearPeriEr(e.target.value)}
+              value={term_peri || "" || updatedUser.term_peri}
+              onChange={(e)=>setTermPeriEr(e.target.value)}
               name="year_termEr"
             />
           </div>

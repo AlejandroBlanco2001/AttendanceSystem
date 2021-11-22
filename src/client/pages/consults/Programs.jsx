@@ -9,13 +9,13 @@ const Program= () => {
   const [updatedUser, setUpdatedUser] = useState({})
   const [listaPrograms, setListaPrograms] = useState([]);
   const [needUpdate, setNeedUpdate] = useState(false);
-  const [snies, setSNIES]= useState("");
-  const [nameProg, setNameProg]= useState("");
-  const [typeProg, setTypeProg]= useState("");
-  const [title, setTitle]= useState("");
-  const [duration, setDuration]= useState("");
-  const [creditsProg, setCreditsProg]= useState("");
-  const [id_deptProg, setIdDeptProg]= useState("");
+  const [snies, setSNIES]= useState();
+  const [name, setNameProg]= useState();
+  const [type, setTypeProg]= useState();
+  const [title, setTitle]= useState();
+  const [duration, setDuration]= useState();
+  const [credits, setCreditsProg]= useState();
+  const [id_dept, setIdDeptProg]= useState();
 
 
 
@@ -24,29 +24,37 @@ const Program= () => {
 
 
 
-//   const addUser = () => {
-//     axios.post("http://localhost:80/admin/create/users", {
-//       username,
-//       passcode,
-//       id_person,
-//     })
-//       .then((response) => {
-//         console.log("Success");
-//         setListaUsers([
-//           ...listaUsers,
-//           {
-//             username,
-//             passcode,
-//             id_person,
-//           },
-//         ]);
-//         window.location.reload(false);
-//       })
-//       .catch((er) =>{
-//         alert("Disculpe esta ingresando un usuario ya existente")
-//         console.log(er)
-//       });
-//   };
+  const addProgram = () => {
+    axios.post("http://localhost:80/admin/create/programs", {
+      snies,
+      name,
+      type,
+      title,
+      duration,
+      credits,
+      id_dept
+    })
+      .then((response) => {
+        console.log("Success");
+        setListaPrograms([
+          ...listaPrograms,
+          {
+            snies,
+            name,
+            type,
+            title,
+            duration,
+            credits,
+            id_dept
+          },
+        ]);
+        window.location.reload(false);
+      })
+      .catch((er) =>{
+        alert("Disculpe esta ingresando un usuario ya existente")
+        console.log(er)
+      });
+  };
 
 
   // const deletePadre = (cedula) => {
@@ -88,7 +96,7 @@ useEffect(() => {
 const sendInfo = (e) => {
   console.log("Procesando registro");
   e.preventDefault();
-//   addUser();
+  addProgram();
 };
 
 
@@ -99,7 +107,7 @@ const sendInfo = (e) => {
           <div className="form-block">
             <label htmlFor="snies">SNIES</label>
             <input
-              type="text"
+              type="texte"
               id="snies"
               value={snies || "" || updatedUser.snies}
               placeholder="type the SNIES"
@@ -108,31 +116,35 @@ const sendInfo = (e) => {
             />
           </div>
           <div className="form-block">
-            <label htmlFor="nameProg">Program's Name</label>
+            <label htmlFor="name">Program's Name</label>
             <input
-              type="text"
+              type="texte"
               placeholder="type the name of the program"
-              id="nameProg"
-              value={nameProg || "" || updatedUser.nameProg}
+              id="name"
+              value={name || "" || updatedUser.name}
               onChange={(e)=>setNameProg(e.target.value)}
-              name="nameProg"
+              name="name"
             />
           </div>
           <div className="form-block">
-            <label htmlFor="typeProg">Program type</label>
-            <input
-              type="text"
+            <label htmlFor="type">Program type</label>
+            <select
+              type="texte"
               placeholder="type the type of program"
-              id="typeProg"
-              value={typeProg || "" || updatedUser.typeProg}
+              id="type"
+              value={type || "" || updatedUser.type}
               onChange={(e)=>setTypeProg(e.target.value)}
-              name="typeProg"
-            />
+              name="type"
+            >
+              <option value="0">0</option>
+              <option value="1">1</option>
+
+            </select>
           </div>
           <div className="form-block">
             <label htmlFor="title">Title</label>
             <input
-              type="text"
+              type="texte"
               placeholder="type the title of the program"
               id="title"
               value={title || "" || updatedUser.title}
@@ -143,24 +155,49 @@ const sendInfo = (e) => {
           <div className="form-block">
             <label htmlFor="duration">Duration</label>
             <input
-              type="text"
+              type="texte"
               placeholder="type the duration of the program"
               id="duration"
               value={duration || "" || updatedUser.duration}
               onChange={(e)=>setDuration(e.target.value)}
               name="duration"
             />
+            
           </div>
           <div className="form-block">
-            <label htmlFor="id_deptProg">Deparment's ID</label>
+            <label htmlFor="credits">Credits</label>
             <input
-              type="text"
-              placeholder="type the ID of the program"
-              id="id_deptProg"
-              value={id_deptProg || "" || updatedUser.id_deptProg}
-              onChange={(e)=>setIdDeptProg(e.target.value)}
-              name="id_deptProg"
+              type="number"
+              placeholder="type the credits"
+              id="credits"
+              value={credits || "" || updatedUser.credits}
+              onChange={(e)=>setCreditsProg(e.target.value)}
+              name="credits"
             />
+            
+          </div>
+          <div className="form-block">
+          <label htmlFor="id_dpt">ID departament</label>
+        <select
+          type="texte"
+          id="id_dpt"
+          value={id_dept || null || updatedUser.id_dept}
+          onChange={(e) => setIdDeptProg(e.target.value)}
+          name="id_dpt"
+          placeholder="Type the id of the department "
+          disabled={needUpdate}
+        >
+                <option value="1">Architecture and Urbanism</option>
+                <option value="2">Design</option> 
+                <option value="3">Physics and Geosciences</option> 
+                <option value="4">Mathematics and Stastics</option> 
+                <option value="5">Chemistry and Biology</option> 
+                <option value="6">Computer and Systems Engineering</option> 
+                <option value="7">Spanish</option> 
+                <option value="8">Social Comunication</option> 
+
+
+          </select>
           </div>
           <input
             type="submit"
@@ -186,7 +223,7 @@ const sendInfo = (e) => {
             "Title",
             "Duration",
             "Credits",
-            "Deparment's ID",
+            "Deparment's Name",
             "Actions"
           ]}
           data={isData?programs:null}

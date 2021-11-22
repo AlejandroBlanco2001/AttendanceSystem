@@ -9,33 +9,31 @@ const EnrollmentCourses= () => {
   const [updatedUser, setUpdatedUser] = useState({})
   const [listaEnrollmentCourses, setListaEnrollmentCourses] = useState([]);
   const [needUpdate, setNeedUpdate] = useState(false);
-  const [code_courEc, setCodeCour]= useState("");
-  const [id_enro, setIdEnro]= useState("");
+  const [code_cour, setCodeCour]= useState();
+  const [id_enro, setIdEnro]= useState();
 
 
-//   const addUser = () => {
-//     axios.post("http://localhost:80/admin/create/users", {
-//       username,
-//       passcode,
-//       id_person,
-//     })
-//       .then((response) => {
-//         console.log("Success");
-//         setListaUsers([
-//           ...listaUsers,
-//           {
-//             username,
-//             passcode,
-//             id_person,
-//           },
-//         ]);
-//         window.location.reload(false);
-//       })
-//       .catch((er) =>{
-//         alert("Disculpe esta ingresando un usuario ya existente")
-//         console.log(er)
-//       });
-//   };
+  const addEnrollmentCourse = () => {
+    axios.post("http://localhost:80/admin/create/enrollmentCourses", {
+      code_cour,
+      id_enro,
+    })
+      .then((response) => {
+        console.log("Success");
+        setListaEnrollmentCourses([
+          ...listaEnrollmentCourses,
+          {
+            code_cour,
+            id_enro,
+          },
+        ]);
+        window.location.reload(false);
+      })
+      .catch((er) =>{
+        alert("Disculpe esta ingresando un usuario ya existente")
+        console.log(er)
+      });
+  };
 
 
   // const deletePadre = (cedula) => {
@@ -77,7 +75,7 @@ useEffect(() => {
 const sendInfo = (e) => {
   console.log("Procesando registro");
   e.preventDefault();
-//   addUser();
+  addEnrollmentCourse();
 };
 
 
@@ -88,9 +86,9 @@ const sendInfo = (e) => {
           <div className="form-block">
             <label htmlFor="code_cour">Course's Code</label>
             <input
-              type="text"
+              type="texte"
               id="code_cour"
-              value={code_cour || "" || updatedUser.code_cour}
+              value={code_cour || null || updatedUser.code_cour}
               placeholder="type the code of the Course"
               onChange={(e)=>setCodeCour(e.target.value)}
               name="code"
@@ -99,10 +97,10 @@ const sendInfo = (e) => {
           <div className="form-block">
             <label htmlFor="id_enro">Enrollment's ID</label>
             <input
-              type="text"
+              type="texte"
               placeholder="type the ID of the Enrollment"
               id="id_enro"
-              value={id_enro || "" || updatedUser.id_enro}
+              value={id_enro || null || updatedUser.id_enro}
               onChange={(e)=>setIdEnro(e.target.value)}
               name="id_enro"
             />
@@ -127,6 +125,8 @@ const sendInfo = (e) => {
           tableheads={[
             "Course's Code",
             "Enrollment's ID",
+            "Studying",
+            "Completed",
             "Actions"
           ]}
           data={isData?enrollmentcourses:null}

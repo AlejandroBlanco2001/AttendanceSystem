@@ -40,7 +40,7 @@ router.get(routeStr, async (req, res) => {
       try {
         conn = await db.pool.getConnection();
         if (req.path == routeStr[1]) {
-          results = await conn.query("SELECT id, name1, name2, lastname1, lastname2, gender, DATE_FORMAT(birthdate,'%d/%m/%Y'), age,type, id_dept FROM " + queryTable)
+          results = await conn.query("SELECT id, name1, name2, lastname1, lastname2, gender, DATE_FORMAT(birthdate,'%d/%m/%Y'), age, type, id_dept FROM " + queryTable)
         } else {
           results = await conn.query('SELECT * FROM ' + queryTable)
         }
@@ -60,9 +60,13 @@ router.get(routeStr, async (req, res) => {
 
 //Insert Posts
 router.post('/create/:record', async (req, res) => {
+  console.log("si pase por aqui -1")
   if (req.user) {
+    console.log("si pase por aqui 0")
     if (req.user.type == '0') {
       const i = routeStr.indexOf('/' + req.params.record, 0)
+      console.log("si pase por aqui 1 ", i)
+      console.log(req.body);
       let response;
       switch (i) {
         case 0:
@@ -87,6 +91,7 @@ router.post('/create/:record', async (req, res) => {
             ).then((response) => {
               res.sendStatus(200);
             }).catch((err) => {
+              // console.log(err)
               res.sendStatus(500);
             });
             break
@@ -100,6 +105,7 @@ router.post('/create/:record', async (req, res) => {
             ).then((response) => {
               res.sendStatus(200);
             }).catch((err) => {
+              // console.log(err)
               res.sendStatus(500);
             });
             break
@@ -127,6 +133,7 @@ router.post('/create/:record', async (req, res) => {
               res.sendStatus(200);
             }).catch((err) => {
               res.sendStatus(500);
+
             });
             break
           }
@@ -140,6 +147,8 @@ router.post('/create/:record', async (req, res) => {
               res.sendStatus(200);
             }).catch((err) => {
               res.sendStatus(500);
+             
+
             });
             break
           }
@@ -153,6 +162,7 @@ router.post('/create/:record', async (req, res) => {
               res.sendStatus(200);
             }).catch((err) => {
               res.sendStatus(500);
+             
             });
             break
           }
@@ -179,6 +189,7 @@ router.post('/create/:record', async (req, res) => {
               res.sendStatus(200);
             }).catch((err) => {
               res.sendStatus(500);
+
             });
             break
           }
@@ -192,6 +203,7 @@ router.post('/create/:record', async (req, res) => {
               res.sendStatus(200);
             }).catch((err) => {
               res.sendStatus(500);
+
             });
             break
           }
@@ -205,6 +217,7 @@ router.post('/create/:record', async (req, res) => {
               res.sendStatus(200);
             }).catch((err) => {
               res.sendStatus(500);
+
             });
             break
           }
@@ -230,7 +243,7 @@ router.post('/create/:record', async (req, res) => {
             ).then((response) => {
               res.sendStatus(200);
             }).catch((err) => {
-              res.sendStatus(500);
+              console.log(err);
             });
             break
           }
@@ -256,7 +269,7 @@ router.post('/create/:record', async (req, res) => {
             ).then((response) => {
               res.sendStatus(200);
             }).catch((err) => {
-              res.sendStatus(500);
+             res.sendStatus(500);
             });
             break
           }
@@ -269,7 +282,9 @@ router.post('/create/:record', async (req, res) => {
             ).then((response) => {
               res.sendStatus(200);
             }).catch((err) => {
-              res.sendStatus(500);
+              // res.sendStatus(500);
+             console.log(err);
+
             });
             break
           }

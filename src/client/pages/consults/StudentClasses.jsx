@@ -9,35 +9,35 @@ const studentClasses= () => {
   const [updatedUser, setUpdatedUser] = useState({})
   const [listaStudentsClasses, setListaStudentClasses] = useState([]);
   const [needUpdate, setNeedUpdate] = useState(false);
-  const [codeClass, setCodeClass]= useState("");
-  const [idStudCl, setIdStudCl]= useState("");
-  const [attendence, setAttendence]= useState("");
+  const [code_clas, setCodeClass]= useState("");
+  const [id_stud, setIdStudCl]= useState("");
+  const [attendance, setAttendence]= useState("");
 
 
 
-//   const addUser = () => {
-//     axios.post("http://localhost:80/admin/create/users", {
-//       username,
-//       passcode,
-//       id_person,
-//     })
-//       .then((response) => {
-//         console.log("Success");
-//         setListaUsers([
-//           ...listaUsers,
-//           {
-//             username,
-//             passcode,
-//             id_person,
-//           },
-//         ]);
-//         window.location.reload(false);
-//       })
-//       .catch((er) =>{
-//         alert("Disculpe esta ingresando un usuario ya existente")
-//         console.log(er)
-//       });
-//   };
+  const addStudentClass = () => {
+    axios.post("http://localhost:80/admin/create/studentClasses", {
+      code_clas,
+      id_stud,
+      attendance,
+    })
+      .then((response) => {
+        console.log("Success");
+        setListaStudentClasses([
+          ...listaStudentsClasses,
+          {
+            code_clas,
+            id_stud,
+            attendance,
+          },
+        ]);
+        window.location.reload(false);
+      })
+      .catch((er) =>{
+        alert("Disculpe esta ingresando un usuario ya existente")
+        console.log(er)
+      });
+  };
 
 
   // const deletePadre = (cedula) => {
@@ -79,7 +79,7 @@ useEffect(() => {
 const sendInfo = (e) => {
   console.log("Procesando registro");
   e.preventDefault();
-//   addUser();
+ addStudentClass();
 };
 
 
@@ -88,23 +88,23 @@ const sendInfo = (e) => {
  <form action="" className="login-form" onSubmit={sendInfo}>
           <img  alt="" />
           <div className="form-block">
-            <label htmlFor="codeClass">Class's Code</label>
+            <label htmlFor="code_clas">Class's Code</label>
             <input
-              type="text"
-              id="codeClass"
-              value={codeClass || "" || updatedUser.codeClass}
+              type="texte"
+              id="code_clas"
+              value={code_clas || "" || updatedUser.code_clas}
               placeholder="type the code of the Class"
               onChange={(e)=>setCodeClass(e.target.value)}
-              name="codeClass"
+              name="code_clas"
             />
           </div>
           <div className="form-block">
-            <label htmlFor="idStudCl">Student's ID</label>
+            <label htmlFor="id_stud">Student's ID</label>
             <input
-              type="text"
+              type="texte"
               placeholder="type the ID"
-              id="idStudCl"
-              value={idStudCl || "" || updatedUser.idStudCl}
+              id="id_stud"
+              value={id_stud || "" || updatedUser.id_stud}
               onChange={(e)=>setIdStudCl(e.target.value)}
               name="name"
             />
@@ -112,7 +112,7 @@ const sendInfo = (e) => {
           <div className="form-block">
             <label htmlFor="attendance">Attendance</label>
             <input
-              type="text"
+              type="texte"
               placeholder="type the ID"
               id="attendance"
               value={attendance || "" || updatedUser.attendance}
