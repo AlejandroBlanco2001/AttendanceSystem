@@ -43,7 +43,11 @@ const handleDeleteUser = (user)=>{
 
   const addPerson = () => {
     let aux_id
-    if(id_dept == '0') aux_id = null;
+    if(id_dept == '0'){
+      aux_id = null
+    }else{
+      aux_id =id_dept
+    }
     axios.post("http://localhost:80/admin/create/persons", {
       id,
       name1,
