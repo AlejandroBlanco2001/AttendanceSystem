@@ -7,40 +7,54 @@ import "../../styles/forms.css";
 const Persons = () => {
   const [isData, setIsData] = useState(false);
   const [persons, setPerson] = useState([]);
-  const [updatedUser, setUpdatedUser] = useState({})
+  const [updatedPerson, setUpdatedUser] = useState({})
   const [listaPersons, setListaPersons] = useState([]);
   const [needUpdate, setNeedUpdate] = useState(false);
   const [id, setID] = useState(0);
   const [name1, setName1] = useState();
   const [name2, setName2] = useState();
-  const [lastName1, setlastName1] = useState();
-  const [lastName2, setlastName2] = useState();
+  const [lastname1, setlastName1] = useState();
+  const [lastname2, setlastName2] = useState();
   const [gender, setGender] = useState();
-  const [birthdate, setBirdthDate] = useState();
+  const [birthdate, setBirthDate] = useState();
   const [age, setAge] = useState();
   const [type, setType] = useState();
   const [id_dept, setIdDept] = useState(0);
-
+const handleDeleteUser = (user)=>{
+  deletePerson(user.id);
+}
   const handleInputChange = (event) => {
+    console.log(" ", event.target.name , " : ", event.target.value);
     setData({
       ...data,
       [event.target.name]: event.target.value,
     });
   };
 
+  const handleUpdateUser = (data) => {
+    setUpdatedUser({});
+    let inputs = document.getElementsByTagName("input");
+    for (let index = 0; index < inputs.length; ++index) {
+      inputs[index].value = ""
+  }
+    console.log("USER TO UPDATE: ", data);
+    setUpdatedUser(data);
+  }
 
   const addPerson = () => {
+    let aux_id
+    if(id_dept == '0') aux_id = null;
     axios.post("http://localhost:80/admin/create/persons", {
       id,
       name1,
       name2,
-      lastName1,
-      lastName2,
+      lastname1,
+      lastname2,
       gender,
       birthdate,
       type,
-      id_dept
-    }, {withCredentials: true }) 
+      aux_id
+    }, {withCredentials: true })
       .then((response) => {
         console.log("Success");
         setListaPersons([
@@ -49,58 +63,47 @@ const Persons = () => {
           id,
           name1,
           name2,
-          lastName1,
-          lastName2,
+          lastname1,
+          lastname2,
           gender,
           birthdate,
           type,
           id_dept
-  const addUser = () => {
-    axios.post("http://localhost:80/admin/create/users", {
-      username,
-      passcode,
-      id_person,
-    })
-      .then((response) => {
-        console.log("Success");
-        setListaUsers([
-          ...listaUsers,
-          {
-            username,
-            passcode,
-            id_person,
-          },
-        ]);
-        window.location.reload(false);
+          }
+        ])
+      }).catch((err)=>{
+        alert("You`re trying to add a person whose primary key is already in existance.")
+        console.log(err)
       })
-      .catch((er) =>{
-        alert("Disculpe esta ingresando un usuario ya existente")
-        console.log(er)
+    }
+
+  const deletePerson = (id) => {
+    console.log("DELETE GONORREA");
+    axios.post(`http://localhost:80/admin/delete/persons/${id}`, {withCredentials: true})
+      .then((response) => {
+        console.log("Eliminado correctamente");
+        // window.location.reload(true);
+        // reload();
+      })
+      .catch((err) => {
+        console.log("ERROR ELIMINANDO");
+        console.log(err);
       });
   };
-
-
-  // const deletePadre = (cedula) => {
-  //   Axios.delete(`http://localhost:3004/deletepadre/${cedula}`)
-  //     .then((response) => {
-  //       console.log("Eliminado correctamente");
-  //       window.location.reload(false);
-  //     })
-  //     .catch((err) => {
-  //       console.log("ERROR ELIMINANDO");
-  //       console.log(err);
-  //     });
-  // };
-
-  const updateUser = () => {
-    Axios.put("http://localhost:3004/update", {
-      username: username|| updatedUser.username,
-      passcode: passcode || updatedUser.passcode,
-      urlimage: urlimage || updatedUser.urlimage,
-      id_person: id_person || updatedUser.id_person,
-      // Se necesita en caso de que el usuario cambie la cedula en el input o para comparar la informacion actual con la anterior
-    }).then((response) => {
-      window.location.reload(false);
+   
+  const updatePerson = () => {
+    axios.post(`http://localhost:80/admin/update/persons/${updatedPerson.id}`, {
+      id: id || updatedPerson.id,
+      name1: name1 || updatedPerson.name1,
+      name2: name2 || updatedPerson.name2,
+      lastname1: lastname1 || updatedPerson.lastname1, 
+      lastname2: lastname2 || updatedPerson.lastname2,
+      gender: gender || updatedPerson.gender,
+      birthdate: birthdate || updatedPerson.birthdate,
+      type: type || updatedPerson.type,
+      id_dept: id_dept || updatedPerson.id_dept
+    }, {withCredentials: true}).then((response) => {
+      window.location.reload(true);
       reload();
     });
   };
@@ -109,6 +112,9 @@ const Persons = () => {
     axios
       .get("http://localhost:80/admin/persons", { withCredentials: true })
       .then((res) => {
+        res.data.forEach(person => {
+          person.birthdate = person.birthdate.split('T')[0]
+        });
         console.log("DATA FROM ADMIN: ", res.data);
         setIsData(true);
         console.log(res.data)
@@ -133,7 +139,7 @@ const sendInfo = (e) => {
             <input
               type="texte"
               id="id"
-              value={id || null ||updatedUser.id}
+              value={id || null ||updatedPerson.id}
               placeholder="type the ID"
               onChange={(e)=>setID(e.target.value)}
               name="id"
@@ -145,7 +151,7 @@ const sendInfo = (e) => {
               type="texte"
               placeholder="type the first name"
               id="name1"
-              value={name1 || null || updatedUser.name1}
+              value={name1 || null || updatedPerson.name1}
               onChange={(e)=>setName1(e.target.value)}
               name="name1"
             />
@@ -153,41 +159,41 @@ const sendInfo = (e) => {
           <div className="form-block">
             <label htmlFor="name2">Second Name</label>
             <input
-              type="texte"
+              type="text"
               id="name2"
-              value={name2 || null || updatedUser.name2}
+              value={name2 || null|| updatedPerson.name2}
               placeholder="type the second name"
               onChange={(e)=>setName2(e.target.value)}
               name="name2"
               />
           </div>
           <div className="form-block">
-            <label htmlFor="lastName1">First last name</label>
+            <label htmlFor="lastname1">First last name</label>
             <input
-              type="texte"
-              id="lastName1"
-              value={lastName1 || null || updatedUser.lastName1}
+              type="text"
+              id="lastname1"
+              value={lastname1 || null || updatedPerson.lastname1}
               placeholder="type the first last name"
               onChange={(e)=>setlastName1(e.target.value)}
-              name="lastName1"
+              name="lastname1"
               />
           </div>
           <div className="form-block">
-            <label htmlFor="lastName2">Second last name</label>
+            <label htmlFor="lastname2">Second last name</label>
             <input
               type="texte"
-              id="lastName2"
-              value={lastName2 || null || updatedUser.lastName2}
+              id="lastname2"
+              value={lastname2 || null || updatedPerson.lastname2}
               placeholder="type the second last name"
               onChange={(e)=>setlastName2(e.target.value)}
-              name="lastName2"
+              name="lastname2"
               />
           </div>
           <div className="form-block">
             <label htmlFor="gender">Gender</label>
             <select
               id="texte"
-              value={gender || null || updatedUser.gender}
+              value={gender || " " || updatedPerson.gender}
               placeholder="type the first last name"
               onChange={(e)=>setGender(e.target.value)}
               disabled={needUpdate}
@@ -202,8 +208,8 @@ const sendInfo = (e) => {
             <input
               type="date"
               id="birthdate"
-              value={birthdate || null || updatedUser.birthdate}
-              onChange={(e) => setBirdthDate(e.target.value)}
+              value={birthdate || "" || updatedPerson.birthdate}
+              onChange={(e) => setBirthDate(e.target.value)}
               name="birthdate"
               placeholder="Chose the date"
               disabled={needUpdate}
@@ -214,7 +220,7 @@ const sendInfo = (e) => {
         <select
           type="texte"
           id="typeP"
-          value={type || null || updatedUser.type}
+          value={type || null || updatedPerson.type}
           onChange={(e) => setType(e.target.value)}
           name="type"
           placeholder="Type the type of the person "
@@ -231,12 +237,13 @@ const sendInfo = (e) => {
         <select
           type="texte"
           id="id_dpt"
-          value={id_dept || null || updatedUser.id_dept}
+          value={id_dept || null || updatedPerson.id_dept == null ? "0": updatedPerson.id_dept}
           onChange={(e) => setIdDept(e.target.value)}
           name="id_dpt"
           placeholder="Type the id of the department "
           disabled={needUpdate}
         >
+                <option value="0" selected >None</option>
                 <option value="1">Architecture and Urbanism</option>
                 <option value="2">Design</option> 
                 <option value="3">Physics and Geosciences</option> 
@@ -256,8 +263,8 @@ const sendInfo = (e) => {
         />
         <button
           className="button primary-button button-row"
-          // onClick={updateUser}
-          disabled={!needUpdate}
+          onClick={updatePerson}
+          // disabled={!needUpdate}
           type="button"
         >
           ACTUALIZAR
@@ -281,8 +288,8 @@ const sendInfo = (e) => {
           ]}
           data={isData ? persons : null}
           setNeedUpdate={setNeedUpdate}
-          handleDeleteUser={null}
-          handleUpdateUser={null}
+          handleDeleteUser={handleDeleteUser}
+          handleUpdateUser={handleUpdateUser}
         />
       </div>
     </main>
@@ -291,3 +298,4 @@ const sendInfo = (e) => {
 }
 
 export default Persons;
+

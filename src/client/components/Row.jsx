@@ -14,7 +14,7 @@ const Row = ({
         <button
           className=" button primary-button button-row"
           onClick={() => {
-            //handleDeleteUser(collection.cedula || collection.tarjetaIdentidad);
+            handleDeleteUser(collection)
           }}
         >
           ELIMINAR
@@ -23,7 +23,7 @@ const Row = ({
         <button className="
         button secondary-button button-row"
           onClick={() => {
-           // handleUpdateUser(collection);
+           handleUpdateUser(collection);
           }}
         >
           EDITAR

@@ -41,7 +41,7 @@ const Users= () => {
         window.location.reload(false);
       })
       .catch((er) =>{
-        alert("El usuario que está intentando ingresar ya existe.")
+        alert("You`re trying to add an user whose primary key is already in existance.")
         console.log(er)
       });
   };
