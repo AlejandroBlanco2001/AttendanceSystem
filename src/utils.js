@@ -31,7 +31,7 @@ async function getStudentsClass(conn,args){
     SELECT s.name,sp.weekday_sche, sp.start_time_sche, cl.qr_teach "teacherCode" FROM course c
     INNER JOIN subject s ON s.code = c.code_subj
     INNER JOIN space sp ON c.code = sp.code_cour
-    INNER JOIN class cl ON cl.code_spac = sp.code;
+    INNER JOIN class cl ON cl.code_spac = sp.code
     INNER JOIN schedule sc ON sp.weekday_sche = sc.weekday AND sp.start_time_sche = sc.start_time 
     INNER JOIN cour_enro ce ON c.code = ce.code_cour
     INNER JOIN enrollment e ON ce.id_enro = e.id
@@ -108,8 +108,7 @@ async function addTeacherCode(conn,id){
     INNER JOIN space sp ON c.code = sp.code_cour 
     INNER JOIN class cl ON cl.code_spac = sp.code 
     INNER JOIN schedule AS sc ON sp.weekday_sche = sc.weekday AND sp.start_time_sche = sc.start_time
-    WHERE c.code = '${id}' AND NOW() BETWEEN sp.start_time_sche AND ADDTIME(sp.start_time_sche, sc.duration * 10000);
-    '   
+    WHERE c.code = '${id}' AND NOW() BETWEEN sp.start_time_sche AND ADDTIME(sp.start_time_sche, sc.duration * 10000);  
     `)[0].code;
     let randomCode = randomstring.generate({
         length: 10,

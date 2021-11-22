@@ -1,4 +1,4 @@
-import React from "react";
+import React,{useEffect} from "react";
 import Context from "./Context";
 import Start from "../pages/Start";
 import Login from "../pages/Login";
@@ -27,9 +27,6 @@ import PeriodCourse from "../pages/consults/PeriodCourses";
 import EnrollmentCourse from "../pages/consults/EnrollmentCourses";
 import StudentClass from "../pages/consults/StudentClasses";
 import SyllabusSubject from "../pages/consults/SyllabusSubjects";
-
-
-
 
 
 import { BrowserRouter, Routes, Route } from "react-router-dom";

@@ -19,7 +19,7 @@ const StudentsList = () => {
   }; 
 
 useEffect(()=>{
-  setData(location.state);  
+  setData(location.state);
 },[location])
 
   return (
