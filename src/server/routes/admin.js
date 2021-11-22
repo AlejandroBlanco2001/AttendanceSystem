@@ -49,10 +49,13 @@ router.get(routeStr, async (req, res) => {
         res.sendStatus(500)
       }
       res.json(results);
+    }else{
+      res.send('You´re not an admin.');
     }
-    res.send('You´re not an admin.');
+  }else{
+    res.send('Not logged in.');
   }
-  res.send('Not logged in.');
+  
 })
 
 //Insert Posts
@@ -300,10 +303,12 @@ router.post('/create/:record', async (req, res) => {
         default:
           res.sendStatus(404)
       }
+    }else{
+      res.send('You´re not an admin.')
     }
-    res.send('You´re not an admin.')
+  }else{
+    res.send('Not logged in.')
   }
-  res.send('Not logged in.')
 })
 
 //Update Posts
@@ -363,10 +368,12 @@ router.post('/update/:record/:pkey', async (req, res) => {
       } catch (e) {
         res.sendStatus(500)
       }
+    }else{
+      res.send('You´re not an admin.')
     }
-    res.send('You´re not an admin.')
+  }else{
+    res.send('Not logged in.')
   }
-  res.send('Not logged in.')
 })
 
 
