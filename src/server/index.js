@@ -1,4 +1,5 @@
-require('dotenv').config({path: 'variables.env'});
+const dotenv = require('dotenv');
+const envConfig = dotenv.config({path: 'variables.env'});
 
 const express = require('express');
 const app = express();
@@ -14,7 +15,7 @@ const db = require('./routes/database');
 const local = require('./strategies/local');
 const util = require('../utils');
 
-const port = process.env.PORT || 80; 
+const port = process.env.PORT || 80;
 
 const serverInstance = app.listen(port, () =>{
     console.log(`Back-End is listening in http://localhost:${port}`)
@@ -52,12 +53,22 @@ app.use('/login', authRoute);
 app.use('/admin', adminRoute);
 app.use('/class', classRoute);
 
-app.get('/logout',(req, res) => {
+app.get('/logout',(req, res) => { 
     req.logout();
     res.redirect('localhost:9000/');
 });
 
 io.on('connection', (socket) => {
+
+    var checkInterval;
+    socket.on('checkClassAlreadyStarted', async (data) => {
+        clearInterval(checkInterval);
+        checkInterval = setInterval(async () => {
+            let conn = await db.pool.getConnection(); 
+            let result = await util.getClassHours(conn,data.id_pers);
+            if(result.length != 0) socket.emit('classAlreadyStarted', result)
+        },180000)
+    })
 
     socket.on('classStarted', (data) => {
         socket.broadcast.emit('sendNotification',data)

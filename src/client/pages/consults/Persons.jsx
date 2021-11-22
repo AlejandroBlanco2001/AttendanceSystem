@@ -3,22 +3,22 @@ import axios from "axios";
 import Table from "../../components/Table";
 import "../../styles/table.css";
 
-const Persons= () => {
+const Persons = () => {
   const [isData, setIsData] = useState(false);
   const [persons, setPerson] = useState([]);
   const [updatedUser, setUpdatedUser] = useState({})
   const [listaPersons, setListaPersons] = useState([]);
   const [needUpdate, setNeedUpdate] = useState(false);
-  const [id, setID]= useState(0);
-  const [name1, setName1]= useState("");
-  const [name2, setName2]= useState("");
-  const [lastName1, setlastName1]= useState("");
-  const [lastName2, setlastName2]= useState("");
-  const [gender, setGender]=useState("");
-  const [birthdate, setBirdthDate]=useState("");
-  const [age, setAge]=useState (0);
-  const [type, setType]= useState(0);
-  const [id_deptP, setIdDept]= useState(0);
+  const [id, setID] = useState(0);
+  const [name1, setName1] = useState("");
+  const [name2, setName2] = useState("");
+  const [lastName1, setlastName1] = useState("");
+  const [lastName2, setlastName2] = useState("");
+  const [gender, setGender] = useState("");
+  const [birthdate, setBirdthDate] = useState("");
+  const [age, setAge] = useState(0);
+  const [type, setType] = useState(0);
+  const [id_deptP, setIdDept] = useState(0);
 
   const handleInputChange = (event) => {
     setData({
@@ -90,16 +90,16 @@ const Persons= () => {
   //   });
   // };
 
-useEffect(() => {
-  axios
-  .get("http://localhost:80/admin/persons", { withCredentials: true })
-  .then((res) => {
-    console.log("DATA FROM ADMIN: ", res.data);
-    setIsData(true);
-    setPerson(res.data)
-  });
+  useEffect(() => {
+    axios
+      .get("http://localhost:80/admin/persons", { withCredentials: true })
+      .then((res) => {
+        console.log("DATA FROM ADMIN: ", res.data);
+        setIsData(true);
+        setPerson(res.data)
+      });
 
-}, [isData])
+  }, [isData])
 
 const sendInfo = (e) => {
   console.log("Procesando registro");
@@ -216,22 +216,22 @@ const sendInfo = (e) => {
           disabled={needUpdate}
         />
           </div>
-          <input
-            type="submit"
-            className="button primary-button button-row"
-            value="ADD"
-          />
-          <button
-           className="button primary-button button-row"
+        <input
+          type="submit"
+          className="button primary-button button-row"
+          value="ADD"
+        />
+        <button
+          className="button primary-button button-row"
           // onClick={updateUser}
           disabled={!needUpdate}
           type="button"
         >
-        ACTUALIZAR
+          ACTUALIZAR
         </button>
-        </form>  
-        
-    <div className="table">
+      </form>
+
+      <div className="table">
         <Table
           tableheads={[
             "ID",
@@ -242,18 +242,19 @@ const sendInfo = (e) => {
             "Gender",
             "Birthdate",
             "Age",
-            "Type Person",
-            "ID Departament",
+            "Person Type",
+            "Departament'S ID",
             "Actions"
           ]}
-          data={isData?persons:null}
+          data={isData ? persons : null}
           setNeedUpdate={setNeedUpdate}
           handleDeleteUser={null}
           handleUpdateUser={null}
         />
-    </div>
+      </div>
     </main>
 
- )}
+  )
+}
 
 export default Persons;

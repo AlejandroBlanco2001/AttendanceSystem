@@ -86,21 +86,21 @@ const sendInfo = (e) => {
  <form action="" className="login-form" onSubmit={sendInfo}>
           <img  alt="" />
           <div className="form-block">
-            <label htmlFor="code_cour">Code Course Enrollment</label>
+            <label htmlFor="code_cour">Course's Code</label>
             <input
               type="text"
               id="code_cour"
               value={code_cour || "" || updatedUser.code_cour}
-              placeholder="type the code of the Course Enrollment"
+              placeholder="type the code of the Course"
               onChange={(e)=>setCodeCour(e.target.value)}
               name="code"
             />
           </div>
           <div className="form-block">
-            <label htmlFor="id_enro">ID Enrollment</label>
+            <label htmlFor="id_enro">Enrollment's ID</label>
             <input
               type="text"
-              placeholder="type the ID Enrollment"
+              placeholder="type the ID of the Enrollment"
               id="id_enro"
               value={id_enro || "" || updatedUser.id_enro}
               onChange={(e)=>setIdEnro(e.target.value)}
@@ -125,9 +125,9 @@ const sendInfo = (e) => {
     <div className="table">
         <Table
           tableheads={[
-            "Code Course Enrollment",
-            "Id Enrollment",
-            "Accions"
+            "Course's Code",
+            "Enrollment's ID",
+            "Actions"
           ]}
           data={isData?enrollmentcourses:null}
           setNeedUpdate={setNeedUpdate}

@@ -88,21 +88,21 @@ const sendInfo = (e) => {
  <form action="" className="login-form" onSubmit={sendInfo}>
           <img  alt="" />
           <div className="form-block">
-            <label htmlFor="code_cour">Code Course</label>
+            <label htmlFor="code_cour">Course's Code</label>
             <input
               type="text"
               id="code_cour"
               value={code_cour || "" || updatedUser.code_courPc}
-              placeholder="type the code"
+              placeholder="type the code of the course"
               onChange={(e)=>setCodeCour(e.target.value)}
               name="code_cour"
             />0
           </div>
           <div className="form-block">
-            <label htmlFor="year_periPC">Year Period</label>
+            <label htmlFor="year_periPC">Period's Year</label>
             <input
               type="text"
-              placeholder="type the name of the subject"
+              placeholder="type the year of the period"
               id="year_periPc"
               value={year_periPc || "" || updatedUser.year_periPc}
               onChange={(e)=>setYearPerio(e.target.value)}
@@ -110,7 +110,7 @@ const sendInfo = (e) => {
             />
           </div>
           <div className="form-block">
-            <label htmlFor="term_periPC">Term Period</label>
+            <label htmlFor="term_periPC">Period's Term</label>
             <input
               type="text"
               placeholder="type the term of the period"
@@ -138,10 +138,10 @@ const sendInfo = (e) => {
     <div className="table">
         <Table
           tableheads={[
-            "Code Period Course",
-            "Year Period Course",
-            "Term Period Course",
-            "Accions"
+            "Course's Code",
+            "Period's Year ",
+            "Period's Term",
+            "Actions"
           ]}
           data={isData?periodCourses:null}
           setNeedUpdate={setNeedUpdate}

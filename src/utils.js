@@ -46,6 +46,19 @@ async function getSubjectInfo(conn, id){
     else return -1;
 }
 
+async function getClassHours(conn,id){
+    let result = await conn.query(`
+    SELECT se.name, sp.start_time_sche, CONCAT(c.code_subj,"/",c.code) "codigo" FROM course c
+    INNER JOIN cour_enro ce ON c.code = ce.code_cour
+    INNER JOIN enrollment e ON ce.id_enro = e.id 
+    INNER JOIN space sp ON sp.code_cour = c.code
+    INNER JOIN subject se ON se.code = c.code_subj 
+    WHERE DAYNAME(CURRENT_DATE()) = sp.weekday_sche  AND timediff(CURTIME(),sp.start_time_sche) >= 0 AND e.id_stud = '${id}'; 
+    `)
+    if(result) return result;
+    else return -1;
+}
+
 function separateSameClass(classes){
     let seen = {};
     let res = [];
@@ -69,6 +82,7 @@ module.exports = {
     getAllSubjetctsStudent,
     getAllSubjetctsTeacher,
     getSubjectInfo,
-    separateSameClass,
-    getStudentsClass
+    getStudentsClass,
+    getClassHours,
+    separateSameClass
 }

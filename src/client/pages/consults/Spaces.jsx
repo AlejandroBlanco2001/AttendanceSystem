@@ -88,21 +88,21 @@ const sendInfo = (e) => {
  <form action="" className="login-form" onSubmit={sendInfo}>
           <img  alt="" />
           <div className="form-block">
-            <label htmlFor="code_courSp">Code Course Space</label>
+            <label htmlFor="code_courSp">Course's Code</label>
             <input
               type="text"
               id="code_courSp"
               value={code_courSp || "" || updatedUser.code_courSp}
-              placeholder="type the code of the Course Space"
+              placeholder="type the code of the Course"
               onChange={(e)=>setCodeCoursp(e.target.value)}
               name="codeCr"
             />
           </div>
           <div className="form-block">
-            <label htmlFor="weekday_sche">Weekday Schedule</label>
+            <label htmlFor="weekday_sche">Weekday</label>
             <input
               type="text"
-              placeholder="type the weekday Schedule"
+              placeholder="type the day of the week"
               id="weekday_sche"
               value={weekday_sche || "" || updatedUser.weekday_sche}
               onChange={(e)=>setWeekdaySche(e.target.value)}
@@ -110,10 +110,10 @@ const sendInfo = (e) => {
             />
           </div>
           <div className="form-block">
-            <label htmlFor="start_time_sche">Start Time Schedule</label>
+            <label htmlFor="start_time_sche">Start Time</label>
             <input
               type="text"
-              placeholder="type the start time schedule"
+              placeholder="type the start time"
               id="start_time_sche"
               value={start_time_sche || "" || updatedUser.start_time_sche}
               onChange={(e)=>setStarTime(e.target.value)}
@@ -121,10 +121,10 @@ const sendInfo = (e) => {
             />
           </div>
           <div className="form-block">
-            <label htmlFor="code_clasR">Code Class Room</label>
+            <label htmlFor="code_clasR">Classroom's Code</label>
             <input
               type="text"
-              placeholder="type the code class room"
+              placeholder="type the code fo the classroom"
               id="code_clasR"
               value={code_clasR || "" || updatedUser.code_clasR}
               onChange={(e)=>setClasR(e.target.value)}
@@ -149,10 +149,10 @@ const sendInfo = (e) => {
     <div className="table">
         <Table
           tableheads={[
-            "Code Course Space",
-            "Weekday Schedule",
-            "Start time Schedule",
-            "Accions"
+            "Course's Code",
+            "Weekday",
+            "Start time",
+            "Actions"
           ]}
           data={isData?spaces:null}
           setNeedUpdate={setNeedUpdate}

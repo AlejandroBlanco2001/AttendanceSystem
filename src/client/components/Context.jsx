@@ -13,24 +13,20 @@ useEffect(() => {
       .then((res) => {
         setUser(res.data); 
         socket.on("sendNotification", (data) => {
-          setTimeout(() =>{
-            console.log("entre" + res.data.id)
-            socket.emit('checkMyClass',{code: data, id_pers:res.data.id})
-          },3000)
-        });
-        socket.on('sendNotificationClass', (data) => {
-          setTimeout(() => {
-            addNotification({
-              title: `The teacher just started the class with the code`,
-              subtitle: 'Class Started',
-              message: `Class of ${data[0].name} at ${data[0].start_time_sche} of ${data[0].weekday_sche}`,
-              theme: 'red',
-              duration: 10000,
-              native: true
-            });
-          },3000)
+          alert("Hola");
+          socket.emit('checkMyClass',{code: data, id_pers:res.data.id})
         })
-        // console.log(user);
+        socket.on('sendNotificationClass', (data) => {
+          alert("Hola 2");
+          addNotification({
+            title: `The teacher just started the class with the code`,
+            subtitle: 'Class Started',
+            message: `Class of ${data[0].name} at ${data[0].start_time_sche} of ${data[0].weekday_sche}`,
+            theme: 'red',
+            duration: 10000,
+            native: true
+          });
+        })
       });
 
   }, []);

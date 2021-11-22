@@ -88,21 +88,21 @@ const sendInfo = (e) => {
  <form action="" className="login-form" onSubmit={sendInfo}>
           <img  alt="" />
           <div className="form-block">
-            <label htmlFor="id_studCtr">Id Student Contract</label>
+            <label htmlFor="id_studCtr">Hiring Student's ID</label>
             <input
               type="text"
               id="id_studCtr"
               value={id_studCtr || "" || updatedUser.id_studCtr}
-              placeholder="type the ID of the student contract"
+              placeholder="type the ID of the hiring student"
               onChange={(e)=>setIDStudCtr(e.target.value)}
               name="id_studCr"
             />
           </div>
           <div className="form-block">
-            <label htmlFor="code_syllCtr">Code Syllabus Contract</label>
+            <label htmlFor="code_syllCtr">Syllabus' Code</label>
             <input
               type="text"
-              placeholder="type the syllabus code"
+              placeholder="type the syllabus' code"
               id="code_syllCtr"
               value={code_syllCtr || "" || updatedUser.code_syllCtr}
               onChange={(e)=>setCodeSyllCtr(e.target.value)}
@@ -110,10 +110,10 @@ const sendInfo = (e) => {
             />
           </div>
           <div className="form-block">
-            <label htmlFor="year_periCtr">Year Period</label>
+            <label htmlFor="year_periCtr">Period's Year</label>
             <input
               type="text"
-              placeholder="type the year period"
+              placeholder="type the period's year"
               id="year_periCtr"
               value={year_periCtr || "" || updatedUser.year_periCtr}
               onChange={(e)=>setYearPeriCtr(e.target.value)}
@@ -121,10 +121,10 @@ const sendInfo = (e) => {
             />
           </div>
           <div className="form-block">
-            <label htmlFor="term_periCtr"> Term Period</label>
+            <label htmlFor="term_periCtr">Period's Term</label>
             <input
               type="text"
-              placeholder="type the Term Period"
+              placeholder="type the period's term"
               id="term_periCtr"
               value={term_periCtr || "" || updatedUser.term_periCtr}
               onChange={(e)=>setTermPeriCtr(e.target.value)}
@@ -149,13 +149,13 @@ const sendInfo = (e) => {
     <div className="table">
         <Table
           tableheads={[
-              "ID",
-            "ID student contract",
+            "ID",
+            "Hiring Student'S ID",
             "Completed",
-            "Code syllabus contract",
-            "Year period contract",
-            "Term period contract",
-            "Accions"
+            "Syllabus' Code",
+            "Period's Year",
+            "Period's Term",
+            "Actions"
           ]}
           data={isData?contracts:null}
           setNeedUpdate={setNeedUpdate}

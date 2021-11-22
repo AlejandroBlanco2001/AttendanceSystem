@@ -88,7 +88,7 @@ const sendInfo = (e) => {
  <form action="" className="login-form" onSubmit={sendInfo}>
           <img  alt="" />
           <div className="form-block">
-            <label htmlFor="codeClass">Code Class</label>
+            <label htmlFor="codeClass">Class's Code</label>
             <input
               type="text"
               id="codeClass"
@@ -99,7 +99,7 @@ const sendInfo = (e) => {
             />
           </div>
           <div className="form-block">
-            <label htmlFor="idStudCl">Id Student Classes</label>
+            <label htmlFor="idStudCl">Student's ID</label>
             <input
               type="text"
               placeholder="type the ID"
@@ -110,14 +110,14 @@ const sendInfo = (e) => {
             />
           </div>
           <div className="form-block">
-            <label htmlFor="attendance">Attendence</label>
+            <label htmlFor="attendance">Attendance</label>
             <input
               type="text"
               placeholder="type the ID"
-              id="attendence"
-              value={attendence || "" || updatedUser.attendence}
+              id="attendance"
+              value={attendance || "" || updatedUser.attendance}
               onChange={(e)=>setAttendence(e.target.value)}
-              name="attendece"
+              name="attendance"
             />
           </div>
           <input
@@ -138,9 +138,10 @@ const sendInfo = (e) => {
     <div className="table">
         <Table
           tableheads={[
-            "Code Deparment",
-            "Name Deparment",
-            "Accions"
+            "Class' Code",
+            "Student's ID",
+            "Attendance",
+            "Actions"
           ]}
           data={isData?studentClasses:null}
           setNeedUpdate={setNeedUpdate}

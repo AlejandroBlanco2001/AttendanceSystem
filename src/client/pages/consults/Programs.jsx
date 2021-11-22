@@ -108,7 +108,7 @@ const sendInfo = (e) => {
             />
           </div>
           <div className="form-block">
-            <label htmlFor="nameProg">Name Program</label>
+            <label htmlFor="nameProg">Program's Name</label>
             <input
               type="text"
               placeholder="type the name of the program"
@@ -119,10 +119,10 @@ const sendInfo = (e) => {
             />
           </div>
           <div className="form-block">
-            <label htmlFor="typeProg">Type Program</label>
+            <label htmlFor="typeProg">Program type</label>
             <input
               type="text"
-              placeholder="type the type of the program"
+              placeholder="type the type of program"
               id="typeProg"
               value={typeProg || "" || updatedUser.typeProg}
               onChange={(e)=>setTypeProg(e.target.value)}
@@ -130,10 +130,10 @@ const sendInfo = (e) => {
             />
           </div>
           <div className="form-block">
-            <label htmlFor="title">title</label>
+            <label htmlFor="title">Title</label>
             <input
               type="text"
-              placeholder="type the title"
+              placeholder="type the title of the program"
               id="title"
               value={title || "" || updatedUser.title}
               onChange={(e)=>setTitle(e.target.value)}
@@ -144,7 +144,7 @@ const sendInfo = (e) => {
             <label htmlFor="duration">Duration</label>
             <input
               type="text"
-              placeholder="type the duration"
+              placeholder="type the duration of the program"
               id="duration"
               value={duration || "" || updatedUser.duration}
               onChange={(e)=>setDuration(e.target.value)}
@@ -152,7 +152,7 @@ const sendInfo = (e) => {
             />
           </div>
           <div className="form-block">
-            <label htmlFor="id_deptProg">ID deparment Program</label>
+            <label htmlFor="id_deptProg">Deparment's ID</label>
             <input
               type="text"
               placeholder="type the ID of the program"
@@ -181,13 +181,13 @@ const sendInfo = (e) => {
         <Table
           tableheads={[
             "SNIES",
-            "Name Program",
-            "Type Program",
+            "Program's Name",
+            "Program Type",
             "Title",
             "Duration",
             "Credits",
-            "ID Deparment",
-            "Accions"
+            "Deparment's ID",
+            "Actions"
           ]}
           data={isData?programs:null}
           setNeedUpdate={setNeedUpdate}
