@@ -33,7 +33,7 @@ const Enrollment= () => {
         window.location.reload(false);
       })
       .catch((er) =>{
-        alert("Disculpe esta ingresando un usuario ya existente")
+        alert("You`re trying to add an enrollment whose primary key is already in existance.")
         console.log(er)
       });
   };

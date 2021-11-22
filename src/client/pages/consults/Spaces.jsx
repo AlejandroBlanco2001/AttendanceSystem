@@ -36,7 +36,7 @@ const Spaces= () => {
         window.location.reload(false);
       })
       .catch((er) =>{
-        alert("Disculpe esta ingresando un usuario ya existente")
+        alert("You`re trying to add a space whose primary key is already in existance.")
         console.log(er)
       });
   };
