@@ -9,35 +9,35 @@ const PeriodCourse= () => {
   const [updatedUser, setUpdatedUser] = useState({})
   const [listaPeriodCourses, setListaPeriodCourses] = useState([]);
   const [needUpdate, setNeedUpdate] = useState(false);
-  const [code_cour, setCodeCour]= useState("");
-  const [year_periPc, setYearPerio]= useState("");
-  const [term_periPc, setTermPerio]= useState("");
+  const [code_cour, setCodeCour]= useState();
+  const [year_peri, setYearPerio]= useState();
+  const [term_peri, setTermPerio]= useState();
 
 
 
-//   const addUser = () => {
-//     axios.post("http://localhost:80/admin/create/users", {
-//       username,
-//       passcode,
-//       id_person,
-//     })
-//       .then((response) => {
-//         console.log("Success");
-//         setListaUsers([
-//           ...listaUsers,
-//           {
-//             username,
-//             passcode,
-//             id_person,
-//           },
-//         ]);
-//         window.location.reload(false);
-//       })
-//       .catch((er) =>{
-//         alert("Disculpe esta ingresando un usuario ya existente")
-//         console.log(er)
-//       });
-//   };
+  const addPeriodCourse = () => {
+    axios.post("http://localhost:80/admin/create/periodCourses", {
+      code_cour,
+      year_peri,
+      term_peri,
+    })
+      .then((response) => {
+        console.log("Success");
+        setListaPeriodCourses([
+          ...listaPeriodCourses,
+          {
+            code_cour,
+            year_peri,
+            term_peri,
+          },
+        ]);
+        window.location.reload(false);
+      })
+      .catch((er) =>{
+        alert("Disculpe esta ingresando un usuario ya existente")
+        console.log(er)
+      });
+  };
 
 
   // const deletePadre = (cedula) => {
@@ -79,7 +79,7 @@ useEffect(() => {
 const sendInfo = (e) => {
   console.log("Procesando registro");
   e.preventDefault();
-//   addUser();
+  addPeriodCourse();
 };
 
 
@@ -90,34 +90,34 @@ const sendInfo = (e) => {
           <div className="form-block">
             <label htmlFor="code_cour">Course's Code</label>
             <input
-              type="text"
+              type="texte"
               id="code_cour"
-              value={code_cour || "" || updatedUser.code_courPc}
+              value={code_cour || null || updatedUser.code_courPc}
               placeholder="type the code of the course"
               onChange={(e)=>setCodeCour(e.target.value)}
               name="code_cour"
-            />0
+            />
           </div>
           <div className="form-block">
             <label htmlFor="year_periPC">Period's Year</label>
             <input
-              type="text"
+              type="texte"
               placeholder="type the year of the period"
-              id="year_periPc"
-              value={year_periPc || "" || updatedUser.year_periPc}
+              id="year_peri"
+              value={year_peri || null || updatedUser.year_peri}
               onChange={(e)=>setYearPerio(e.target.value)}
-              name="year_periPc"
+              name="year_peri"
             />
           </div>
           <div className="form-block">
             <label htmlFor="term_periPC">Period's Term</label>
             <input
-              type="text"
+              type="texte"
               placeholder="type the term of the period"
-              id="term_periPc"
-              value={term_periPc || "" || updatedUser.term_periPc}
+              id="term_peri"
+              value={term_peri || null || updatedUser.term_peri}
               onChange={(e)=>setTermPerio(e.target.value)}
-              name="term_periPc"
+              name="term_peri"
             />
           </div>
           <input

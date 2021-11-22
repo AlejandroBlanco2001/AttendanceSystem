@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import Table from "../../components/Table";
 import "../../styles/table.css";
+import "../../styles/forms.css";
 
 const Persons = () => {
   const [isData, setIsData] = useState(false);
@@ -10,15 +11,15 @@ const Persons = () => {
   const [listaPersons, setListaPersons] = useState([]);
   const [needUpdate, setNeedUpdate] = useState(false);
   const [id, setID] = useState(0);
-  const [name1, setName1] = useState("");
-  const [name2, setName2] = useState("");
-  const [lastName1, setlastName1] = useState("");
-  const [lastName2, setlastName2] = useState("");
-  const [gender, setGender] = useState("");
-  const [birthdate, setBirdthDate] = useState("");
-  const [age, setAge] = useState(0);
-  const [type, setType] = useState(0);
-  const [id_deptP, setIdDept] = useState(0);
+  const [name1, setName1] = useState();
+  const [name2, setName2] = useState();
+  const [lastName1, setlastName1] = useState();
+  const [lastName2, setlastName2] = useState();
+  const [gender, setGender] = useState();
+  const [birthdate, setBirdthDate] = useState();
+  const [age, setAge] = useState();
+  const [type, setType] = useState();
+  const [id_dept, setIdDept] = useState(0);
 
   const handleInputChange = (event) => {
     setData({
@@ -38,7 +39,7 @@ const Persons = () => {
       gender,
       birthdate,
       type,
-      id_deptP
+      id_dept
     }, {withCredentials: true }) 
       .then((response) => {
         console.log("Success");
@@ -53,10 +54,10 @@ const Persons = () => {
           gender,
           birthdate,
           type,
-          id_deptP
+          id_dept
           },
         ]);
-        // window.location.reload(false);
+        window.location.reload(false);
       })
       .catch((er) =>{
         alert("Disculpe esta ingresando un usuario ya existente")
@@ -96,6 +97,7 @@ const Persons = () => {
       .then((res) => {
         console.log("DATA FROM ADMIN: ", res.data);
         setIsData(true);
+        console.log(res.data)
         setPerson(res.data)
       });
 
@@ -115,9 +117,9 @@ const sendInfo = (e) => {
           <div className="form-block">
             <label htmlFor="id">ID</label>
             <input
-              type="text"
+              type="texte"
               id="id"
-              value={id || "" ||updatedUser.id}
+              value={id || null ||updatedUser.id}
               placeholder="type the ID"
               onChange={(e)=>setID(e.target.value)}
               name="id"
@@ -126,10 +128,10 @@ const sendInfo = (e) => {
           <div className="form-block">
             <label htmlFor="name1">First Name</label>
             <input
-              type="text"
+              type="texte"
               placeholder="type the first name"
               id="name1"
-              value={name1 || "" || updatedUser.name1}
+              value={name1 || null || updatedUser.name1}
               onChange={(e)=>setName1(e.target.value)}
               name="name1"
             />
@@ -137,9 +139,9 @@ const sendInfo = (e) => {
           <div className="form-block">
             <label htmlFor="name2">Second Name</label>
             <input
-              type="text"
+              type="texte"
               id="name2"
-              value={name2 || "" || updatedUser.name2}
+              value={name2 || null || updatedUser.name2}
               placeholder="type the second name"
               onChange={(e)=>setName2(e.target.value)}
               name="name2"
@@ -148,9 +150,9 @@ const sendInfo = (e) => {
           <div className="form-block">
             <label htmlFor="lastName1">First last name</label>
             <input
-              type="text"
+              type="texte"
               id="lastName1"
-              value={lastName1 || "" || updatedUser.lastName1}
+              value={lastName1 || null || updatedUser.lastName1}
               placeholder="type the first last name"
               onChange={(e)=>setlastName1(e.target.value)}
               name="lastName1"
@@ -159,9 +161,9 @@ const sendInfo = (e) => {
           <div className="form-block">
             <label htmlFor="lastName2">Second last name</label>
             <input
-              type="text"
+              type="texte"
               id="lastName2"
-              value={lastName2 || "" || updatedUser.lastName2}
+              value={lastName2 || null || updatedUser.lastName2}
               placeholder="type the second last name"
               onChange={(e)=>setlastName2(e.target.value)}
               name="lastName2"
@@ -169,52 +171,69 @@ const sendInfo = (e) => {
           </div>
           <div className="form-block">
             <label htmlFor="gender">Gender</label>
-            <input
-              type="text"
-              id="gender"
-              value={gender || "" || updatedUser.gender}
+            <select
+              id="texte"
+              value={gender || null || updatedUser.gender}
               placeholder="type the first last name"
               onChange={(e)=>setGender(e.target.value)}
+              disabled={needUpdate}
               name="gender"
-              />
+              >
+                <option value="M">Masculino</option>
+                <option value="F">Femenino</option>
+          </select>
           </div>
-          <div className="special-form">
+          <div className="form-block">
             <label htmlFor="birthdate">Birthdate</label>
             <input
               type="date"
               id="birthdate"
-              value={birthdate || "" || updatedUser.birthdate}
+              value={birthdate || null || updatedUser.birthdate}
               onChange={(e) => setBirdthDate(e.target.value)}
               name="birthdate"
               placeholder="Chose the date"
               disabled={needUpdate}
             />
           </div>
-          <div>
-          </div>
-          <div>
+          <div className="form-block">
           <label htmlFor="typeP">Type Person</label>
-        <input
-          type="number"
+        <select
+          type="texte"
           id="typeP"
-          value={type || 0 || parseInt(updatedUser.type)}
+          value={type || null || updatedUser.type}
           onChange={(e) => setType(e.target.value)}
           name="type"
           placeholder="Type the type of the person "
           disabled={needUpdate}
-        />
+        >
+                <option value="0">Admin</option>
+                <option value="1">Teacher</option> 
+                <option value="2">Student</option> 
+
+        </select>
           </div>
-          <div>
+          <div className="form-block">
           <label htmlFor="id_dpt">ID departament</label>
-        <input
-          type="number"
+        <select
+          type="texte"
           id="id_dpt"
-          value={id_deptP || 0 || parseInt(updatedUser.id_deptP)}
+          value={id_dept || null || updatedUser.id_dept}
           onChange={(e) => setIdDept(e.target.value)}
           name="id_dpt"
           placeholder="Type the id of the department "
           disabled={needUpdate}
-        />
+        >
+                <option value="1">Architecture and Urbanism</option>
+                <option value="2">Design</option> 
+                <option value="3">Physics and Geosciences</option> 
+                <option value="4">Mathematics and Stastics</option> 
+                <option value="5">Chemistry and Biology</option> 
+                <option value="6">Computer and Systems Engineering</option> 
+                <option value="7">Spanish</option> 
+                <option value="8">Social Comunication</option> 
+
+
+          </select>
           </div>
         <input
           type="submit"

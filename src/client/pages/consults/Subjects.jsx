@@ -15,32 +15,40 @@ const Subjects= () => {
   const [description, setDescription]= useState("");
   const [type, setType]= useState("");
   const [urlimage, setUrlImage]= useState("");
-  const [id_dept, setID]= useState(0);
+  const [id_dept, setID]= useState();
 
 
-//   const addUser = () => {
-//     axios.post("http://localhost:80/admin/create/users", {
-//       username,
-//       passcode,
-//       id_person,
-//     })
-//       .then((response) => {
-//         console.log("Success");
-//         setListaUsers([
-//           ...listaUsers,
-//           {
-//             username,
-//             passcode,
-//             id_person,
-//           },
-//         ]);
-//         window.location.reload(false);
-//       })
-//       .catch((er) =>{
-//         alert("Disculpe esta ingresando un usuario ya existente")
-//         console.log(er)
-//       });
-//   };
+  const addSubject = () => {
+    axios.post("http://localhost:80/admin/create/subjects", {
+      code,
+      name,
+      credits,
+      description,
+      type,
+      urlimage,
+      id_dept,
+    })
+      .then((response) => {
+        console.log("Success");
+        setListaSubjects([
+          ...listaSubjects,
+          {
+            code,
+            name,
+            credits,
+            description,
+            type,
+            urlimage,
+            id_dept,
+          },
+        ]);
+        window.location.reload(false);
+      })
+      .catch((er) =>{
+        alert("Disculpe esta ingresando un usuario ya existente")
+        console.log(er)
+      });
+  };
 
 
   // const deletePadre = (cedula) => {
@@ -84,7 +92,7 @@ useEffect(() => {
 const sendInfo = (e) => {
   console.log("Procesando registro");
   e.preventDefault();
-//   addUser();
+  addSubject();
 };
 
 
@@ -95,7 +103,7 @@ const sendInfo = (e) => {
           <div className="form-block">
             <label htmlFor="code">Subject's Code</label>
             <input
-              type="text"
+              type="texte"
               id="code"
               value={code || "" || updatedUser.code}
               placeholder="type the code of the Subject"
@@ -106,7 +114,7 @@ const sendInfo = (e) => {
           <div className="form-block">
             <label htmlFor="name">Subject's Name</label>
             <input
-              type="text"
+              type="texte"
               placeholder="type the name of the subject"
               id="name"
               value={name || "" || updatedUser.name}
@@ -128,7 +136,7 @@ const sendInfo = (e) => {
           <div className="form-block">
             <label htmlFor="description">Description</label>
             <input
-              type="text"
+              type="texte"
               id="description"
               value={description || "" || updatedUser.description}
               placeholder="type the description of the subject"
@@ -138,19 +146,22 @@ const sendInfo = (e) => {
           </div>
           <div className="form-block">
             <label htmlFor="type">Subject Type</label>
-            <input
-              type="text"
+            <select
+              type="texte"
               placeholder="type the type of the subject"
               id="type"
               value={type || "" || updatedUser.type}
               onChange={(e)=>setType(e.target.value)}
               name="type"
-            />
+            >
+              <option value="Theory">Theory</option>
+              <option value="Theory and Laboratory">Theory and Laboratory</option>
+            </select>
           </div>
           <div className="form-block">
             <label htmlFor="urlimage">URL Image</label>
             <input
-              type="text"
+              type="texte"
               id="urlimage"
               value={urlimage || "" || updatedUser.urlimage}
               placeholder="type the url of the deparmentt"
@@ -159,15 +170,27 @@ const sendInfo = (e) => {
               />
           </div>
           <div className="form-block">
-            <label htmlFor="id_dept">ID Department</label>
-            <input
-              type="text"
-              id="id_dept"
-              value={id_dept || "" || updatedUser.id_dept}
-              placeholder="type the ID of the deparment"
-              onChange={(e)=>setID(e.target.value)}
-              name="id_dept"
-              />
+          <label htmlFor="id_dpt">ID departament</label>
+        <select
+          type="texte"
+          id="id_dpt"
+          value={id_dept || null || updatedUser.id_dept}
+          onChange={(e) => setID(e.target.value)}
+          name="id_dpt"
+          placeholder="Type the id of the department "
+          disabled={needUpdate}
+        >
+                <option value="1">Architecture and Urbanism</option>
+                <option value="2">Design</option> 
+                <option value="3">Physics and Geosciences</option> 
+                <option value="4">Mathematics and Stastics</option> 
+                <option value="5">Chemistry and Biology</option> 
+                <option value="6">Computer and Systems Engineering</option> 
+                <option value="7">Spanish</option> 
+                <option value="8">Social Comunication</option> 
+
+
+          </select>
           </div>
           <input
             type="submit"
