@@ -1,4 +1,5 @@
 import React from "react";
+import Context from "./Context";
 import Start from "../pages/Start";
 import Login from "../pages/Login";
 import StudentsList from "../pages/StudentsList";
@@ -7,7 +8,6 @@ import AdminPanel from "../pages/AdminPanel";
 import Navbar from "./Navbar";
 import CourseAttendance from "../pages/CourseAttendance";
 import ChangePassword from "../pages/ChangePassword";
-import Context from "./Context";
 import UserProfile from "../pages/UserProfile";
 import User from "../pages/consults/Users";
 import Person from "../pages/consults/Persons";

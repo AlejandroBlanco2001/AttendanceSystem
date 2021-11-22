@@ -15,6 +15,7 @@ const Login = () => {
   const handleError = () => setError(false);
   const context = useContext(myContext);
   const navigate = useNavigate();
+  // console.log("SOCKET from context in login ", context.socket);
   const handleInputChange = (event) => {
     setData({
       ...data,
@@ -25,7 +26,6 @@ const Login = () => {
   const sendForm = (event) => {
     event.preventDefault();
     console.log("enviando datos..." + data.username + " " + data.password + " " + context.socket.id);
-    event.preventDefault();
     axios
       .post(
         "http://localhost:80/login/auth",
@@ -45,8 +45,12 @@ const Login = () => {
           .then((res) => {
             context.setUser(res.data);
             setOpen(false);
-            console.log("tipo: "+context.user.type)
-            if(context.user.type == '0'){
+            if(res.data.type == '2'){
+              console.log(context.socket)
+              context.socket.emit('checkClassAlreadyStarted',res.data.id_pers);
+            }
+            console.log("tipo: "+res.data.type)
+            if(res.data.type == '0'){
               navigate("../adminpanel",{replace: true});
             }else{
               navigate("../courseslist", { replace: true });

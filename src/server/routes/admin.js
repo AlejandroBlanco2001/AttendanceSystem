@@ -46,14 +46,13 @@ router.get(routeStr, async (req, res) => {
         }
         conn.end();
       } catch (e) {
-        throw e
         res.sendStatus(500)
       }
       res.json(results);
     }
-    res.send('You´re not an admin.')
+    res.send('You´re not an admin.');
   }
-  res.send('Not logged in.')
+  res.send('Not logged in.');
 })
 
 //Insert Posts

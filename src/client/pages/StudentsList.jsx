@@ -3,9 +3,12 @@ import IMGCodeTest from "../assets/qrrrr.jpg";
 import Navbar from "../components/Navbar";
 import { useLocation } from 'react-router-dom';
 import { myContext } from "../components/Context";
+import StudentCard from '../components/StudentCard';
 
 const StudentsList = () => {
   const [data, setData] = useState(null);
+  const [students,setStudents] = useState([]);
+
   let location = useLocation();
   let context = useContext(myContext);
   
@@ -42,7 +45,7 @@ useEffect(()=>{
             <p>17028</p>
           </div>
           <button className="button secondary-button generate-button" onClick = {handleGenerateCodes}>
-            GENERATE NEW CODES
+            NOTIFY THE CLASS
           </button>
         </section>
 
@@ -51,84 +54,7 @@ useEffect(()=>{
           <p class="class-status">12 students missing</p>
         </section>
         <section class="class-list-container">
-          <div class="student-card">
-            <img
-              src="https://picsum.photos/600"
-              alt="pp"
-              class="student-picture"
-            />
-            <p class="student-name">Jonathan Arias Rua</p>
-            <p class="student-code">200137471</p>
-            <p class="student-logtime">log time: 9:31:18</p>
-            <button class="delete-attendance">x</button>
-          </div>
-          <div class="student-card">
-            <img
-              src="https://picsum.photos/100"
-              s
-              alt="pp"
-              class="student-picture"
-            />
-            <p class="student-name">Jonathan Arias Rua</p>
-            <p class="student-code">200137471</p>
-            <p class="student-logtime">log time: 9:31:18</p>
-            <button class="delete-attendance">x</button>
-          </div>
-          <div class="student-card">
-            <img
-              src="https://picsum.photos/210"
-              alt="pp"
-              class="student-picture"
-            />
-            <p class="student-name">Jonathan Arias Rua</p>
-            <p class="student-code">200137471</p>
-            <p class="student-logtime">log time: 9:31:18</p>
-            <button class="delete-attendance">x</button>
-          </div>
-          <div class="student-card">
-            <img
-              src="https://picsum.photos/200"
-              alt="pp"
-              class="student-picture"
-            />
-            <p class="student-name">Jonathan Arias Rua</p>
-            <p class="student-code">200137471</p>
-            <p class="student-logtime">log time: 9:31:18</p>
-            <button class="delete-attendance">x</button>
-          </div>
-          <div class="student-card">
-            <img
-              src="https://picsum.photos/400"
-              alt="pp"
-              class="student-picture"
-            />
-            <p class="student-name">Jonathan Arias Rua</p>
-            <p class="student-code">200137471</p>
-            <p class="student-logtime">log time: 9:31:18</p>
-            <button class="delete-attendance">x</button>
-          </div>
-          <div class="student-card">
-            <img
-              src="https://picsum.photos/300"
-              alt="pp"
-              class="student-picture"
-            />
-            <p class="student-name">Jonathan Arias Rua</p>
-            <p class="student-code">200137471</p>
-            <p class="student-logtime">log time: 9:31:18</p>
-            <button class="delete-attendance">x</button>
-          </div>
-          <div class="student-card">
-            <img
-              src="https://picsum.photos/250"
-              alt="pp"
-              class="student-picture"
-            />
-            <p class="student-name">Jonathan Arias Rua</p>
-            <p class="student-code">200137471</p>
-            <p class="student-logtime">log time: 9:31:18</p>
-            <button class="delete-attendance">x</button>
-          </div>
+          <StudentCard name = "Jonathan Arias" code = {"1010101"} logtime = {"10:00:10 AM"}/>
         </section>
       </main>
     </>
