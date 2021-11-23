@@ -68,7 +68,6 @@ io.on('connection', (socket) => {
             try{
                 conn = await db.pool.getConnection(); 
                 let result = await util.getClassHours(conn,data);
-                console.log(result)
                 if(result.length != 0){
                     if(cont < 3){
                         if(cont == 0){
