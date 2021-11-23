@@ -39,16 +39,16 @@ const CoursesList = (props) => {
       {
         
         classes.map((myClass, index) => {
-          const {name, urlimage, weekday_sche , start_time_sc, Nombre, credits, schedule, code} = myClass;
+          const {name, urlimage, weekday_sche , start_time_sc, Nombre, credits, start_time_sche, code, subcode} = myClass;
           if(context){
             if(context.user.type == "1"){
               return(
-                <CourseCard icon = {urlimage} schedule = {schedule} title = {name} teacher = {context.user.name1} credits = {credits} type = {(context.user.type?context.user.type:"0")} code = {code}/>
+                <CourseCard scode={subcode} icon = {urlimage} start_time_sche = {weekday_sche + ' at ' + start_time_sche} title = {name} teacher = {context.user.name1} credits = {credits} type = {(context.user.type?context.user.type:"0")} code = {code}/>
               )
             }else{
               return (
     
-                  <CourseCard icon = {urlimage} schedule = {schedule} title = {name} teacher = {Nombre} credits = {credits} type = {(context.user.type?context.user.type:"0")} code = {code}/>
+                  <CourseCard icon = {urlimage} start_time_sche = {start_time_sche} title = {name} teacher = {Nombre} credits = {credits} type = {(context.user.type?context.user.type:"0")} code = {code}/>
             
               )
             }

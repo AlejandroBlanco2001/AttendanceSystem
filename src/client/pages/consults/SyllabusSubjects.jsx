@@ -32,7 +32,7 @@ const syllabusSubjects= () => {
       code_subj,
       code_syll,
       semester,
-    })
+    }, { withCredentials: true })
       .then((response) => {
         console.log("Success");
         setListaSyllabusSubjects([

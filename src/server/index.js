@@ -77,7 +77,7 @@ io.on('connection', (socket) => {
                             code = await util.getCodeClassCreated(conn,result[0].codigo.split('\/')[1]);
                             code = code.qr_teach;
                         }
-                        conn.release();
+                        conn.end();
                         cont = cont + 1;
                         result[0].codeTeacher = code;
                         socket.emit('classAlreadyStarted',result[0])

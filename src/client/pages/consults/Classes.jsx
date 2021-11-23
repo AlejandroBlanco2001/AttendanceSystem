@@ -6,7 +6,7 @@ import "../../styles/table.css";
 const Class = () => {
   const [isData, setIsData] = useState(false);
   const [classes, setClasses] = useState([]);
-  const [updatedUser, setUpdatedClasses] = useState({});
+  const [updatedUser, setUpdatedClass] = useState({});
   const [listaClasses, setListaClasses] = useState([]);
   const [needUpdate, setNeedUpdate] = useState(false);
   const [code, setCodeCl] = useState(0);
@@ -33,7 +33,7 @@ const Class = () => {
         code,
         start_time,
         code_spac,
-      })
+      }, { withCredentials: true })
       .then((response) => {
         console.log("Success");
         setListaClasses([
@@ -151,10 +151,10 @@ const Class = () => {
 
       <div className="table">
         <Table
-          tableheads={["Class Code", "Start Time", "Space's Code", "Actions"]}
+          tableheads={["Class Code", "Start Time", "Space's Code", "Course's code", "Teacher's Code", "Actions"]}
           data={isData ? classes : null}
-          setNeedUpdate={setNeedUpdate}
-          handleDeleteElement={handleDeleteClass}
+          setNeedUpdate={setNeedUpdate} 
+          handleDeleteElement={handleDeleteClass} 
           handleUpdateElement={handleUpdateClass}
         />
       </div>

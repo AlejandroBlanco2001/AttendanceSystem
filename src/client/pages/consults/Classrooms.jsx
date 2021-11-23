@@ -31,7 +31,7 @@ const Classroom = () => {
       .post("http://localhost:80/admin/create/classrooms", {
         code,
         type,
-      })
+      }, { withCredentials: true })
       .then((response) => {
         console.log("Success");
         setListaClassrooms([

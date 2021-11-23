@@ -36,7 +36,7 @@ const Course= () => {
         console.log("RESPONSE: ", response);
         window.location.reload(true);
         reload();
-      })
+      }, { withCredentials: true })
       .catch((err) => {
         console.log("ERROR ELIMINANDO");
         console.log(err);

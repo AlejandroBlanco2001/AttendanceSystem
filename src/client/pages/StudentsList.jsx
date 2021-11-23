@@ -8,6 +8,8 @@ import { DateTime } from 'luxon';
 import axios from "axios";
 
 const StudentsList = () => {
+  let alreadySet = false;
+  const [qrCode, setQRcode] = useState('');
   const [data, setData] = useState(null);
   const [students,setStudents] = useState([]);
 
@@ -22,11 +24,16 @@ const StudentsList = () => {
 
 useEffect(()=>{
   setData(location.state);
+  axios.post
   setInterval(() => {
     if(data){
       axios.post("http://localhost:80/class/getAttendance", {code: data.code}, {withCredentials: true}).
       then((response) => {
         console.log("RESPONSE IN STUDENTS LIST: ", response)
+        if(!alreadySet){
+          setQRcode(response.data[0].qr)
+          alreadySet = true;
+        }
         setStudents(response.data);
       }).catch((err) => {
         console.log("Updating list ERROR");
@@ -51,12 +58,12 @@ useEffect(()=>{
           <div class="codes-teacher">
             <p>Teacher's code</p>
             <img src={IMGCodeTest} alt="IMG" />
-            <p>17028</p>
+            <p>{(qrCode?qrCode:'Class not started')}</p>
           </div>
           <div class="code-class">
             <p>Class code</p>
             <img src={IMGCodeTest} alt="IMG" />
-            <p>17028</p>
+            <p>{(data?data.scode+'/'+data.code:'Test')}</p>
           </div>
           <button className="button secondary-button generate-button" onClick = {handleGenerateCodes}>
             NOTIFY THE CLASS

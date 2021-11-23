@@ -31,7 +31,7 @@ const Syllabus= () => {
     axios.post("http://localhost:80/admin/create/syllabuses", {
       code,
       snies_prog,
-    })
+    }, { withCredentials: true })
       .then((response) => {
         console.log("Success");
         setListaSyllabuses([

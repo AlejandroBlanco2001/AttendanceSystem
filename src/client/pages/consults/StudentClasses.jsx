@@ -33,7 +33,7 @@ const studentClasses= () => {
       code_clas,
       id_stud,
       attendance,
-    })
+    }, { withCredentials: true })
       .then((response) => {
         console.log("Success");
         setListaStudentClasses([

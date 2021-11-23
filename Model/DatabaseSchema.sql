@@ -357,5 +357,4 @@ CREATE TRIGGER enrollment_control_schedulle
 			SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'code_cour has schedulle conflict';
 		end if;
 	END $$
-
 DELIMITER ;

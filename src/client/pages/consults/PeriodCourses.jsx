@@ -32,7 +32,7 @@ const PeriodCourse= () => {
       code_cour,
       year_peri,
       term_peri,
-    })
+    }, { withCredentials: true })
       .then((response) => {
         console.log("Success");
         setListaPeriodCourses([

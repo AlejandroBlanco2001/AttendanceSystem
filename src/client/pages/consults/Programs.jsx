@@ -45,7 +45,7 @@ const Program= () => {
       duration,
       credits,
       id_dept
-    })
+    }, { withCredentials: true })
       .then((response) => {
         console.log("Success");
         setListaPrograms([

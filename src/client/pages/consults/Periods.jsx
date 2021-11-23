@@ -32,7 +32,7 @@ const Periods= () => {
      year,
      term,
      description
-    })
+    }, { withCredentials: true })
       .then((response) => {
         console.log("Success");
         setListaPeriods([

@@ -17,7 +17,7 @@ async function getAllSubjetctsStudent(conn, id){
 async function getAllSubjetctsTeacher(conn, id){
     console.log(id);
     let result = await conn.query(`
-    SELECT DISTINCT s.name, s.credits, c.code, s.urlimage, sp.weekday_sche, sp.start_time_sche
+    SELECT DISTINCT s.name, s.credits, c.code, s.urlimage, sp.weekday_sche, sp.start_time_sche,s.code 'subcode'
     FROM person AS p INNER JOIN enrollment AS e ON p.id = e.id_stud INNER JOIN cour_enro AS ce
     ON ce.id_enro = e.id INNER JOIN course AS c ON c.code = ce.code_cour INNER JOIN subject AS s 
     ON s.code = c.code_subj INNER JOIN space AS sp ON sp.code_cour = c.code WHERE c.id_teach = "${id}";`);
@@ -122,7 +122,7 @@ async function addTeacherCode(conn,id){
 
 async function getAttendanceClass(conn,id){
     let result = await conn.query(`
-    SELECT CONCAT(p.name1,' ', p.lastName1) 'name', p.id, CONCAT(s.code,'/',c.code) 'codigo', cs.logAttendance FROM course c 
+    SELECT CONCAT(p.name1,' ', p.lastName1) 'name', p.id, CONCAT(s.code,'/',c.code) 'codigo', cs.logAttendance, cl.qr_teach 'qr'  FROM course c 
     INNER JOIN space sp ON c.code = sp.code_cour 
     INNER JOIN subject s ON s.code = c.code_subj
     INNER JOIN class cl ON cl.code_spac = sp.code 

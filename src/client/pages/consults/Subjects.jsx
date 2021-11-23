@@ -42,7 +42,7 @@ const Subjects = () => {
       type,
       urlimage,
       id_dept,
-    })
+    }, { withCredentials: true })
       .then((response) => {
         console.log("Success");
         setListaSubjects([
