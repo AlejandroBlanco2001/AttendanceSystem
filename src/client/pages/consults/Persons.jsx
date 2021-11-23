@@ -3,13 +3,13 @@ import axios from "axios";
 import Table from "../../components/Table";
 import "../../styles/table.css";
 import "../../styles/forms.css";
-import { myContext } from '../../components/Context';
+import { myContext } from "../../components/Context";
 
 const Persons = () => {
   const context = useContext(myContext);
   const [isData, setIsData] = useState(false);
   const [persons, setPerson] = useState([]);
-  const [updatedPerson, setUpdatePerson] = useState({})
+  const [updatedPerson, setUpdatePerson] = useState({});
   const [listaPersons, setListaPersons] = useState([]);
   const [needUpdate, setNeedUpdate] = useState(false);
   const [id, setID] = useState(0);
@@ -17,65 +17,63 @@ const Persons = () => {
   const [name2, setName2] = useState();
   const [lastname1, setlastName1] = useState();
   const [lastname2, setlastName2] = useState();
-  const [gender, setGender] = useState();
+  const [gender, setGender] = useState("O");
   const [birthdate, setBirthDate] = useState();
   const [age, setAge] = useState();
   const [type, setType] = useState();
-  const [id_dept, setIdDept] = useState(0);
+  const [id_dept, setIdDept] = useState(null);
   var departments;
 
   const handleDeletePerson = (user) => {
     deletePerson(user.id);
-  }
+  };
 
   const handleUpdatePerson = (data) => {
     setUpdatePerson({});
     let inputs = document.getElementsByTagName("input");
     for (let index = 0; index < inputs.length; ++index) {
-      inputs[index].value = ""
+      inputs[index].value = "";
     }
     console.log("USER TO UPDATE: ", data);
     setUpdatePerson(data);
-  }
+  };
 
   useEffect(() => {
     axios
       .get("http://localhost:80/admin/persons", { withCredentials: true })
       .then((res) => {
-        res.data.forEach(person => {
-          person.birthdate = person.birthdate.split('T')[0]
+        res.data.forEach((person) => {
+          person.birthdate = person.birthdate.split("T")[0];
         });
         console.log("DATA FROM ADMIN: ", res.data);
         setIsData(true);
-        console.log(res.data)
-        setPerson(res.data)
+        console.log(res.data);
+        setPerson(res.data);
       });
-      axios
+    axios
       .get("http://localhost:80/admin/departments", { withCredentials: true })
       .then((res) => {
-        departments = res.data
+        departments = res.data;
       });
-
-  }, [isData])
+  }, [isData]);
 
   const addPerson = () => {
-    let aux_id
-    if (id_dept == '0') {
-      aux_id = null
-    } else {
-      aux_id = id_dept
-    }
-    axios.post("http://localhost:80/admin/create/persons", {
-      id,
-      name1,
-      name2,
-      lastname1,
-      lastname2,
-      gender,
-      birthdate,
-      type,
-      aux_id
-    }, { withCredentials: true })
+    axios
+      .post(
+        "http://localhost:80/admin/create/persons",
+        {
+          id,
+          name1,
+          name2,
+          lastname1,
+          lastname2,
+          gender,
+          birthdate,
+          type,
+          id_dept,
+        },
+        { withCredentials: true }
+      )
       .then((response) => {
         console.log("Success");
         setListaPersons([
@@ -89,17 +87,27 @@ const Persons = () => {
             gender,
             birthdate,
             type,
-            aux_id
-          }
-        ])
-      }).catch((err) => {
-        alert("You`re trying to add a person whose primary key is already in existance.")
-        console.log(err)
+            id_dept,
+          },
+        ]);
+        window.location.reload(true);
+        reload();
       })
-  }
+      .catch((err) => {
+        alert(
+          "You`re trying to add a person whose primary key is already in existance."
+        );
+        console.log(err);
+      });
+  };
 
   const deletePerson = (id) => {
-    axios.post(`http://localhost:80/admin/delete/persons/${id}`, { 1: true }, { withCredentials: true })
+    axios
+      .post(
+        `http://localhost:80/admin/delete/persons/${id}`,
+        { 1: true },
+        { withCredentials: true }
+      )
       .then((response) => {
         console.log("Eliminado correctamente");
         console.log("RESPONSE: ", response);
@@ -113,20 +121,26 @@ const Persons = () => {
   };
 
   const updatePerson = () => {
-    axios.post(`http://localhost:80/admin/update/persons/${updatedPerson.id}`, {
-      id: id || updatedPerson.id,
-      name1: name1 || updatedPerson.name1,
-      name2: name2 || updatedPerson.name2,
-      lastname1: lastname1 || updatedPerson.lastname1,
-      lastname2: lastname2 || updatedPerson.lastname2,
-      gender: gender || updatedPerson.gender,
-      birthdate: birthdate || updatedPerson.birthdate,
-      type: type || updatedPerson.type,
-      id_dept: id_dept || updatedPerson.id_dept
-    }, { withCredentials: true }).then((response) => {
-      window.location.reload(true);
-      reload();
-    });
+    axios
+      .post(
+        `http://localhost:80/admin/update/persons/${updatedPerson.id}`,
+        {
+          id: id || updatedPerson.id,
+          name1: name1 || updatedPerson.name1,
+          name2: name2 || updatedPerson.name2,
+          lastname1: lastname1 || updatedPerson.lastname1,
+          lastname2: lastname2 || updatedPerson.lastname2,
+          gender: gender || updatedPerson.gender,
+          birthdate: birthdate || updatedPerson.birthdate,
+          type: type || updatedPerson.type,
+          id_dept: id_dept || updatedPerson.id_dept,
+        },
+        { withCredentials: true }
+      )
+      .then((response) => {
+        window.location.reload(true);
+        reload();
+      });
   };
 
   const sendInfo = (e) => {
@@ -135,14 +149,14 @@ const Persons = () => {
     addPerson();
   };
 
-
   return (
     <main className="main-users">
       <form onSubmit={sendInfo}>
         <img alt="" />
         <div className="form-block">
           <label htmlFor="id">ID</label>
-          <input className="row-form"
+          <input
+            className="row-form"
             type="text"
             id="id"
             value={id || null || updatedPerson.id}
@@ -153,7 +167,8 @@ const Persons = () => {
         </div>
         <div className="form-block">
           <label htmlFor="name1">First Name</label>
-          <input className="row-form"
+          <input
+            className="row-form"
             type="text"
             placeholder="type the first name"
             id="name1"
@@ -164,7 +179,8 @@ const Persons = () => {
         </div>
         <div className="form-block">
           <label htmlFor="name2">Second Name</label>
-          <input className="row-form"
+          <input
+            className="row-form"
             type="text"
             id="name2"
             value={name2 || null || updatedPerson.name2}
@@ -175,7 +191,8 @@ const Persons = () => {
         </div>
         <div className="form-block">
           <label htmlFor="lastname1">First last name</label>
-          <input className="row-form"
+          <input
+            className="row-form"
             type="text"
             id="lastname1"
             value={lastname1 || null || updatedPerson.lastname1}
@@ -186,7 +203,8 @@ const Persons = () => {
         </div>
         <div className="form-block">
           <label htmlFor="lastname2">Second last name</label>
-          <input className="row-form"
+          <input
+            className="row-form"
             type="text"
             id="lastname2"
             value={lastname2 || null || updatedPerson.lastname2}
@@ -199,18 +217,20 @@ const Persons = () => {
           <label htmlFor="gender">Gender</label>
           <select
             id="text"
-            value={gender || " " || updatedPerson.gender}
+            value={gender || "O" || updatedPerson.gender}
             placeholder="Insert the gender"
             onChange={(e) => setGender(e.target.value)}
             name="gender"
           >
-            <option value="M">Masculino</option>
-            <option value="F">Femenino</option>
+            <option value="M">Male</option>
+            <option value="F">Female</option>
+            <option value="O">Other</option>
           </select>
         </div>
         <div className="form-block">
           <label htmlFor="birthdate">Birthdate</label>
-          <input className="row-form"
+          <input
+            className="row-form"
             type="date"
             id="birthdate"
             value={birthdate || "" || updatedPerson.birthdate}
@@ -231,7 +251,6 @@ const Persons = () => {
             <option value="0">Admin</option>
             <option value="1">Teacher</option>
             <option value="2">Student</option>
-
           </select>
         </div>
         <div className="form-block">
@@ -243,7 +262,9 @@ const Persons = () => {
             name="id_dept"
             placeholder="Type the id of the department "
           >
-            <option value="0" selected >None</option>
+            <option value="0" selected>
+              None
+            </option>
             <option value="1">Architecture and Urbanism</option>
             <option value="2">Design</option>
             <option value="3">Physics and Geosciences</option>
@@ -252,8 +273,6 @@ const Persons = () => {
             <option value="6">Computer and Systems Engineering</option>
             <option value="7">Spanish</option>
             <option value="8">Social Comunication</option>
-
-
           </select>
         </div>
         <input
@@ -283,7 +302,7 @@ const Persons = () => {
             "Age",
             "Person Type",
             "Departament'S ID",
-            "Actions"
+            "Actions",
           ]}
           data={isData ? persons : null}
           setNeedUpdate={setNeedUpdate}
@@ -292,9 +311,7 @@ const Persons = () => {
         />
       </div>
     </main>
-
-  )
-}
+  );
+};
 
 export default Persons;
-

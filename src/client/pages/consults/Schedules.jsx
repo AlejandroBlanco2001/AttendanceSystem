@@ -9,9 +9,9 @@ const Schedules = () => {
   const [updatedUser, setUpdatedSchedule] = useState({});
   const [listaSchedules, setListaSchudeles] = useState([]);
   const [needUpdate, setNeedUpdate] = useState(false);
-  const [weekday, setWeekday] = useState("");
+  const [weekday, setWeekday] = useState("Monday");
   const [start_time, setStartTimeSch] = useState("");
-  const [duration, setDurationSch] = useState("");
+  const [duration, setDurationSch] = useState(0);
 
   const handleDeleteSchedule = (schedule) => {
     deleteSchedule([schedule.weekday, schedule.start_time]);
@@ -29,11 +29,15 @@ const Schedules = () => {
 
   const addSchedules = () => {
     axios
-      .post("http://localhost:80/admin/create/schedules",{
-        weekday,
-        start_time,
-        duration,
-      },{withCredentials: true})
+      .post(
+        "http://localhost:80/admin/create/schedules",
+        {
+          weekday,
+          start_time,
+          duration,
+        },
+        { withCredentials: true }
+      )
       .then((response) => {
         console.log("RESPONSE IN ESQUEDULS ", response);
         console.log("Success");
@@ -45,7 +49,8 @@ const Schedules = () => {
             duration,
           },
         ]);
-        // window.location.reload(false);
+        window.location.reload(true);
+        reload();
       })
       .catch((er) => {
         alert(
@@ -65,8 +70,8 @@ const Schedules = () => {
       .then((response) => {
         console.log("Eliminado correctamente");
         console.log("RESPONSE: ", response);
-        // window.location.reload(true);
-        // reload();
+        window.location.reload(true);
+        reload();
       })
       .catch((err) => {
         console.log("ERROR ELIMINANDO");
@@ -117,7 +122,7 @@ const Schedules = () => {
           <select
             type="text"
             id="weekday"
-            value={weekday || "" || updatedUser.weekday}
+            value={weekday || "Monday" || updatedUser.weekday}
             placeholder="type the day of the week"
             onChange={(e) => setWeekday(e.target.value)}
             name="weekday"
@@ -146,10 +151,10 @@ const Schedules = () => {
           <label htmlFor="duration">Duration</label>
           <input
             className="row-form"
-            type="text"
+            type="number"
             placeholder="type the Duration of the class"
             id="duration"
-            value={duration || "" || updatedUser.duration}
+            value={duration || updatedUser.duration}
             onChange={(e) => setDurationSch(e.target.value)}
             name="duration"
           />
