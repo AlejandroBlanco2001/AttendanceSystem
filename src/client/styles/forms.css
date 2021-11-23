@@ -1,4 +1,4 @@
-input[type="texte"],
+/* input[type="texte"],
 input[type="date"],
 input[type="number"],
 select {
@@ -11,9 +11,20 @@ select {
     color: black;
     box-sizing: border-box;
   }
-  
+   */
 
-  
+ 
+  .main-users form {
+    height: 700px;
+    margin-top: 20px;
+    margin-left: 10px;
+  }
+
+  .main-users{
+    height: 100vh;
+    width: 100%;
+    
+  }
   .data-form {
     padding: 80px;
     width: 50%;
