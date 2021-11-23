@@ -302,6 +302,18 @@ CREATE TABLE Cour_Enro (
 
 DELIMITER $$
 
+CREATE TRIGGER create_user 
+    AFTER INSERT ON person
+    FOR EACH ROW
+    BEGIN
+        INSERT INTO User (username, id_pers) VALUES 
+        (CONCAT(SUBSTR(NEW.name1, 1, 3), SUBSTR(NEW.lastName1, 1, 3), NEW.id), NEW.id);
+    END $$
+
+DELIMITER ;
+
+DELIMITER $$
+
 CREATE TRIGGER enrollment_control_study_plan
 	BEFORE INSERT ON Cour_Enro
 	FOR EACH ROW 
