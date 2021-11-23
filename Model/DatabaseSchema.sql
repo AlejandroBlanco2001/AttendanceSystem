@@ -224,24 +224,38 @@ CREATE TRIGGER conflict_teacher_schedule
 DELIMITER ;
 
 CREATE TABLE Class (
-	code VARCHAR(2) NOT NULL, 
+	code INTEGER NOT NULL AUTO_INCREMENT, 
 	start_time DATETIME NOT NULL,
 	code_spac INTEGER NOT NULL,
+	code_cour_spac VARCHAR(7) NOT NULL,
 	qr_teach VARCHAR(80) NOT NULL,
 	-- Primary Key
 	PRIMARY KEY (code),
 	-- Foreign Key
-	FOREIGN KEY (code_spac) REFERENCES Space(code)
+	FOREIGN KEY (code_spac, code_cour_spac) REFERENCES Space(code, code_cour) ON DELETE CASCADE
 );
 
+SET GLOBAL event_scheduler = ON;
+
+CREATE EVENT create_class
+ON SCHEDULE EVERY 1 SECOND
+STARTS CURRENT_TIMESTAMP()
+DO
+	INSERT INTO class (start_time, code_spac, code_cour_spac, qr_teach)
+		SELECT TIME(NOW()), code, code_cour, SUBSTR(MD5(RAND()), 1, 10)
+		FROM `space`
+		WHERE weekday_sche = DAYNAME(NOW()) AND start_time_sche = TIME(NOW());
+		
+
 CREATE TABLE Clas_Stud (
-	code_clas VARCHAR(2) NOT NULL,
+	code_clas INTEGER NOT NULL,
 	id_stud VARCHAR(10) NOT NULL,
-	attendance VARCHAR(2) NOT NULL,
+	attendance VARCHAR(3) NOT NULL,
+	logAttendance DATETIME NOT NULL,
 	-- Primary Key
 	PRIMARY KEY (code_clas, id_stud),
 	-- Foreign Key
-	FOREIGN KEY (code_clas) REFERENCES Class(code),
+	FOREIGN KEY (code_clas) REFERENCES Class(code) ON DELETE CASCADE,
 	FOREIGN KEY (id_stud) REFERENCES Person(id)
 );
 

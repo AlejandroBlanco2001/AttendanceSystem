@@ -4,6 +4,7 @@ import Navbar from "../components/Navbar";
 import { useLocation } from 'react-router-dom';
 import { myContext } from "../components/Context";
 import StudentCard from '../components/StudentCard';
+import { DateTime } from 'luxon';
 import axios from "axios";
 
 const StudentsList = () => {
@@ -16,21 +17,25 @@ const StudentsList = () => {
   console.log("data", data);
 
   const handleGenerateCodes = () => {
-    context.socket.emit("classStarted",data.code);
+    if(data) context.socket.emit("classStarted",data.code);
+    else console.log("Ja MKA")
   }; 
 
 useEffect(()=>{
   setData(location.state);
   setInterval(() => {
-    axios.get("http://localhost:80/class/getAttendance", {params: {code: data.code}}).
-    then((response) => {
-      // Update table
-    }).catch((err) => {
-      console.log("Updating list ERROR");
-      console.error(new Error(error));
-    })
-  },120000)
-},[location])
+    if(data){
+      axios.post("http://localhost:80/class/getAttendance", {code: data.code}, {withCredentials: true}).
+      then((response) => {
+        console.log("RESPONSE IN STUDENTS LIST: ", response)
+        setStudents(response.data);
+      }).catch((err) => {
+        console.log("Updating list ERROR");
+        console.error(new Error(error));
+      })
+    }
+  },10000)
+},[data])
 
   return (
     <>
@@ -65,6 +70,17 @@ useEffect(()=>{
         </section>
         <section class="class-list-container">
           <StudentCard name = "Jonathan Arias" code = {"1010101"} logtime = {"10:00:10 AM"}/>
+
+          {(
+            students? 
+            students.map((student) => {
+              return (
+                <StudentCard name = {student.name} code = {student.id} logtime ={student.logAttendance}/>
+              )
+            })
+            :
+            <></>
+          )}
         </section>
       </main>
     </>
