@@ -1,37 +1,54 @@
 const { Router } = require("express");
 const router = Router();
-const path = require('path');
-const db = require('./database')
+const path = require("path");
+const db = require("./database");
 
 //Possible record paths array
-const routeStr = ['/users', '/persons', '/subjects', '/departments', '/courses', '/spaces', '/schedules',
-  '/classrooms', '/classes', '/enrollments', '/periods', '/contracts', '/syllabuses',
-  '/programs', '/periodCourses', '/enrollmentCourses', '/studentClasses', '/syllabusSubjects']
+const routeStr = [
+  "/users",
+  "/persons",
+  "/subjects",
+  "/departments",
+  "/courses",
+  "/spaces",
+  "/schedules",
+  "/classrooms",
+  "/classes",
+  "/enrollments",
+  "/periods",
+  "/contracts",
+  "/syllabuses",
+  "/programs",
+  "/periodCourses",
+  "/enrollmentCourses",
+  "/studentClasses",
+  "/syllabusSubjects",
+];
 
 //Read Get
 router.get(routeStr, async (req, res) => {
   if (req.user) {
-    if (req.user.type == '0') {
+    if (req.user.type == "0") {
       let queryTable;
       if (req.path == routeStr[14]) {
-        queryTable = 'offered_in'
+        queryTable = "offered_in";
       } else {
         if (req.path == routeStr[15]) {
-          queryTable = 'cour_enro'
+          queryTable = "cour_enro";
         } else {
           if (req.path == routeStr[16]) {
-            queryTable = 'clas_stud'
+            queryTable = "clas_stud";
           } else {
             if (req.path == routeStr[17]) {
-              queryTable = 'in_syllabus'
+              queryTable = "in_syllabus";
             } else {
               let r;
               if (req.path == routeStr[8] || req.path == routeStr[12]) {
-                r = 2
+                r = 2;
               } else {
-                r = 1
+                r = 1;
               }
-              queryTable = req.path.substring(1, req.path.length - r)
+              queryTable = req.path.substring(1, req.path.length - r);
             }
           }
         }
@@ -40,76 +57,83 @@ router.get(routeStr, async (req, res) => {
       try {
         conn = await db.pool.getConnection();
         if (req.path == routeStr[1]) {
-          results = await conn.query("SELECT id, name1, name2, lastname1, lastname2, gender, birthdate, age, type, id_dept FROM " + queryTable)
+          results = await conn.query(
+            "SELECT id, name1, name2, lastname1, lastname2, gender, birthdate, age, type, id_dept FROM " +
+              queryTable
+          );
         } else {
-          results = await conn.query('SELECT * FROM ' + queryTable)
+          results = await conn.query("SELECT * FROM " + queryTable);
         }
         conn.end();
       } catch (e) {
-        res.sendStatus(500)
+        res.sendStatus(500);
       }
       res.json(results);
-    }else{
-      res.send('You´re not an admin.');
+    } else {
+      res.send("You´re not an admin.");
     }
-  }else{
-    res.send('Not logged in.');
+  } else {
+    res.send("Not logged in.");
   }
-  
-})
+});
 
 //Insert Posts
-router.post('/create/:record', async (req, res) => {
+router.post("/create/:record", async (req, res) => {
   if (req.user) {
-    if (req.user.type == '0') {
-      let rec = req.params.record
-      console.log(req.body.body)
-      let update = req.body
-      let query, table
-      let results
-      table = await identifyTable(rec)
-      query = `INSERT INTO ${table} `
-      let part1 = '(', part2 = '('
+    if (req.user.type == "0") {
+      let rec = req.params.record;
+      console.log(req.body);
+      let update = req.body;
+      let query, table;
+      let results;
+      table = await identifyTable(rec);
+      query = `INSERT INTO ${table} `;
+      let part1 = "(",
+        part2 = "(";
       for (var [key, value] of Object.entries(update)) {
-        if (table == 'user') {
-          if (key != 'type') {
-            part2 +=  (value === null || typeof value.type == 'number') ? `${value}, ` : `'${value}', `
-            part1 += `${key}, `
+        if (table == "user") {
+          if (key != "type") {
+            part2 +=
+              value === null || typeof value.type == "number"
+                ? `${value}, `
+                : `'${value}', `;
+            part1 += `${key}, `;
           }
         } else {
-          part2 +=  (value === null || typeof value.type == 'number') ? `${value}, ` : `'${value}', `
-          if (table == 'person' && key == 'aux_id'){
-            part1 += `id_dept, `
-          }else{
-            part1 += `${key}, `
-          }
+          part2 +=
+            value === null || typeof value.type == "number"
+              ? `${value}, `
+              : `'${value}', `;
+          part1 += `${key}, `;
         }
       }
-      part1 = part1.slice(0,-2) + ')'
-      part2 = part2.slice(0,-2) + ')'
-      query += part1 + ` VALUES ` + part2 + ';'
-      console.log(query)
+      part1 = part1.slice(0, -2) + ")";
+      part2 = part2.slice(0, -2) + ")";
+      query += part1 + ` VALUES ` + part2 + ";";
+      console.log(query);
       try {
-        let conn = await db.pool.getConnection()
-        results = await conn.query(query)
+        let conn = await db.pool.getConnection();
+        results = await conn
+          .query(query)
           .then((response) => {
             res.sendStatus(200);
-          }).catch((err) => {
-            throw err
           })
-        conn.end()
-        return results
+          .catch((err) => {
+            throw err;
+          });
+        conn.end();
+        return results;
       } catch (e) {
-        console.log(e)
-        res.sendStatus(500)
+        console.log(e);
+        res.sendStatus(500);
       }
-    }else{
-      res.send('You´re not an admin.')
+    } else {
+      res.send("You´re not an admin.");
     }
-  }else{
-    res.send('Not logged in.')
+  } else {
+    res.send("Not logged in.");
   }
-})
+});
 // router.post('/create/:record', async (req, res) => {
 //   if (req.user) {
 //     if (req.user.type == '0') {
@@ -194,7 +218,6 @@ router.post('/create/:record', async (req, res) => {
 //               res.sendStatus(200);
 //             }).catch((err) => {
 //               res.sendStatus(500);
-
 
 //             });
 //             break
@@ -374,175 +397,181 @@ router.post('/create/:record', async (req, res) => {
 // })
 
 //Update Posts
-router.post('/update/:record/:pkey', async (req, res) => {
+router.post("/update/:record/:pkey", async (req, res) => {
   if (req.user) {
-    if (req.user.type == '0') {
-      let pkeysV = req.params.pkey.split(':');
-      let rec = req.params.record
-      let update = req.body
-      let query, table
-      let results
-      table = await identifyTable(rec)
-      query = `UPDATE ${table} SET `
+    if (req.user.type == "0") {
+      let pkeysV = req.params.pkey.split("|");
+      let rec = req.params.record;
+      let update = req.body;
+      let query, table;
+      let results;
+      table = await identifyTable(rec);
+      query = `UPDATE ${table} SET `;
       for (var [key, value] of Object.entries(update)) {
-        if (table == 'user') {
-          if (key != 'type') {
-            query += (value === null || typeof value.type == 'number') ? `${key} = ${value},` : `${key} = '${value}',`
+        if (table == "user") {
+          if (key != "type") {
+            query +=
+              value === null || typeof value.type == "number"
+                ? `${key} = ${value},`
+                : `${key} = '${value}',`;
           }
         } else {
-          query += ( value === null || typeof value.type == 'number') ? `${key} = ${value},` : `${key} = '${value}',`
+          query +=
+            value === null || typeof value.type == "number"
+              ? `${key} = ${value},`
+              : `${key} = '${value}',`;
         }
       }
-      query = query.slice(0, -1)
-      query += ` WHERE `
-      let pkeys
+      query = query.slice(0, -1);
+      query += ` WHERE `;
+      let pkeys;
       try {
-        let conn = await db.pool.getConnection()
+        let conn = await db.pool.getConnection();
         pkeys = await conn.query(`SELECT k.COLUMN_NAME
         FROM information_schema.table_constraints t
         LEFT JOIN information_schema.key_column_usage k
         USING(constraint_name,table_schema,table_name)
         WHERE t.constraint_type='PRIMARY KEY'
             AND t.table_schema=DATABASE()
-            AND t.table_name='${table}';`)
-        await conn.end()
+            AND t.table_name='${table}';`);
+        await conn.end();
       } catch (e) {
-        console.log(e)
+        console.log(e);
       }
       console.log(pkeysV);
       for (let j = 0; j < pkeysV.length; j++) {
-        query += `${pkeys[j].COLUMN_NAME} = '${pkeysV[j]}'`
+        query += `${pkeys[j].COLUMN_NAME} = '${pkeysV[j]}'`;
         if (j == pkeys.length - 1) {
-          query += ';'
+          query += ";";
         } else {
-          query += ' AND '
+          query += " AND ";
         }
       }
       try {
-        let conn = await db.pool.getConnection()
-        results = await conn.query(query)
+        let conn = await db.pool.getConnection();
+        results = await conn
+          .query(query)
           .then((response) => {
-           console.log(response);
+            console.log(response);
             res.sendStatus(200);
-          }).catch((err) => {
-            throw err
           })
-        conn.end()
-        return results
+          .catch((err) => {
+            throw err;
+          });
+        conn.end();
+        return results;
       } catch (e) {
-        console.log(e)
-        res.sendStatus(500)
+        console.log(e);
+        res.sendStatus(500);
       }
-    }else{
-      res.send('You´re not an admin.')
+    } else {
+      res.send("You´re not an admin.");
     }
-  }else{
-    res.send('Not logged in.')
+  } else {
+    res.send("Not logged in.");
   }
-})
+});
 
 //Delete Posts
-router.post('/delete/:record/:pkey', async (req, res) => {
+router.post("/delete/:record/:pkey", async (req, res) => {
   if (req.user) {
-    if (req.user.type == '0') {
-      let pkeysV = req.params.pkey.split('|') 
-      let rec = req.params.record
-      let query, results, pkeys
-      let table = await identifyTable(rec)
-      query = `DELETE FROM ${table} WHERE `
+    if (req.user.type == "0") {
+      let pkeysV = req.params.pkey.split("|");
+      let rec = req.params.record;
+      let query, results, pkeys;
+      let table = await identifyTable(rec);
+      query = `DELETE FROM ${table} WHERE `;
       try {
-        let conn = await db.pool.getConnection()
+        let conn = await db.pool.getConnection();
         pkeys = await conn.query(`SELECT k.COLUMN_NAME
         FROM information_schema.table_constraints t
         LEFT JOIN information_schema.key_column_usage k
         USING(constraint_name,table_schema,table_name)
         WHERE t.constraint_type='PRIMARY KEY'
             AND t.table_schema=DATABASE()
-            AND t.table_name='${table}';`)
-        await conn.end()
+            AND t.table_name='${table}';`);
+        await conn.end();
       } catch (e) {
-        console.log(e)
+        console.log(e);
       }
-      console.log(pkeys)
+      console.log(pkeys);
       for (let j = 0; j < pkeysV.length; j++) {
-        console.log(pkeys[j])
-        query += `${pkeys[j].COLUMN_NAME} = '${pkeysV[j]}'`
+        console.log(pkeys[j]);
+        query += `${pkeys[j].COLUMN_NAME} = '${pkeysV[j]}'`;
         if (j == pkeysV.length - 1) {
-          query += ';'
+          query += ";";
         } else {
-          query += ' AND '
+          query += " AND ";
         }
       }
       try {
-        let conn = await db.pool.getConnection()
-        results = await conn.query(query)
+        let conn = await db.pool.getConnection();
+        results = await conn
+          .query(query)
           .then((response) => {
             res.sendStatus(200);
-          }).catch((err) => {
-            throw err
           })
-        conn.end()
-        return results
+          .catch((err) => {
+            throw err;
+          });
+        conn.end();
+        return results;
       } catch (e) {
-        console.log(e)
-        res.sendStatus(500)
-      }
-    }else{
-      res.send('You`re not an admin.')
-    }
-  }else{
-    res.send('Not logged in.')
-  }
-})
-
-async function identifyTable(record) {
-  let table
-  if ([8, 12].includes(routeStr.indexOf('/' + record, 0))) {
-    table = record.slice(0, -2)
-  } else {
-    if (routeStr.indexOf('/' + record, 0) >= 14) {
-      switch (routeStr.indexOf('/' + record, 0)) {
-        case 14:
-          {
-            table = 'offered_in';
-            break
-          }
-        case 15:
-          {
-            table = 'cour_enro';
-            break
-          }
-        case 16:
-          {
-            table = 'clas_stud';
-            break
-          }
-        case 17:
-          {
-            table = 'in_syllabus';
-            break
-          }
+        console.log(e);
+        res.sendStatus(500);
       }
     } else {
-      table = record.slice(0, -1)
+      res.send("You`re not an admin.");
+    }
+  } else {
+    res.send("Not logged in.");
+  }
+});
+
+async function identifyTable(record) {
+  let table;
+  if ([8, 12].includes(routeStr.indexOf("/" + record, 0))) {
+    table = record.slice(0, -2);
+  } else {
+    if (routeStr.indexOf("/" + record, 0) >= 14) {
+      switch (routeStr.indexOf("/" + record, 0)) {
+        case 14: {
+          table = "offered_in";
+          break;
+        }
+        case 15: {
+          table = "cour_enro";
+          break;
+        }
+        case 16: {
+          table = "clas_stud";
+          break;
+        }
+        case 17: {
+          table = "in_syllabus";
+          break;
+        }
+      }
+    } else {
+      table = record.slice(0, -1);
     }
   }
-  return table
+  return table;
 }
 
 async function insertData(table, values) {
   let conn;
   try {
     conn = await db.pool.getConnection();
-    const str = '?,'.repeat(values.length).slice(0, -1)
+    const str = "?,".repeat(values.length).slice(0, -1);
     const res = await conn.query(
-      'INSERT INTO ' + table + ' VALUES (' + str + ')',
+      "INSERT INTO " + table + " VALUES (" + str + ")",
       values
     );
     conn.end();
     return res;
   } catch (error) {
-    throw error
+    throw error;
   }
 }
 
