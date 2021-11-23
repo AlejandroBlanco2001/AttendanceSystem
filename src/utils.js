@@ -36,7 +36,7 @@ async function getStudentsClass(conn,args){
     INNER JOIN cour_enro ce ON c.code = ce.code_cour
     INNER JOIN enrollment e ON ce.id_enro = e.id
     INNER JOIN person p ON p.id = e.id_stud
-    WHERE c.code = '${code}' AND p.id='${id_pers}';`);
+    WHERE c.code = '${code}' AND p.id='${id_pers}' AND NOW() BETWEEN sp.start_time_sche AND ADDTIME(sp.start_time_sche, sc.duration * 10000);`);
     if(result) return result;
     else return -1;
 }

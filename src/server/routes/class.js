@@ -20,7 +20,7 @@ router.post('/getAttendance', async (req,res) => {
     let conn = await db.pool.getConnection();
     let result = await util.getAttendanceClass(conn,code);
     conn.end();
-    if(result == -1) res.sendStatus(500);
+    if(result == 0) res.sendStatus(500);
     else{
         result[0].logAttendance = DateTime.fromJSDate(result[0].logAttendance).toLocaleString(DateTime.DATETIME_SHORT);
         res.json(result);

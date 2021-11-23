@@ -104,7 +104,7 @@ io.on('connection', (socket) => {
             conn = await db.pool.getConnection();
             let result = await util.getStudentsClass(conn,{code: data.code, id_pers: data.id_pers});
             conn.end();
-            if(true){
+            if(result.length != 0){
                 socket.emit('sendNotificationClass',result);
             }
         }catch(err){
