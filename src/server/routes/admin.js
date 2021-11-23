@@ -63,6 +63,7 @@ router.post('/create/:record', async (req, res) => {
   if (req.user) {
     if (req.user.type == '0') {
       let rec = req.params.record
+      console.log(req.body.body)
       let update = req.body
       let query, table
       let results
@@ -87,6 +88,7 @@ router.post('/create/:record', async (req, res) => {
       part1 = part1.slice(0,-2) + ')'
       part2 = part2.slice(0,-2) + ')'
       query += part1 + ` VALUES ` + part2 + ';'
+      console.log(query)
       try {
         let conn = await db.pool.getConnection()
         results = await conn.query(query)
@@ -443,7 +445,7 @@ router.post('/update/:record/:pkey', async (req, res) => {
 router.post('/delete/:record/:pkey', async (req, res) => {
   if (req.user) {
     if (req.user.type == '0') {
-      let pkeysV = req.params.pkey.split(':')
+      let pkeysV = req.params.pkey.split('|') 
       let rec = req.params.record
       let query, results, pkeys
       let table = await identifyTable(rec)
@@ -461,7 +463,9 @@ router.post('/delete/:record/:pkey', async (req, res) => {
       } catch (e) {
         console.log(e)
       }
+      console.log(pkeys)
       for (let j = 0; j < pkeysV.length; j++) {
+        console.log(pkeys[j])
         query += `${pkeys[j].COLUMN_NAME} = '${pkeysV[j]}'`
         if (j == pkeysV.length - 1) {
           query += ';'
