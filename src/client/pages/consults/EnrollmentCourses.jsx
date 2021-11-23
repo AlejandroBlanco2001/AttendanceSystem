@@ -6,13 +6,25 @@ import "../../styles/table.css";
 const EnrollmentCourses= () => {
   const [isData, setIsData] = useState(false);
   const [enrollmentcourses, setEnrollmentCourses] = useState([]);
-  const [updatedUser, setUpdatedUser] = useState({})
+  const [updatedUser, setUpdatedEnrollmentCourse] = useState({})
   const [listaEnrollmentCourses, setListaEnrollmentCourses] = useState([]);
   const [needUpdate, setNeedUpdate] = useState(false);
   const [code_cour, setCodeCour]= useState();
   const [id_enro, setIdEnro]= useState();
 
+  const handleDeleteEnrollmentCourse = (erc) => {
+    deleteEnrollmentCourse([erc.code,erc.id_enro]);
+  }
 
+  const handleUpdateEnrollmentCourse = (erc) => {
+    setUpdatedEnrollmentCourse({});
+    let inputs = document.getElementsByTagName("input");
+    for (let index = 0; index < inputs.length; ++index) {
+      inputs[index].value = ""
+    }
+    console.log("USER TO UPDATE: ", erc);
+    setUpdatedEnrollmentCourse(erc);
+  } 
   const addEnrollmentCourse = () => {
     axios.post("http://localhost:80/admin/create/enrollmentCourses", {
       code_cour,
@@ -35,31 +47,30 @@ const EnrollmentCourses= () => {
       });
   };
 
+  const deleteEnrollmentCourse = (id) => {
+    axios.post(`http://localhost:80/admin/delete/enrollmentCourses/${id[0]}:${id[1]}`, { 1: true }, { withCredentials: true })
+      .then((response) => {
+        console.log("Eliminado correctamente");
+        console.log("RESPONSE: ", response);
+        window.location.reload(true);
+        reload();
+      })
+      .catch((err) => {
+        console.log("ERROR ELIMINANDO");
+        console.log(err);
+      });
+  };
 
-  // const deletePadre = (cedula) => {
-  //   Axios.delete(`http://localhost:3004/deletepadre/${cedula}`)
-  //     .then((response) => {
-  //       console.log("Eliminado correctamente");
-  //       window.location.reload(false);
-  //     })
-  //     .catch((err) => {
-  //       console.log("ERROR ELIMINANDO");
-  //       console.log(err);
-  //     });
-  // };
-
-  // const updateUser = () => {
-  //   Axios.put("http://localhost:3004/update", {
-  //     username: username|| updatedUser.username,
-  //     passcode: passcode || updatedUser.passcode,
-  //     urlimage: urlimage || updatedUser.urlimage,
-  //     id_person: id_person || updatedUser.id_person,
-  //     // Se necesita en caso de que el usuario cambie la cedula en el input o para comparar la informacion actual con la anterior
-  //   }).then((response) => {
-  //     window.location.reload(false);
-  //     reload();
-  //   });
-  // };
+  const updateEnrollmentCourse = () => {
+    axios.post(`http://localhost:80/admin/update/subjects/${updatedUser.code_cour}:${updatedUser.id_enro}`, {
+      code_cour: code_cour|| updatedUser.code_cour,
+      id_enro: id_enro || updatedUser.id_enro,
+    }, { withCredentials: true }).then((response) => {
+      window.location.reload(true);
+      reload();
+    });
+  };
+  
 
 useEffect(() => {
   axios
@@ -80,13 +91,13 @@ const sendInfo = (e) => {
 
 
  return (
- <main>
- <form action="" className="login-form" onSubmit={sendInfo}>
+ <main className="main-users">
+ <form onSubmit={sendInfo}>
           <img  alt="" />
           <div className="form-block">
             <label htmlFor="code_cour">Course's Code</label>
-            <input
-              type="texte"
+            <input className="row-form"
+              type="text"
               id="code_cour"
               value={code_cour || null || updatedUser.code_cour}
               placeholder="type the code of the Course"
@@ -96,8 +107,8 @@ const sendInfo = (e) => {
           </div>
           <div className="form-block">
             <label htmlFor="id_enro">Enrollment's ID</label>
-            <input
-              type="texte"
+            <input className="row-form"
+              type="text"
               placeholder="type the ID of the Enrollment"
               id="id_enro"
               value={id_enro || null || updatedUser.id_enro}
@@ -112,11 +123,10 @@ const sendInfo = (e) => {
           />
           <button
            className="button primary-button button-row"
-          // onClick={updateUser}
-          disabled={!needUpdate}
+           onClick={updateEnrollmentCourse}         
           type="button"
         >
-        ACTUALIZAR
+        UPDATE
         </button>
         </form>  
         
@@ -131,8 +141,8 @@ const sendInfo = (e) => {
           ]}
           data={isData?enrollmentcourses:null}
           setNeedUpdate={setNeedUpdate}
-          handleDeleteUser={null}
-          handleUpdateUser={null}
+          handleDeleteElement={handleDeleteEnrollmentCourse}
+          handleUpdateElement={handleUpdateEnrollmentCourse}
         />
     </div>
     </main>

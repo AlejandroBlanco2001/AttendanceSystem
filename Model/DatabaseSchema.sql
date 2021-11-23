@@ -24,7 +24,7 @@ CREATE TABLE Person (
 	-- Primary Key
 	PRIMARY KEY (id),
 	-- Foreign Key
-	FOREIGN KEY (id_dept) REFERENCES Department(id),
+	FOREIGN KEY (id_dept) REFERENCES Department(id) ON UPDATE CASCADE ON DELETE CASCADE,
 	UNIQUE (id),
 	-- Constraint
 	CONSTRAINT teacher_dept_nn 
@@ -44,7 +44,7 @@ CREATE TABLE User (
 	-- Primary Key
 	PRIMARY KEY (userName, id_pers),
 	-- Foreign Key
-	FOREIGN KEY (id_pers) REFERENCES Person(id),
+	FOREIGN KEY (id_pers) REFERENCES Person(id) ON UPDATE CASCADE ON DELETE CASCADE,
 	-- Unique Key
 	UNIQUE (id_pers)
 );
@@ -60,7 +60,7 @@ CREATE TABLE Program (
 	-- Primary Key
 	PRIMARY KEY (snies),
 	-- Foreign Key
-	FOREIGN KEY (id_dept) REFERENCES Department(id)
+	FOREIGN KEY (id_dept) REFERENCES Department(id) ON UPDATE CASCADE ON DELETE CASCADE
 );
 
 CREATE TABLE Subject (
@@ -74,7 +74,7 @@ CREATE TABLE Subject (
 	-- Primary Key
 	PRIMARY KEY (code),
 	-- Foreign Key
-	FOREIGN KEY (id_dept) REFERENCES Department(id)
+	FOREIGN KEY (id_dept) REFERENCES Department(id) ON UPDATE CASCADE ON DELETE CASCADE
 );
 
 CREATE TABLE Syllabus (
@@ -83,7 +83,7 @@ CREATE TABLE Syllabus (
 	-- Primary Key
 	PRIMARY KEY (code),
 	-- Foreign Key
-	FOREIGN KEY (snies_prog) REFERENCES Program(snies),
+	FOREIGN KEY (snies_prog) REFERENCES Program(snies) ON UPDATE CASCADE ON DELETE CASCADE,
 	-- Unique Key
 	UNIQUE (snies_prog)
 );
@@ -95,8 +95,8 @@ CREATE TABLE In_Syllabus (
 	-- Primary Key
 	PRIMARY KEY (code_subj, code_syll),
 	-- Foreign Key
-	FOREIGN KEY (code_subj) REFERENCES Subject(code),
-	FOREIGN KEY (code_syll) REFERENCES Syllabus(code)
+	FOREIGN KEY (code_subj) REFERENCES Subject(code) ON UPDATE CASCADE ON DELETE CASCADE,
+	FOREIGN KEY (code_syll) REFERENCES Syllabus(code) ON UPDATE CASCADE ON DELETE CASCADE
 );
 
 DELIMITER $$
@@ -132,8 +132,8 @@ CREATE TABLE Course (
 	-- Primary Key
 	PRIMARY KEY (code),
 	-- Foreign Key
-	FOREIGN KEY (code_subj) REFERENCES Subject(code) ON DELETE SET NULL,
-	FOREIGN KEY (id_teach) REFERENCES Person(id)
+	FOREIGN KEY (code_subj) REFERENCES Subject(code) ON UPDATE CASCADE ON DELETE SET NULL,
+	FOREIGN KEY (id_teach) REFERENCES Person(id) ON UPDATE CASCADE ON DELETE CASCADE
 );
 
 CREATE TABLE Offered_In (
@@ -143,8 +143,8 @@ CREATE TABLE Offered_In (
 	-- Primary Key
 	PRIMARY KEY (code_cour, year_peri, term_peri),
 	-- Foreign Key
-	FOREIGN KEY (code_cour) REFERENCES Course(code),
-	FOREIGN KEY (year_peri, term_peri) REFERENCES Period(year, term)
+	FOREIGN KEY (code_cour) REFERENCES Course(code) ON UPDATE CASCADE ON DELETE CASCADE,
+	FOREIGN KEY (year_peri, term_peri) REFERENCES Period(year, term) ON UPDATE CASCADE ON DELETE CASCADE
 );
 
 CREATE TABLE Classroom (
@@ -172,9 +172,9 @@ CREATE TABLE Space (
 	-- Primary Key
 	PRIMARY KEY (code, code_cour),
 	-- Foreign Key
-	FOREIGN KEY (code_cour) REFERENCES Course(code),
-	FOREIGN KEY (weekday_sche, start_time_sche) REFERENCES Schedule(weekday, start_time),
-	FOREIGN KEY (code_clasR) REFERENCES Classroom(code),
+	FOREIGN KEY (code_cour) REFERENCES Course(code) ON UPDATE CASCADE ON DELETE CASCADE,
+	FOREIGN KEY (weekday_sche, start_time_sche) REFERENCES Schedule(weekday, start_time) ON UPDATE CASCADE ON DELETE CASCADE,
+	FOREIGN KEY (code_clasR) REFERENCES Classroom(code) ON UPDATE CASCADE ON DELETE CASCADE,
 	-- Unique
 	CONSTRAINT conflict_space 
 	UNIQUE (weekday_sche, start_time_sche, code_clasR)
@@ -224,7 +224,7 @@ CREATE TRIGGER conflict_teacher_schedule
 DELIMITER ;
 
 CREATE TABLE Class (
-	code INTEGER NOT NULL AUTO_INCREMENT, 
+	code INTEGER NOT NULL AUTO_INCREMENT,
 	start_time DATETIME NOT NULL,
 	code_spac INTEGER NOT NULL,
 	code_cour_spac VARCHAR(7) NOT NULL,
@@ -232,7 +232,7 @@ CREATE TABLE Class (
 	-- Primary Key
 	PRIMARY KEY (code),
 	-- Foreign Key
-	FOREIGN KEY (code_spac, code_cour_spac) REFERENCES Space(code, code_cour) ON DELETE CASCADE
+	FOREIGN KEY (code_spac, code_cour_spac) REFERENCES Space(code, code_cour) ON UPDATE CASCADE ON DELETE CASCADE
 );
 
 SET GLOBAL event_scheduler = ON;
@@ -250,13 +250,13 @@ DO
 CREATE TABLE Clas_Stud (
 	code_clas INTEGER NOT NULL,
 	id_stud VARCHAR(10) NOT NULL,
-	attendance VARCHAR(3) NOT NULL,
+	attendance VARCHAR (3) NOT NULL,
 	logAttendance DATETIME NOT NULL,
 	-- Primary Key
 	PRIMARY KEY (code_clas, id_stud),
 	-- Foreign Key
-	FOREIGN KEY (code_clas) REFERENCES Class(code) ON DELETE CASCADE,
-	FOREIGN KEY (id_stud) REFERENCES Person(id)
+	FOREIGN KEY (code_clas) REFERENCES Class(code) ON UPDATE CASCADE ON DELETE CASCADE,
+	FOREIGN KEY (id_stud) REFERENCES Person(id) ON UPDATE CASCADE ON DELETE CASCADE
 );
 
 CREATE table Contract (
@@ -269,9 +269,9 @@ CREATE table Contract (
 	-- Primary Key
 	PRIMARY KEY (id, id_stud),
 	-- Foreign Key
-	FOREIGN KEY (id_stud) REFERENCES Person(id),
-	FOREIGN KEY (code_syll) REFERENCES Syllabus(code),
-	FOREIGN KEY (year_peri, term_peri) REFERENCES Period(year, term),
+	FOREIGN KEY (id_stud) REFERENCES Person(id) ON UPDATE CASCADE ON DELETE CASCADE,
+	FOREIGN KEY (code_syll) REFERENCES Syllabus(code) ON UPDATE CASCADE ON DELETE CASCADE,
+	FOREIGN KEY (year_peri, term_peri) REFERENCES Period(year, term) ON UPDATE CASCADE ON DELETE CASCADE,
 	-- Unique Key
 	UNIQUE (id_stud)
 );
@@ -284,8 +284,8 @@ CREATE TABLE Enrollment (
 	-- Primary Key
 	PRIMARY KEY (id, id_stud),
 	-- Foreign Key
-	FOREIGN KEY (id_stud) REFERENCES Person(id),
-	FOREIGN KEY (year_peri, term_peri) REFERENCES Period(year, term)
+	FOREIGN KEY (id_stud) REFERENCES Person(id) ON UPDATE CASCADE ON DELETE CASCADE,
+	FOREIGN KEY (year_peri, term_peri) REFERENCES Period(year, term) ON UPDATE CASCADE ON DELETE CASCADE
 );
 
 CREATE TABLE Cour_Enro (
@@ -296,8 +296,8 @@ CREATE TABLE Cour_Enro (
 	-- Primary Key
 	PRIMARY KEY (code_cour, id_enro),
 	-- Foreign Key
-	FOREIGN KEY (code_cour) REFERENCES Course(code),
-	FOREIGN KEY (id_enro) REFERENCES Enrollment(id)
+	FOREIGN KEY (code_cour) REFERENCES Course(code) ON UPDATE CASCADE ON DELETE CASCADE,
+	FOREIGN KEY (id_enro) REFERENCES Enrollment(id) ON UPDATE CASCADE ON DELETE CASCADE
 );
 
 DELIMITER $$

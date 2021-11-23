@@ -375,7 +375,7 @@ router.post('/create/:record', async (req, res) => {
 router.post('/update/:record/:pkey', async (req, res) => {
   if (req.user) {
     if (req.user.type == '0') {
-      let pkeysV = req.params.pkey.split(':')
+      let pkeysV = req.params.pkey.split(':');
       let rec = req.params.record
       let update = req.body
       let query, table
@@ -407,6 +407,7 @@ router.post('/update/:record/:pkey', async (req, res) => {
       } catch (e) {
         console.log(e)
       }
+      console.log(pkeysV);
       for (let j = 0; j < pkeysV.length; j++) {
         query += `${pkeys[j].COLUMN_NAME} = '${pkeysV[j]}'`
         if (j == pkeys.length - 1) {
@@ -419,6 +420,7 @@ router.post('/update/:record/:pkey', async (req, res) => {
         let conn = await db.pool.getConnection()
         results = await conn.query(query)
           .then((response) => {
+           console.log(response);
             res.sendStatus(200);
           }).catch((err) => {
             throw err
@@ -478,6 +480,7 @@ router.post('/delete/:record/:pkey', async (req, res) => {
         conn.end()
         return results
       } catch (e) {
+        console.log(e)
         res.sendStatus(500)
       }
     }else{
