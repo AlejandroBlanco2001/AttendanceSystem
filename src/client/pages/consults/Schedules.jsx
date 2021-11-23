@@ -6,13 +6,26 @@ import "../../styles/table.css";
 const Schedules= () => {
   const [isData, setIsData] = useState(false);
   const [schedules, setSchedules] = useState([]);
-  const [updatedUser, setUpdatedUser] = useState({})
+  const [updatedUser, setUpdatedSchedule] = useState({})
   const [listaSchedules, setListaSchudeles] = useState([]);
   const [needUpdate, setNeedUpdate] = useState(false);
   const [weekday, setWeekday]= useState("");
   const [start_time, setStartTimeSch]= useState("");
   const [duration, setDurationSch]= useState("");
 
+  const handleDeleteSchedule = (schedule) => {
+    deleteSchedule([schedule.weekday,schedule.start_time]);
+  }
+
+  const handleUpdateSchedule = (schedule) => {
+    setUpdatedSchedule({});
+    let inputs = document.getElementsByTagName("input");
+    for (let index = 0; index < inputs.length; ++index) {
+      inputs[index].value = ""
+    }
+    console.log("USER TO UPDATE: ", schedule);
+    setUpdatedSchedule(schedule);
+  }
 
 
   const addSchedules = () => {
@@ -39,32 +52,34 @@ const Schedules= () => {
       });
   };
 
+  const deleteSchedule = (id) => {
+  
+    axios.post(`http://localhost:80/admin/delete/schedules/${id[0]}:${id[1]}`, { 1: true }, { withCredentials: true })
+      .then((response) => {
+        console.log("Eliminado correctamente");
+        console.log("RESPONSE: ", response);
+        window.location.reload(true);
+        reload();
+      })
+      .catch((err) => {
+        console.log("ERROR ELIMINANDO");
+        console.log(err);
+      });
+  };
 
-  // const deletePadre = (cedula) => {
-  //   Axios.delete(`http://localhost:3004/deletepadre/${cedula}`)
-  //     .then((response) => {
-  //       console.log("Eliminado correctamente");
-  //       window.location.reload(false);
-  //     })
-  //     .catch((err) => {
-  //       console.log("ERROR ELIMINANDO");
-  //       console.log(err);
-  //     });
-  // };
-
-  // const updateUser = () => {
-  //   Axios.put("http://localhost:3004/update", {
-  //     username: username|| updatedUser.username,
-  //     passcode: passcode || updatedUser.passcode,
-  //     urlimage: urlimage || updatedUser.urlimage,
-  //     id_person: id_person || updatedUser.id_person,
-  //     // Se necesita en caso de que el usuario cambie la cedula en el input o para comparar la informacion actual con la anterior
-  //   }).then((response) => {
-  //     window.location.reload(false);
-  //     reload();
-  //   });
-  // };
-
+  const updateSubject = () => {
+    console.log(updatedUser);
+    axios.post(`http://localhost:80/admin/update/schedules/${updatedUser.weekday}:${updatedUser.start_time}`, {
+      weekday: weekday|| updatedUser.weekday,
+      start_time: start_time || updatedUser.start_time,
+      duration: duration || updatedUser.duration,
+    
+    }, { withCredentials: true }).then((response) => {
+      window.location.reload(true);
+      reload();
+    });
+  };
+ 
 useEffect(() => {
   axios
   .get("http://localhost:80/admin/schedules", { withCredentials: true })
@@ -84,8 +99,8 @@ const sendInfo = (e) => {
 
 
  return (
- <main>
- <form action="" className="login-form" onSubmit={sendInfo}>
+ <main className="main-users">
+ <form onSubmit={sendInfo}>
           <img  alt="" />
           <div className="form-block">
             <label htmlFor="weekday">Weekday</label>
@@ -109,7 +124,7 @@ const sendInfo = (e) => {
           </div>
           <div className="form-block">
             <label htmlFor="start_time">Start time</label>
-            <input
+            <input className="row-form"
               type="text"
               placeholder="type the Start Time"
               id="start_time"
@@ -120,7 +135,7 @@ const sendInfo = (e) => {
           </div>
           <div className="form-block">
             <label htmlFor="duration">Duration</label>
-            <input
+            <input className="row-form"
               type="text"
               placeholder="type the Duration of the class"
               id="duration"
@@ -136,8 +151,7 @@ const sendInfo = (e) => {
           />
           <button
            className="button secondary-button button-row"
-          // onClick={updateUser}
-          disabled={!needUpdate}
+          onClick={updateSubject}
           type="button"
         >
         UPDATE
@@ -155,8 +169,8 @@ const sendInfo = (e) => {
           ]}
           data={isData?schedules:null}
           setNeedUpdate={setNeedUpdate}
-          handleDeleteUser={null}
-          handleUpdateUser={null}
+          handleDeleteElement={handleDeleteSchedule}
+          handleUpdateElement={handleUpdateSchedule}
         />
     </div>
     </main>

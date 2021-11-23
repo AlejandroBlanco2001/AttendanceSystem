@@ -6,13 +6,26 @@ import "../../styles/table.css";
 const Periods= () => {
   const [isData, setIsData] = useState(false);
   const [periods, setPeriods] = useState([]);
-  const [updatedUser, setUpdatedUser] = useState({})
+  const [updatedUser, setUpdatedPeriod] = useState({})
   const [listaPeriods, setListaPeriods] = useState([]);
   const [needUpdate, setNeedUpdate] = useState(false);
   const [year, setYear]= useState();
   const [term, setTerm]= useState();
   const [description, setDescription]= useState("");
 
+  const handleDeletePeriod = (period) => {
+    deletePeriod([period.year, period.term]);
+  }
+
+  const handleUpdatePeriod = (period) => {
+    setUpdatedPeriod({});
+    let inputs = document.getElementsByTagName("input");
+    for (let index = 0; index < inputs.length; ++index) {
+      inputs[index].value = ""
+    }
+    console.log("USER TO UPDATE: ", period);
+    setUpdatedPeriod(period);
+  }
 
   const addPeriod = () => {
     axios.post("http://localhost:80/admin/create/periods", {
@@ -39,31 +52,6 @@ const Periods= () => {
   };
 
 
-  // const deletePadre = (cedula) => {
-  //   Axios.delete(`http://localhost:3004/deletepadre/${cedula}`)
-  //     .then((response) => {
-  //       console.log("Eliminado correctamente");
-  //       window.location.reload(false);
-  //     })
-  //     .catch((err) => {
-  //       console.log("ERROR ELIMINANDO");
-  //       console.log(err);
-  //     });
-  // };
-
-  // const updateUser = () => {
-  //   Axios.put("http://localhost:3004/update", {
-  //     username: username|| updatedUser.username,
-  //     passcode: passcode || updatedUser.passcode,
-  //     urlimage: urlimage || updatedUser.urlimage,
-  //     id_person: id_person || updatedUser.id_person,
-  //     // Se necesita en caso de que el usuario cambie la cedula en el input o para comparar la informacion actual con la anterior
-  //   }).then((response) => {
-  //     window.location.reload(false);
-  //     reload();
-  //   });
-  // };
-
 useEffect(() => {
   axios
   .get("http://localhost:80/admin/periods", { withCredentials: true })
@@ -81,14 +69,40 @@ const sendInfo = (e) => {
   addPeriod();
 };
 
+const deletePeriod = (id) => {
+  axios.post(`http://localhost:80/admin/delete/periods/${id[0]}:${id[1]}`, { 1: true }, { withCredentials: true })
+    .then((response) => {
+      console.log("Eliminado correctamente");
+      console.log("RESPONSE: ", response);
+      window.location.reload(true);
+      reload();
+    })
+    .catch((err) => {
+      console.log("ERROR ELIMINANDO");
+      console.log(err);
+    });
+};
+
+const updatePeriod = () => {
+  axios.post(`http://localhost:80/admin/update/periods/${updatedUser.year}:${updatedUser.term}`, {
+    year: year|| updatedUser.year,
+    term: term || updatedUser.term,
+    description: description || updatedUser.description,
+  }, { withCredentials: true }).then((response) => {
+    window.location.reload(true);
+    reload();
+  });
+};
+
+
 
  return (
- <main>
- <form action="" className="login-form" onSubmit={sendInfo}>
+ <main className="main-users">
+ <form onSubmit={sendInfo}>
           <img  alt="" />
           <div className="form-block">
             <label htmlFor="year">Year</label>
-            <input
+            <input className="row-form"
               type="text"
               id="year"
               value={year || "" || updatedUser.year}
@@ -99,7 +113,7 @@ const sendInfo = (e) => {
           </div>
           <div className="form-block">
             <label htmlFor="term">Term</label>
-            <select
+            <select className="row-form"
               type="text"
               placeholder="type the Term"
               id="term"
@@ -113,7 +127,7 @@ const sendInfo = (e) => {
           </div>
           <div className="form-block">
             <label htmlFor="description">Period's Description</label>
-            <input
+            <input className="row-form"
               type="text"
               placeholder="type the descriptionof the period"
               id="description"
@@ -129,8 +143,7 @@ const sendInfo = (e) => {
           />
           <button
            className="button secondary-button button-row"
-          // onClick={updateUser}
-          disabled={!needUpdate}
+          onClick={updatePeriod}
           type="button"
         >
         UPDATE
@@ -147,8 +160,8 @@ const sendInfo = (e) => {
           ]}
           data={isData?periods:null}
           setNeedUpdate={setNeedUpdate}
-          handleDeleteUser={null}
-          handleUpdateUser={null}
+          handleDeleteElement={handleDeletePeriod}
+          handleUpdateElement={handleUpdatePeriod}
         />
     </div>
     </main>

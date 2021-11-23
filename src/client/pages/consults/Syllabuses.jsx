@@ -6,11 +6,25 @@ import "../../styles/table.css";
 const Syllabus= () => {
   const [isData, setIsData] = useState(false);
   const [syllabuses, setSyllabuses] = useState([]);
-  const [updatedUser, setUpdatedUser] = useState({})
+  const [updatedUser, setUpdatedSyllabus] = useState({})
   const [listaSyllabuses, setListaSyllabuses] = useState([]);
   const [needUpdate, setNeedUpdate] = useState(false);
   const [code, setCodeSy]= useState("");
   const [snies_prog, setSniesProg]= useState("");
+
+  const handleDeleteSyllabus = (syllabus) => {
+    deleteSyllabus(syllabus.code);
+  }
+
+  const handleUpdateSyllabus = (syllabus) => {
+    setUpdatedSyllabus({});
+    let inputs = document.getElementsByTagName("input");
+    for (let index = 0; index < inputs.length; ++index) {
+      inputs[index].value = ""
+    }
+    console.log("USER TO UPDATE: ", syllabus);
+    setUpdatedSyllabus(syllabus);
+  }
 
 
   const addSyllabus = () => {
@@ -35,31 +49,29 @@ const Syllabus= () => {
       });
   };
 
+  const deleteSyllabus = (id) => {
+    axios.post(`http://localhost:80/admin/delete/syllabuses/${id}`, { 1: true }, { withCredentials: true })
+      .then((response) => {
+        console.log("Eliminado correctamente");
+        console.log("RESPONSE: ", response);
+        window.location.reload(true);
+        reload();
+      })
+      .catch((err) => {
+        console.log("ERROR ELIMINANDO");
+        console.log(err);
+      });
+  };
 
-  // const deletePadre = (cedula) => {
-  //   Axios.delete(`http://localhost:3004/deletepadre/${cedula}`)
-  //     .then((response) => {
-  //       console.log("Eliminado correctamente");
-  //       window.location.reload(false);
-  //     })
-  //     .catch((err) => {
-  //       console.log("ERROR ELIMINANDO");
-  //       console.log(err);
-  //     });
-  // };
-
-  // const updateUser = () => {
-  //   Axios.put("http://localhost:3004/update", {
-  //     username: username|| updatedUser.username,
-  //     passcode: passcode || updatedUser.passcode,
-  //     urlimage: urlimage || updatedUser.urlimage,
-  //     id_person: id_person || updatedUser.id_person,
-  //     // Se necesita en caso de que el usuario cambie la cedula en el input o para comparar la informacion actual con la anterior
-  //   }).then((response) => {
-  //     window.location.reload(false);
-  //     reload();
-  //   });
-  // };
+  const updateSubject = () => {
+    axios.post(`http://localhost:80/admin/update/syllabuses/${updatedUser.code}`, {
+      code: code|| updatedUser.code,
+      snies_prog: snies_prog || updatedUser.snies_prog,
+    }, { withCredentials: true }).then((response) => {
+      window.location.reload(true);
+      reload();
+    });
+  };
 
 useEffect(() => {
   axios
@@ -80,12 +92,12 @@ const sendInfo = (e) => {
 
 
  return (
- <main>
- <form action="" className="login-form" onSubmit={sendInfo}>
+ <main className="main-users">
+ <form  onSubmit={sendInfo}>
           <img  alt="" />
           <div className="form-block">
             <label htmlFor="code">Syllabus' Code</label>
-            <input
+            <input className="row-form"
               type="text"
               id="code"
               value={code || "" || updatedUser.code}
@@ -96,7 +108,7 @@ const sendInfo = (e) => {
           </div>
           <div className="form-block">
             <label htmlFor="snies_prog">Program's SNIES</label>
-            <input
+            <input className="row-form"
               type="text"
               placeholder="type the SNIES of the program"
               id="snies_prog"
@@ -129,8 +141,8 @@ const sendInfo = (e) => {
           ]}
           data={isData?syllabuses:null}
           setNeedUpdate={setNeedUpdate}
-          handleDeleteUser={null}
-          handleUpdateUser={null}
+          handleDeleteElement={handleDeleteSyllabus}
+          handleUpdateElement={handleUpdateSyllabus}
         />
     </div>
     </main>

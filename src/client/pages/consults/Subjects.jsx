@@ -19,18 +19,18 @@ const Subjects = () => {
   const [id_dept, setID] = useState();
 
 
-  const handleDeleteSubject = (user) => {
-    deleteSubject([user.code, user.id_dept]);
+  const handleDeleteSubject = (subject) => {
+    deleteSubject(subject.code);
   }
 
-  const handleUpdateSubject = (data) => {
+  const handleUpdateSubject = (subject) => {
     setUpdatedSubject({});
     let inputs = document.getElementsByTagName("input");
     for (let index = 0; index < inputs.length; ++index) {
       inputs[index].value = ""
     }
-    console.log("USER TO UPDATE: ", data);
-    setUpdatedSubject(data);
+    console.log("USER TO UPDATE: ", subject);
+    setUpdatedSubject(subject);
   }
 
   const addSubject = () => {
@@ -66,7 +66,7 @@ const Subjects = () => {
   };
 
   const deleteSubject = (id) => {
-    axios.post(`http://localhost:80/admin/delete/subjects/${id[0]}:${id[6]}`, { 1: true }, { withCredentials: true })
+    axios.post(`http://localhost:80/admin/delete/subjects/${id}`, { 1: true }, { withCredentials: true })
       .then((response) => {
         console.log("Eliminado correctamente");
         console.log("RESPONSE: ", response);
@@ -80,8 +80,8 @@ const Subjects = () => {
   };
 
   const updateSubject = () => {
-    axios.post(`http://localhost:80/admin/update/subjects/${updatedUser.code}:${updatedUser.id_dept}`, {
-      code: code || updatedUser.code,
+    axios.post(`http://localhost:80/admin/update/subjects/${updatedUser.code}`, {
+      code: code|| updatedUser.code,
       name: name || updatedUser.name,
       credits: credits || updatedUser.credits,
       type: type || updatedUser.type,
@@ -237,8 +237,8 @@ const Subjects = () => {
           ]}
           data={isData ? subjects : null}
           setNeedUpdate={setNeedUpdate}
-          handleDeleteUser={handleDeleteSubject}
-          handleUpdateUser={handleUpdateSubject}
+          handleDeleteElement={handleDeleteSubject}
+          handleUpdateElement={handleUpdateSubject}
         />
       </div>
     </main>

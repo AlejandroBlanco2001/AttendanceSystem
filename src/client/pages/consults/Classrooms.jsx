@@ -6,12 +6,25 @@ import "../../styles/table.css";
 const Classroom= () => {
   const [isData, setIsData] = useState(false);
   const [classrooms, setClassrooms] = useState([]);
-  const [updatedUser, setUpdatedUser] = useState({})
+  const [updatedUser, setUpdatedClassroom] = useState({})
   const [listaClassrooms, setListaClassrooms] = useState([]);
   const [needUpdate, setNeedUpdate] = useState(false);
   const [code, setCodeClr]= useState("");
   const [type, setTypeClr]= useState("");
 
+  const handleDeleteClassroom = (classroom) => {
+    deleteClassroom(classroom.code);
+  }
+
+  const handleUpdateClassroom = (classroom) => {
+    setUpdatedClassroom({});
+    let inputs = document.getElementsByTagName("input");
+    for (let index = 0; index < inputs.length; ++index) {
+      inputs[index].value = ""
+    }
+    console.log("USER TO UPDATE: ", classroom);
+    setUpdatedClassroom(classroom);
+  }
 
   const addClassroom = () => {
     axios.post("http://localhost:80/admin/create/classrooms", {
@@ -35,31 +48,29 @@ const Classroom= () => {
       });
   };
 
+  const deleteClassroom = (id) => {
+    axios.post(`http://localhost:80/admin/delete/classrooms/${id}`, { 1: true }, { withCredentials: true })
+      .then((response) => {
+        console.log("Eliminado correctamente");
+        console.log("RESPONSE: ", response);
+        window.location.reload(true);
+        reload();
+      })
+      .catch((err) => {
+        console.log("ERROR ELIMINANDO");
+        console.log(err);
+      });
+  };
 
-  // const deletePadre = (cedula) => {
-  //   Axios.delete(`http://localhost:3004/deletepadre/${cedula}`)
-  //     .then((response) => {
-  //       console.log("Eliminado correctamente");
-  //       window.location.reload(false);
-  //     })
-  //     .catch((err) => {
-  //       console.log("ERROR ELIMINANDO");
-  //       console.log(err);
-  //     });
-  // };
-
-  // const updateUser = () => {
-  //   Axios.put("http://localhost:3004/update", {
-  //     username: username|| updatedUser.username,
-  //     passcode: passcode || updatedUser.passcode,
-  //     urlimage: urlimage || updatedUser.urlimage,
-  //     id_person: id_person || updatedUser.id_person,
-  //     // Se necesita en caso de que el usuario cambie la cedula en el input o para comparar la informacion actual con la anterior
-  //   }).then((response) => {
-  //     window.location.reload(false);
-  //     reload();
-  //   });
-  // };
+  const updateClassroom = () => {
+    axios.post(`http://localhost:80/admin/update/classrooms/${updatedUser.code}`, {
+      code: code|| updatedUser.code,
+      type: type || updatedUser.type,
+    }, { withCredentials: true }).then((response) => {
+      window.location.reload(true);
+      reload();
+    });
+  };
 
 useEffect(() => {
   axios
@@ -80,12 +91,12 @@ const sendInfo = (e) => {
 
 
  return (
- <main>
- <form action="" className="login-form" onSubmit={sendInfo}>
+ <main className="main-users">
+ <form onSubmit={sendInfo}>
           <img  alt="" />
           <div className="form-block">
             <label htmlFor="code">Classroom's Code</label>
-            <input
+            <input className="row-form"
               type="text"
               id="code"
               value={code || "" || updatedUser.code}
@@ -96,7 +107,7 @@ const sendInfo = (e) => {
           </div>
           <div className="form-block">
             <label htmlFor="type">Classroom Type</label>
-            <select
+            <select className="row-form"
               type="text"
               placeholder="type the type classroom"
               id="type"
@@ -114,9 +125,8 @@ const sendInfo = (e) => {
             value="ADD"
           />
           <button
-           className="button secondary-button button-row"
-          // onClick={updateUser}
-          disabled={!needUpdate}
+           className="button primary-button button-row"
+          onClick={updateClassroom}
           type="button"
         >
         UPDATE
@@ -132,8 +142,8 @@ const sendInfo = (e) => {
           ]}
           data={isData?classrooms:null}
           setNeedUpdate={setNeedUpdate}
-          handleDeleteUser={null}
-          handleUpdateUser={null}
+          handleDeleteElement={handleDeleteClassroom}
+          handleUpdateElement={handleUpdateClassroom}
         />
     </div>
     </main>

@@ -6,7 +6,7 @@ import "../../styles/table.css";
 const Contract= () => {
   const [isData, setIsData] = useState(false);
   const [contracts, setContracts] = useState([]);
-  const [updatedUser, setUpdatedUser] = useState({})
+  const [updatedUser, setUpdatedContract] = useState({})
   const [listContracts, setListContracts] = useState([]);
   const [needUpdate, setNeedUpdate] = useState(false);
   const [id_stud, setIDStudCtr]= useState();
@@ -14,6 +14,19 @@ const Contract= () => {
   const [year_peri, setYearPeriCtr]= useState();
   const [term_peri, setTermPeriCtr]= useState();
 
+  const handleDeleteContract = (contract) => {
+    deleteContract([contract.id, contract.id_stud]);
+  }
+
+  const handleUpdateContract = (contract) => {
+    setUpdatedContract({});
+    let inputs = document.getElementsByTagName("input");
+    for (let index = 0; index < inputs.length; ++index) {
+      inputs[index].value = ""
+    }
+    console.log("USER TO UPDATE: ", contract);
+    setUpdatedContract(contract);
+  }
 
   const addContract = () => {
     axios.post("http://localhost:80/admin/create/contracts", {
@@ -41,31 +54,31 @@ const Contract= () => {
       });
   };
 
+  const deleteContract = (id) => {
+    axios.post(`http://localhost:80/admin/delete/contracts/${id[0]}:${id[1]}`, { 1: true }, { withCredentials: true })
+      .then((response) => {
+        console.log("Eliminado correctamente");
+        console.log("RESPONSE: ", response);
+        window.location.reload(true);
+        reload();
+      })
+      .catch((err) => {
+        console.log("ERROR ELIMINANDO");
+        console.log(err);
+      });
+  };
 
-  // const deletePadre = (cedula) => {
-  //   Axios.delete(`http://localhost:3004/deletepadre/${cedula}`)
-  //     .then((response) => {
-  //       console.log("Eliminado correctamente");
-  //       window.location.reload(false);
-  //     })
-  //     .catch((err) => {
-  //       console.log("ERROR ELIMINANDO");
-  //       console.log(err);
-  //     });
-  // };
-
-  // const updateUser = () => {
-  //   Axios.put("http://localhost:3004/update", {
-  //     username: username|| updatedUser.username,
-  //     passcode: passcode || updatedUser.passcode,
-  //     urlimage: urlimage || updatedUser.urlimage,
-  //     id_person: id_person || updatedUser.id_person,
-  //     // Se necesita en caso de que el usuario cambie la cedula en el input o para comparar la informacion actual con la anterior
-  //   }).then((response) => {
-  //     window.location.reload(false);
-  //     reload();
-  //   });
-  // };
+  const updateSubject = () => {
+    axios.post(`http://localhost:80/admin/update/contracts/${updatedUser.id}:${updatedUser.id_stud}`, {
+      id_stud: id_stud|| updatedUser.id_stud,
+      code_syll: code_syll || updatedUser.code_syll,
+      year_peri: year_peri || updatedUser.year_peri,
+      term_peri: term_peri || updatedUser.term_peri
+    }, { withCredentials: true }).then((response) => {
+      window.location.reload(true);
+      reload();
+    });
+  };
 
 useEffect(() => {
   axios
@@ -86,12 +99,12 @@ const sendInfo = (e) => {
 
 
  return (
- <main>
- <form action="" className="login-form" onSubmit={sendInfo}>
+ <main className="main-users">
+ <form onSubmit={sendInfo}>
           <img  alt="" />
           <div className="form-block">
             <label htmlFor="id_stud">Hiring Student's ID</label>
-            <input
+            <input className="row-form"
               type="text"
               id="id_stud"
               value={id_stud || "" || updatedUser.id_stud}
@@ -102,7 +115,7 @@ const sendInfo = (e) => {
           </div>
           <div className="form-block">
             <label htmlFor="code_syll">Syllabus' Code</label>
-            <input
+            <input className="row-form"
               type="text"
               placeholder="type the syllabus' code"
               id="code_syll"
@@ -113,7 +126,7 @@ const sendInfo = (e) => {
           </div>
           <div className="form-block">
             <label htmlFor="year_peri">Period's Year</label>
-            <input
+            <input className="row-form"
               type="text"
               placeholder="type the period's year"
               id="year_peri"
@@ -124,7 +137,7 @@ const sendInfo = (e) => {
           </div>
           <div className="form-block">
             <label htmlFor="term_peri">Period's Term</label>
-            <input
+            <input className="row-form"
               type="text"
               placeholder="type the period's term"
               id="term_peri"
@@ -161,8 +174,8 @@ const sendInfo = (e) => {
           ]}
           data={isData?contracts:null}
           setNeedUpdate={setNeedUpdate}
-          handleDeleteUser={null}
-          handleUpdateUser={null}
+          handleDeleteElement={handleDeleteContract}
+          handleUpdateElement={handleUpdateContract}
         />
     </div>
     </main>

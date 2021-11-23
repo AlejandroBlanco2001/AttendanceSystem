@@ -6,7 +6,7 @@ import "../../styles/table.css";
 const Program= () => {
   const [isData, setIsData] = useState(false);
   const [programs, setPrograms] = useState([]);
-  const [updatedUser, setUpdatedUser] = useState({})
+  const [updatedUser, setUpdatedPrograms] = useState({})
   const [listaPrograms, setListaPrograms] = useState([]);
   const [needUpdate, setNeedUpdate] = useState(false);
   const [snies, setSNIES]= useState();
@@ -18,7 +18,19 @@ const Program= () => {
   const [id_dept, setIdDeptProg]= useState();
 
 
+  const handleDeletePrograms = (programs) => {
+    deletePrograms(programs.snies);
+  }
 
+  const handleUpdatePrograms = (programs) => {
+    setUpdatedPrograms({});
+    let inputs = document.getElementsByTagName("input");
+    for (let index = 0; index < inputs.length; ++index) {
+      inputs[index].value = ""
+    }
+    console.log("USER TO UPDATE: ", programs);
+    setUpdatedPrograms(programs);
+  }
 
 
 
@@ -57,30 +69,36 @@ const Program= () => {
   };
 
 
-  // const deletePadre = (cedula) => {
-  //   Axios.delete(`http://localhost:3004/deletepadre/${cedula}`)
-  //     .then((response) => {
-  //       console.log("Eliminado correctamente");
-  //       window.location.reload(false);
-  //     })
-  //     .catch((err) => {
-  //       console.log("ERROR ELIMINANDO");
-  //       console.log(err);
-  //     });
-  // };
+  const deletePrograms = (id) => {
+    axios.post(`http://localhost:80/admin/delete/programs/${id}`, { 1: true }, { withCredentials: true })
+      .then((response) => {
+        console.log("Eliminado correctamente");
+        console.log("RESPONSE: ", response);
+        window.location.reload(true);
+        reload();
+      })
+      .catch((err) => {
+        console.log("ERROR ELIMINANDO");
+        console.log(err);
+      });
+  };
 
-  // const updateUser = () => {
-  //   Axios.put("http://localhost:3004/update", {
-  //     username: username|| updatedUser.username,
-  //     passcode: passcode || updatedUser.passcode,
-  //     urlimage: urlimage || updatedUser.urlimage,
-  //     id_person: id_person || updatedUser.id_person,
-  //     // Se necesita en caso de que el usuario cambie la cedula en el input o para comparar la informacion actual con la anterior
-  //   }).then((response) => {
-  //     window.location.reload(false);
-  //     reload();
-  //   });
-  // };
+  const updatePrograms = () => {
+    axios.post(`http://localhost:80/admin/update/programs/${updatedUser.snies}`, {
+      snies: snies|| updatedUser.snies,
+      name: name || updatedUser.name,
+      type: type || updatedUser.type,
+      title: title || updatedUser.title,
+      duration: duration || updatedUser.duration,
+      credits: credits || updatedUser.credits,
+      id_dept: id_dept || updatedUser.id_dept,
+
+    }, { withCredentials: true }).then((response) => {
+      window.location.reload(true);
+      reload();
+    });
+  };
+
 
 useEffect(() => {
   axios
@@ -101,12 +119,12 @@ const sendInfo = (e) => {
 
 
  return (
- <main>
- <form action="" className="login-form" onSubmit={sendInfo}>
+ <main className="main-users">
+ <form onSubmit={sendInfo}>
           <img  alt="" />
           <div className="form-block">
             <label htmlFor="snies">SNIES</label>
-            <input
+            <input className="row-form"
               type="text"
               id="snies"
               value={snies || "" || updatedUser.snies}
@@ -117,7 +135,7 @@ const sendInfo = (e) => {
           </div>
           <div className="form-block">
             <label htmlFor="name">Program's Name</label>
-            <input
+            <input className="row-form"
               type="text"
               placeholder="type the name of the program"
               id="name"
@@ -143,7 +161,7 @@ const sendInfo = (e) => {
           </div>
           <div className="form-block">
             <label htmlFor="title">Title</label>
-            <input
+            <input className="row-form"
               type="text"
               placeholder="type the title of the program"
               id="title"
@@ -154,7 +172,7 @@ const sendInfo = (e) => {
           </div>
           <div className="form-block">
             <label htmlFor="duration">Duration</label>
-            <input
+            <input className="row-form"
               type="text"
               placeholder="type the duration of the program"
               id="duration"
@@ -166,7 +184,7 @@ const sendInfo = (e) => {
           </div>
           <div className="form-block">
             <label htmlFor="credits">Credits</label>
-            <input
+            <input className="row-form"
               type="number"
               placeholder="type the credits"
               id="credits"
@@ -179,7 +197,7 @@ const sendInfo = (e) => {
           <div className="form-block">
           <label htmlFor="id_dpt">ID departament</label>
         <select
-          type="texte"
+          type="text"
           id="id_dpt"
           value={id_dept || null || updatedUser.id_dept}
           onChange={(e) => setIdDeptProg(e.target.value)}
@@ -206,8 +224,7 @@ const sendInfo = (e) => {
           />
           <button
            className="button secondary-button button-row"
-          // onClick={updateUser}
-          disabled={!needUpdate}
+           onClick={updatePrograms}
           type="button"
         >
         UPDATE
@@ -228,8 +245,8 @@ const sendInfo = (e) => {
           ]}
           data={isData?programs:null}
           setNeedUpdate={setNeedUpdate}
-          handleDeleteUser={null}
-          handleUpdateUser={null}
+          handleDeleteElement={handleDeletePrograms}
+          handleUpdateElement={handleUpdatePrograms}
         />
     </div>
     </main>

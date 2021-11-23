@@ -6,7 +6,7 @@ import "../../styles/table.css";
 const Spaces= () => {
   const [isData, setIsData] = useState(false);
   const [spaces, setSpaces] = useState([]);
-  const [updatedUser, setUpdatedUser] = useState({})
+  const [updatedUser, setUpdatedSpace] = useState({})
   const [listaSpaces, setListaSpaces] = useState([]);
   const [needUpdate, setNeedUpdate] = useState(false);
   const [code_cour, setCodeCoursp]= useState(0);
@@ -14,6 +14,44 @@ const Spaces= () => {
   const [start_time_sche, setStarTime]= useState("");
   const [code_clasR, setClasR]= useState("");
 
+  const handleDeleteSpace = (space) => {
+    deleteSpace([space.code, space.code_cour]);
+  }
+
+  const handleUpdateSpace = (space) => {
+    setUpdatedSpace({});
+    let inputs = document.getElementsByTagName("input");
+    for (let index = 0; index < inputs.length; ++index) {
+      inputs[index].value = ""
+    }
+    console.log("USER TO UPDATE: ", space);
+    setUpdatedSpace(space);
+  }
+  const deleteSpace = (id) => {
+    axios.post(`http://localhost:80/admin/delete/spaces/${id[0]}:${id[1]}`, { 1: true }, { withCredentials: true })
+      .then((response) => {
+        console.log("Eliminado correctamente");
+        console.log("RESPONSE: ", response);
+        window.location.reload(true);
+        reload();
+      })
+      .catch((err) => {
+        console.log("ERROR ELIMINANDO");
+        console.log(err);
+      });
+  };
+
+  const updateSpace = () => {
+    axios.post(`http://localhost:80/admin/update/spaces/${updatedUser.code}:${updatedUser.code_cour}`, {
+      code_cour: code_cour|| updatedUser.code_cour,
+      weekday_sche: weekday_sche|| updatedUser.weekday_sche,
+      start_time_sche: start_time_sche || updatedUser.start_time_sche,
+      code_clasR: code_clasR || updatedUser.code_clasR,
+    }, { withCredentials: true }).then((response) => {
+      window.location.reload(true);
+      reload();
+    });
+  };
 
   const addSpace = () => {
     axios.post("http://localhost:80/admin/create/spaces", {
@@ -41,32 +79,6 @@ const Spaces= () => {
       });
   };
 
-
-  // const deletePadre = (cedula) => {
-  //   Axios.delete(`http://localhost:3004/deletepadre/${cedula}`)
-  //     .then((response) => {
-  //       console.log("Eliminado correctamente");
-  //       window.location.reload(false);
-  //     })
-  //     .catch((err) => {
-  //       console.log("ERROR ELIMINANDO");
-  //       console.log(err);
-  //     });
-  // };
-
-  // const updateUser = () => {
-  //   Axios.put("http://localhost:3004/update", {
-  //     username: username|| updatedUser.username,
-  //     passcode: passcode || updatedUser.passcode,
-  //     urlimage: urlimage || updatedUser.urlimage,
-  //     id_person: id_person || updatedUser.id_person,
-  //     // Se necesita en caso de que el usuario cambie la cedula en el input o para comparar la informacion actual con la anterior
-  //   }).then((response) => {
-  //     window.location.reload(false);
-  //     reload();
-  //   });
-  // };
-
 useEffect(() => {
   axios
   .get("http://localhost:80/admin/spaces", { withCredentials: true })
@@ -86,12 +98,12 @@ const sendInfo = (e) => {
 
 
  return (
- <main>
- <form action="" className="login-form" onSubmit={sendInfo}>
+ <main className="main-users">
+ <form onSubmit={sendInfo}>
           <img  alt="" />
           <div className="form-block">
             <label htmlFor="code_cour">Course's Code</label>
-            <input
+            <input className="row-form"
               type="text"
               id="code_cour"
               value={code_cour || "" || updatedUser.code_cour}
@@ -121,7 +133,7 @@ const sendInfo = (e) => {
           </div>
           <div className="form-block">
             <label htmlFor="start_time_sche">Start Time</label>
-            <input
+            <input className="row-form"
               type="text"
               placeholder="type the start time"
               id="start_time_sche"
@@ -132,7 +144,7 @@ const sendInfo = (e) => {
           </div>
           <div className="form-block">
             <label htmlFor="code_clasR">Classroom's Code</label>
-            <input
+            <input className="row-form"
               type="text"
               placeholder="type the code fo the classroom"
               id="code_clasR"
@@ -141,15 +153,14 @@ const sendInfo = (e) => {
               name="code_clasR"
             />
           </div>
-          <input
+          <input 
             type="submit"
             className="button primary-button button-row"
             value="ADD"
           />
           <button
            className="button secondary-button button-row"
-          // onClick={updateUser}
-          disabled={!needUpdate}
+          onClick={updateSpace}
           type="button"
         >
         UPDATE
@@ -169,7 +180,7 @@ const sendInfo = (e) => {
           data={isData?spaces:null}
           setNeedUpdate={setNeedUpdate}
           handleDeleteElement={handleDeleteSpace}
-          handleUpdateELement={handleUpdateSpace}
+          handleUpdateElement={handleUpdateSpace}
         />
     </div>
     </main>

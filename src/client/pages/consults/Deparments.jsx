@@ -6,12 +6,50 @@ import "../../styles/table.css";
 const Deparment= () => {
   const [isData, setIsData] = useState(false);
   const [deparments, setDeparment] = useState([]);
-  const [updatedUser, setUpdatedUser] = useState({})
+  const [updatedUser, setUpdatedDeparment] = useState({})
   const [listaDeparments, setListaDeparments] = useState([]);
   const [needUpdate, setNeedUpdate] = useState(false);
-  const [code, setCode]= useState(0);
-  const [name, setName]= useState("");
+  const [id, setID]= useState();
+  const [name, setName]= useState();
 
+
+  const handleDeleteDeparment = (dept) => {
+    deleteDeparment(dept.id);
+  }
+
+  const handleUpdateDeparment = (dept) => {
+    setUpdatedDeparment({});
+    let inputs = document.getElementsByTagName("input");
+    for (let index = 0; index < inputs.length; ++index) {
+      inputs[index].value = ""
+    }
+    console.log("USER TO UPDATE: ", dept);
+    setUpdatedDeparment(dept);
+  }
+
+  const updateDeparment= () => {
+    axios.post(`http://localhost:80/admin/update/departments/${updatedUser.id}`, {
+      id: id|| updatedUser.id,
+      name: name || updatedUser.name
+    }, { withCredentials: true }).then((response) => {
+      window.location.reload(true);
+      reload();
+    });
+  };
+
+  const deleteDeparment = (id) => {
+    axios.post(`http://localhost:80/admin/delete/departments/${id}`, { 1: true }, { withCredentials: true })
+      .then((response) => {
+        console.log("Eliminado correctamente");
+        console.log("RESPONSE: ", response);
+        window.location.reload(true);
+        reload();
+      })
+      .catch((err) => {
+        console.log("ERROR ELIMINANDO");
+        console.log(err);
+      });
+  };
 
   const addDeparment = () => {
     axios.post("http://localhost:80/admin/create/departments", {
@@ -34,31 +72,6 @@ const Deparment= () => {
   };
 
 
-  // const deletePadre = (cedula) => {
-  //   Axios.delete(`http://localhost:3004/deletepadre/${cedula}`)
-  //     .then((response) => {
-  //       console.log("Eliminado correctamente");
-  //       window.location.reload(false);
-  //     })
-  //     .catch((err) => {
-  //       console.log("ERROR ELIMINANDO");
-  //       console.log(err);
-  //     });
-  // };
-
-  // const updateUser = () => {
-  //   Axios.put("http://localhost:3004/update", {
-  //     username: username|| updatedUser.username,
-  //     passcode: passcode || updatedUser.passcode,
-  //     urlimage: urlimage || updatedUser.urlimage,
-  //     id_person: id_person || updatedUser.id_person,
-  //     // Se necesita en caso de que el usuario cambie la cedula en el input o para comparar la informacion actual con la anterior
-  //   }).then((response) => {
-  //     window.location.reload(false);
-  //     reload();
-  //   });
-  // };
-
 useEffect(() => {
   axios
   .get("http://localhost:80/admin/departments", { withCredentials: true })
@@ -78,12 +91,23 @@ const sendInfo = (e) => {
 
 
  return (
- <main>
- <form action="" className="login-form" onSubmit={sendInfo}>
+ <main  className="main-users">
+ <form onSubmit={sendInfo}>
           <img  alt="" />
           <div className="form-block">
+            <label htmlFor="id">Department's ID</label>
+            <input className="row-form"
+              type="text"
+              id="id"
+              value={id || "" || updatedUser.id}
+              onChange={(e)=>setID(e.target.value)}
+              name="id"
+              disabled={true}
+            />
+          </div>
+          <div className="form-block">
             <label htmlFor="name">Department's Name</label>
-            <input
+            <input className="row-form"
               type="text"
               placeholder="type the name of the subject"
               id="name"
@@ -92,15 +116,14 @@ const sendInfo = (e) => {
               name="name"
             />
           </div>
-          <input
+          <input 
             type="submit"
             className="button primary-button button-row"
             value="ADD"
           />
           <button
            className="button secondary-button button-row"
-          // onClick={updateUser}
-          disabled={!needUpdate}
+          onClick={updateDeparment}
           type="button"
         >
         UPDATE
@@ -116,8 +139,8 @@ const sendInfo = (e) => {
           ]}
           data={isData?deparments:null}
           setNeedUpdate={setNeedUpdate}
-          handleDeleteUser={null}
-          handleUpdateUser={null}
+          handleDeleteElement={handleDeleteDeparment}
+          handleUpdateElement={handleUpdateDeparment}
         />
     </div>
     </main>

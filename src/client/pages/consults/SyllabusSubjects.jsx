@@ -6,14 +6,26 @@ import "../../styles/table.css";
 const syllabusSubjects= () => {
   const [isData, setIsData] = useState(false);
   const [syllabusSubjects, setSyllabusSubjects] = useState([]);
-  const [updatedUser, setUpdatedUser] = useState({})
+  const [updatedUser, setUpdatedSyllabusSubject] = useState({})
   const [listaSyllabusSubjects, setListaSyllabusSubjects] = useState([]);
   const [needUpdate, setNeedUpdate] = useState(false);
   const [code_subj, setCodeSubj]= useState("");
   const [code_syll, setCodeSyll]= useState("");
   const [semester, setSemester]= useState("");
 
+  const handleDeleteSyllabusSubjecet = (sys) => {
+    deleteSyllabusSubject([sys.code_subj, sys.code_syll]);
+  }
 
+  const handleUpdateSyllabusSubject= (sys) => {
+    setUpdatedSyllabusSubject({});
+    let inputs = document.getElementsByTagName("input");
+    for (let index = 0; index < inputs.length; ++index) {
+      inputs[index].value = ""
+    }
+    console.log("USER TO UPDATE: ", sys);
+    setUpdatedSyllabusSubject(sys);
+  }
 
   const addSyllabuSubject = () => {
     axios.post("http://localhost:80/admin/create/syllabusSubjects", {
@@ -39,31 +51,30 @@ const syllabusSubjects= () => {
       });
   };
 
+  const deleteSyllabusSubject = (id) => {
+    axios.post(`http://localhost:80/admin/delete/syllabusSubjects/${id[0]}:${id[1]}`, { 1: true }, { withCredentials: true })
+      .then((response) => {
+        console.log("Eliminado correctamente");
+        console.log("RESPONSE: ", response);
+        window.location.reload(true);
+        reload();
+      })
+      .catch((err) => {
+        console.log("ERROR ELIMINANDO");
+        console.log(err);
+      });
+  };
 
-  // const deletePadre = (cedula) => {
-  //   Axios.delete(`http://localhost:3004/deletepadre/${cedula}`)
-  //     .then((response) => {
-  //       console.log("Eliminado correctamente");
-  //       window.location.reload(false);
-  //     })
-  //     .catch((err) => {
-  //       console.log("ERROR ELIMINANDO");
-  //       console.log(err);
-  //     });
-  // };
-
-  // const updateUser = () => {
-  //   Axios.put("http://localhost:3004/update", {
-  //     username: username|| updatedUser.username,
-  //     passcode: passcode || updatedUser.passcode,
-  //     urlimage: urlimage || updatedUser.urlimage,
-  //     id_person: id_person || updatedUser.id_person,
-  //     // Se necesita en caso de que el usuario cambie la cedula en el input o para comparar la informacion actual con la anterior
-  //   }).then((response) => {
-  //     window.location.reload(false);
-  //     reload();
-  //   });
-  // };
+  const updateSubject = () => {
+    axios.post(`http://localhost:80/admin/update/syllabusSubjects/${updatedUser.code_subj}:${updatedUser.code_syll}`, {
+      code_subj: code_subj || updatedUser.code_subj,
+      code_syll: code_syll || updatedUser.code_syll,
+      semester: semester || updatedUser.semester,
+    }, { withCredentials: true }).then((response) => {
+      window.location.reload(true);
+      reload();
+    });
+  };
 
 useEffect(() => {
   axios
@@ -84,12 +95,12 @@ const sendInfo = (e) => {
 
 
  return (
- <main>
- <form action="" className="login-form" onSubmit={sendInfo}>
+ <main className="main-users">
+ <form onSubmit={sendInfo}>
           <img  alt="" />
           <div className="form-block">
             <label htmlFor="code_subj">Subject's Code</label>
-            <input
+            <input className="row-form"
               type="text"
               id="code_subj"
               value={code_subj || "" || updatedUser.code_subj}
@@ -100,7 +111,7 @@ const sendInfo = (e) => {
           </div>
           <div className="form-block">
             <label htmlFor="code_syll">Syllabus's Code</label>
-            <input
+            <input className="row-form"
               type="text"
               placeholder="type the code of the syllabus"
               id="code_syll"
@@ -111,7 +122,7 @@ const sendInfo = (e) => {
           </div>
           <div className="form-block">
             <label htmlFor="semester">Semester</label>
-            <input
+            <input className="row-form"
               type="text"
               placeholder="type the Semester"
               id="semester"
@@ -127,11 +138,10 @@ const sendInfo = (e) => {
           />
           <button
            className="button secondary-button button-row"
-          // onClick={updateUser}
-          disabled={!needUpdate}
+          onClick={updateSubject}
           type="button"
         >
-        UPDATE
+          UPDATE
         </button>
         </form>  
         
@@ -145,8 +155,8 @@ const sendInfo = (e) => {
           ]}
           data={isData?syllabusSubjects:null}
           setNeedUpdate={setNeedUpdate}
-          handleDeleteUser={null}
-          handleUpdateUser={null}
+          handleDeleteElement={handleDeleteSyllabusSubjecet}
+          handleUpdateElement={handleUpdateSyllabusSubject}
         />
     </div>
     </main>

@@ -6,7 +6,7 @@ import "../../styles/table.css";
 const Course= () => {
   const [isData, setIsData] = useState(false);
   const [courses, setCourses] = useState([]);
-  const [updatedUser, setUpdatedUser] = useState({})
+  const [updatedUser, setUpdatedCourse] = useState({})
   const [listaCourses, setListaCourses] = useState([]);
   const [needUpdate, setNeedUpdate] = useState(false);
   const [code, setCodeCr]= useState("");
@@ -14,6 +14,46 @@ const Course= () => {
   const [id_teach, setIdTeach]= useState("");
 
 
+  const handleDeleteCourse = (course) => {
+    deleteCourse(course.code);
+  }
+
+  const handleUpdateCourse = (course) => {
+    setUpdatedCourse({});
+    let inputs = document.getElementsByTagName("input");
+    for (let index = 0; index < inputs.length; ++index) {
+      inputs[index].value = ""
+    }
+    console.log("USER TO UPDATE: ", course);
+    setUpdatedCourse(course);
+  }
+
+
+  const deleteCourse = (id) => {
+    axios.post(`http://localhost:80/admin/delete/courses/${id}`, { 1: true }, { withCredentials: true })
+      .then((response) => {
+        console.log("Eliminado correctamente");
+        console.log("RESPONSE: ", response);
+        window.location.reload(true);
+        reload();
+      })
+      .catch((err) => {
+        console.log("ERROR ELIMINANDO");
+        console.log(err);
+      });
+  };
+
+  const updateCourse = () => {
+    console.log(updatedUser);
+    axios.post(`http://localhost:80/admin/update/courses/${updatedUser.code}`, {
+      code: code|| updatedUser.code,
+      code_subj: code_subj || updatedUser.code_subj,
+      id_teach: id_teach || updatedUser.id_teach,
+    }, { withCredentials: true }).then((response) => {
+      window.location.reload(true);
+      reload();
+    });
+  };
   const addCourse = () => {
     axios.post("http://localhost:80/admin/create/courses", {
       code,
@@ -38,32 +78,6 @@ const Course= () => {
       });
   };
 
-
-  // const deletePadre = (cedula) => {
-  //   Axios.delete(`http://localhost:3004/deletepadre/${cedula}`)
-  //     .then((response) => {
-  //       console.log("Eliminado correctamente");
-  //       window.location.reload(false);
-  //     })
-  //     .catch((err) => {
-  //       console.log("ERROR ELIMINANDO");
-  //       console.log(err);
-  //     });
-  // };
-
-  // const updateUser = () => {
-  //   Axios.put("http://localhost:3004/update", {
-  //     username: username|| updatedUser.username,
-  //     passcode: passcode || updatedUser.passcode,
-  //     urlimage: urlimage || updatedUser.urlimage,
-  //     id_person: id_person || updatedUser.id_person,
-  //     // Se necesita en caso de que el usuario cambie la cedula en el input o para comparar la informacion actual con la anterior
-  //   }).then((response) => {
-  //     window.location.reload(false);
-  //     reload();
-  //   });
-  // };
-
 useEffect(() => {
   axios
   .get("http://localhost:80/admin/courses", { withCredentials: true })
@@ -83,12 +97,12 @@ const sendInfo = (e) => {
 
 
  return (
- <main>
- <form action="" className="login-form" onSubmit={sendInfo}>
+ <main className="main-users">
+ <form  onSubmit={sendInfo}>
           <img  alt="" />
           <div className="form-block">
             <label htmlFor="code">Course's Code</label>
-            <input
+            <input className="row-form"
               type="text"
               id="code"
               value={code|| "" || updatedUser.code}
@@ -99,7 +113,7 @@ const sendInfo = (e) => {
           </div>
           <div className="form-block">
             <label htmlFor="code_subj">Subject's Code</label>
-            <input
+            <input className="row-form"
               type="text"
               placeholder="type the code of the subject"
               id="code_subj"
@@ -110,7 +124,7 @@ const sendInfo = (e) => {
           </div>
           <div className="form-block">
             <label htmlFor="id_teach">Teacher's ID</label>
-            <input
+            <input className="row-form"
               type="text"
               placeholder="type the ID of the teacher"
               id="id_teach"
@@ -126,8 +140,7 @@ const sendInfo = (e) => {
           />
           <button
            className="button secondary-button button-row"
-          // onClick={updateUser}
-          disabled={!needUpdate}
+          onClick={updateCourse}
           type="button"
         >
         UPDATE
@@ -144,8 +157,8 @@ const sendInfo = (e) => {
           ]}
           data={isData?courses:null}
           setNeedUpdate={setNeedUpdate}
-          handleDeleteUser={null}
-          handleUpdateUser={null}
+          handleDeleteElement={handleDeleteCourse}
+          handleUpdateElement={handleUpdateCourse}
         />
     </div>
     </main>
