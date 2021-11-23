@@ -4,7 +4,7 @@ async function getAllSubjetctsStudent(conn, id){
     let result = await conn.query(`SELECT DT.*, CONCAT(p.name1,' ',p.lastName1) "Nombre" FROM person p
     INNER JOIN
     (
-        SELECT s.name, c.id_teach, s.credits ,s.urlimage, sp.weekday_sche, sp.start_time_sche
+        SELECT s.name, c.id_teach, c.code, s.credits ,s.urlimage, sp.weekday_sche, sp.start_time_sche
         FROM person AS p INNER JOIN enrollment AS e ON p.id = e.id_stud INNER JOIN cour_enro AS ce
         ON ce.id_enro = e.id INNER JOIN course AS c ON c.code = ce.code_cour INNER JOIN subject AS s 
         ON s.code = c.code_subj INNER JOIN space AS sp ON sp.code_cour = c.code WHERE p.id = "${id}"
@@ -65,12 +65,12 @@ async function getClassHours(conn,id){
 }
 
 async function getHourClass(conn,id){
+    let {code, teach} = id;
     let result = await conn.query(`
-    SELECT sp.start_time_sche 'time' FROM Course c
-    INNER JOIN Space sp ON c.code = sp.code_cour
-    WHERE c.code = '${id}';
+    SELECT c.start_time FROM class c
+    WHERE c.qr_teach = '${teach}' AND c.code_cour_spac = '${code}';
     `)
-    if(result) return result;
+    if(result) return result[0].start_time;
     else return -1;
 }
 
@@ -93,13 +93,12 @@ async function checkCodesTeacher(conn,id){
 }
 
 async function getClassSession(conn,id){
+    let {code, teach} = id;
     let result = await conn.query(`
-    SELECT cl.code FROM course c
-    INNER JOIN space sp ON sp.code_cour = c.code;
-    INNER JOIN class cl ON sp.code = cl.code_spac
-    WHERE c.code = '${id}';
+    SELECT c.code FROM class c
+    WHERE c.qr_teach = '${teach}' AND c.code_cour_spac = '${code}';
     `)
-    if(result) return result;
+    if(result) return result[0].code;
     else return -1;
 }
 
@@ -117,17 +116,13 @@ async function getCodeClassCreated(conn,id){
 
 async function addTeacherCode(conn,id){
     let code_class = await getCodeClassCreated(conn,id)
-    let randomCode = randomstring.generate({
-        length: 10,
-        charset: 'alphanumerical'
-    });
-    await conn.query(`UPDATE Class c SET qr_teach = '${randomCode}' WHERE c.code = ${code_class.code}`);
-    return randomCode;
+    await conn.query(`UPDATE Class c SET qr_teach = '${code_class.qr_teach}' WHERE c.code = ${code_class.code}`);
+    return code_class.qr_teach;
 }
 
 async function getAttendanceClass(conn,id){
     let result = await conn.query(`
-    SELECT CONCAT(p.name1,' ', p.lastName1,) 'name', CONCAT(s.code,'/',c.code) 'codigo', cs.logAttendace FROM course c 
+    SELECT CONCAT(p.name1,' ', p.lastName1) 'name', p.id, CONCAT(s.code,'/',c.code) 'codigo', cs.logAttendance FROM course c 
     INNER JOIN space sp ON c.code = sp.code_cour 
     INNER JOIN subject s ON s.code = c.code_subj
     INNER JOIN class cl ON cl.code_spac = sp.code 
