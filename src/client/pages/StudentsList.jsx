@@ -17,8 +17,7 @@ const StudentsList = () => {
   console.log("data", data);
 
   const handleGenerateCodes = () => {
-    if(data) context.socket.emit("classStarted",data.code);
-    else console.log("Ja MKA")
+    context.socket.emit("classStarted",data.code);
   }; 
 
 useEffect(()=>{

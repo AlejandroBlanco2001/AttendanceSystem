@@ -33,18 +33,6 @@ router.get('/classes', async (req,res) =>{
     }
 })
 
-router.get('/checkList/:id',(req,res) =>{
-    if(req.user){
-        if(req.user.type == '1'){
-            res.send("You are autorized")
-        }
-        res.send('You are not autorized')
-    }
-    res.send('You are not logged in')
-    // Query for obtaining the assistance of that class;
-    // Send to a view the result
-})
-
 router.get('/createQR', async (req,res) => {
     if(req.user['type'] == 1){
         let conn = await db.pool.getConnection();
