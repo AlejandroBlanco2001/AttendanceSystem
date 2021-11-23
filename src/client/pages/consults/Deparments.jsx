@@ -84,7 +84,7 @@ const sendInfo = (e) => {
           <div className="form-block">
             <label htmlFor="name">Department's Name</label>
             <input
-              type="texte"
+              type="text"
               placeholder="type the name of the subject"
               id="name"
               value={name || "" || updatedUser.name}
@@ -98,12 +98,12 @@ const sendInfo = (e) => {
             value="ADD"
           />
           <button
-           className="button primary-button button-row"
+           className="button secondary-button button-row"
           // onClick={updateUser}
           disabled={!needUpdate}
           type="button"
         >
-        ACTUALIZAR
+        UPDATE
         </button>
         </form>  
         

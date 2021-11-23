@@ -90,7 +90,7 @@ const sendInfo = (e) => {
           <div className="form-block">
             <label htmlFor="weekday">Weekday</label>
             <select
-              type="texte"
+              type="text"
               id="weekday"
               value={weekday || "" || updatedUser.weekday}
               placeholder="type the day of the week"
@@ -110,7 +110,7 @@ const sendInfo = (e) => {
           <div className="form-block">
             <label htmlFor="start_time">Start time</label>
             <input
-              type="texte"
+              type="text"
               placeholder="type the Start Time"
               id="start_time"
               value={start_time || "" || updatedUser.start_time}
@@ -121,7 +121,7 @@ const sendInfo = (e) => {
           <div className="form-block">
             <label htmlFor="duration">Duration</label>
             <input
-              type="texte"
+              type="text"
               placeholder="type the Duration of the class"
               id="duration"
               value={duration|| "" || updatedUser.duration}
@@ -135,12 +135,12 @@ const sendInfo = (e) => {
             value="ADD"
           />
           <button
-           className="button primary-button button-row"
+           className="button secondary-button button-row"
           // onClick={updateUser}
           disabled={!needUpdate}
           type="button"
         >
-        ACTUALIZAR
+        UPDATE
         </button>
         </form>  
         

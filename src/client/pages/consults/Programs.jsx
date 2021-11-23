@@ -107,7 +107,7 @@ const sendInfo = (e) => {
           <div className="form-block">
             <label htmlFor="snies">SNIES</label>
             <input
-              type="texte"
+              type="text"
               id="snies"
               value={snies || "" || updatedUser.snies}
               placeholder="type the SNIES"
@@ -118,7 +118,7 @@ const sendInfo = (e) => {
           <div className="form-block">
             <label htmlFor="name">Program's Name</label>
             <input
-              type="texte"
+              type="text"
               placeholder="type the name of the program"
               id="name"
               value={name || "" || updatedUser.name}
@@ -129,7 +129,7 @@ const sendInfo = (e) => {
           <div className="form-block">
             <label htmlFor="type">Program type</label>
             <select
-              type="texte"
+              type="text"
               placeholder="type the type of program"
               id="type"
               value={type || "" || updatedUser.type}
@@ -144,7 +144,7 @@ const sendInfo = (e) => {
           <div className="form-block">
             <label htmlFor="title">Title</label>
             <input
-              type="texte"
+              type="text"
               placeholder="type the title of the program"
               id="title"
               value={title || "" || updatedUser.title}
@@ -155,7 +155,7 @@ const sendInfo = (e) => {
           <div className="form-block">
             <label htmlFor="duration">Duration</label>
             <input
-              type="texte"
+              type="text"
               placeholder="type the duration of the program"
               id="duration"
               value={duration || "" || updatedUser.duration}
@@ -205,12 +205,12 @@ const sendInfo = (e) => {
             value="ADD"
           />
           <button
-           className="button primary-button button-row"
+           className="button secondary-button button-row"
           // onClick={updateUser}
           disabled={!needUpdate}
           type="button"
         >
-        ACTUALIZAR
+        UPDATE
         </button>
         </form>  
         

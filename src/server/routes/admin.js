@@ -478,6 +478,7 @@ router.post('/delete/:record/:pkey', async (req, res) => {
         conn.end()
         return results
       } catch (e) {
+        console.log(e)
         res.sendStatus(500)
       }
     }else{

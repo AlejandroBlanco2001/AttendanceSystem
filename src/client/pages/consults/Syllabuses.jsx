@@ -86,7 +86,7 @@ const sendInfo = (e) => {
           <div className="form-block">
             <label htmlFor="code">Syllabus' Code</label>
             <input
-              type="texte"
+              type="text"
               id="code"
               value={code || "" || updatedUser.code}
               placeholder="type the code of the Syllabus"
@@ -97,7 +97,7 @@ const sendInfo = (e) => {
           <div className="form-block">
             <label htmlFor="snies_prog">Program's SNIES</label>
             <input
-              type="texte"
+              type="text"
               placeholder="type the SNIES of the program"
               id="snies_prog"
               value={snies_prog || "" || updatedUser.snies_prog}
@@ -111,12 +111,12 @@ const sendInfo = (e) => {
             value="ADD"
           />
           <button
-           className="button primary-button button-row"
+           className="button secondary-button button-row"
           // onClick={updateUser}
           disabled={!needUpdate}
           type="button"
         >
-        ACTUALIZAR
+        UPDATE
         </button>
         </form>  
         

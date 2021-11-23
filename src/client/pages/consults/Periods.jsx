@@ -89,7 +89,7 @@ const sendInfo = (e) => {
           <div className="form-block">
             <label htmlFor="year">Year</label>
             <input
-              type="texte"
+              type="text"
               id="year"
               value={year || "" || updatedUser.year}
               placeholder="type the year"
@@ -100,7 +100,7 @@ const sendInfo = (e) => {
           <div className="form-block">
             <label htmlFor="term">Term</label>
             <select
-              type="texte"
+              type="text"
               placeholder="type the Term"
               id="term"
               value={term|| "" || updatedUser.term}
@@ -114,7 +114,7 @@ const sendInfo = (e) => {
           <div className="form-block">
             <label htmlFor="description">Period's Description</label>
             <input
-              type="texte"
+              type="text"
               placeholder="type the descriptionof the period"
               id="description"
               value={description || "" || updatedUser.description}
@@ -128,12 +128,12 @@ const sendInfo = (e) => {
             value="ADD"
           />
           <button
-           className="button primary-button button-row"
+           className="button secondary-button button-row"
           // onClick={updateUser}
           disabled={!needUpdate}
           type="button"
         >
-        ACTUALIZAR
+        UPDATE
         </button>
         </form>  
         
