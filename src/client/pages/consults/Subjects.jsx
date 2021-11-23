@@ -2,11 +2,12 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import Table from "../../components/Table";
 import "../../styles/table.css";
+import "../../styles/forms.css";
 
 const Subjects= () => {
   const [isData, setIsData] = useState(false);
   const [subjects, setSubject] = useState([]);
-  const [updatedUser, setUpdatedUser] = useState({})
+  const [updatedUser, setUpdatedSubject] = useState({})
   const [listaSubjects, setListaSubjects] = useState([]);
   const [needUpdate, setNeedUpdate] = useState(false);
   const [code, setCode]= useState("");
@@ -17,6 +18,20 @@ const Subjects= () => {
   const [urlimage, setUrlImage]= useState("");
   const [id_dept, setID]= useState();
 
+
+  const handleDeleteSubject = (user) => {
+    deleteSubject([user.code, user.id_dept]);
+  }
+
+  const handleUpdateSubject = (data) => {
+    setUpdatedSubject({});
+    let inputs = document.getElementsByTagName("input");
+    for (let index = 0; index < inputs.length; ++index) {
+      inputs[index].value = ""
+    }
+    console.log("USER TO UPDATE: ", data);
+    setUpdatedSubject(data);
+  }
 
   const addSubject = () => {
     axios.post("http://localhost:80/admin/create/subjects", {
@@ -50,31 +65,33 @@ const Subjects= () => {
       });
   };
 
+  const deleteSubject = (id) => {
+    axios.post(`http://localhost:80/admin/delete/subjects/${id[0]}:${id[6]}`, { 1: true }, { withCredentials: true })
+      .then((response) => {
+        console.log("Eliminado correctamente");
+        console.log("RESPONSE: ", response);
+        window.location.reload(true);
+        reload();
+      })
+      .catch((err) => {
+        console.log("ERROR ELIMINANDO");
+        console.log(err);
+      });
+  };
 
-  // const deletePadre = (cedula) => {
-  //   Axios.delete(`http://localhost:3004/deletepadre/${cedula}`)
-  //     .then((response) => {
-  //       console.log("Eliminado correctamente");
-  //       window.location.reload(false);
-  //     })
-  //     .catch((err) => {
-  //       console.log("ERROR ELIMINANDO");
-  //       console.log(err);
-  //     });
-  // };
-
-  // const updateUser = () => {
-  //   Axios.put("http://localhost:3004/update", {
-  //     username: username|| updatedUser.username,
-  //     passcode: passcode || updatedUser.passcode,
-  //     urlimage: urlimage || updatedUser.urlimage,
-  //     id_person: id_person || updatedUser.id_person,
-  //     // Se necesita en caso de que el usuario cambie la cedula en el input o para comparar la informacion actual con la anterior
-  //   }).then((response) => {
-  //     window.location.reload(false);
-  //     reload();
-  //   });
-  // };
+  const updateSubject = () => {
+    axios.post(`http://localhost:80/admin/update/subjects/${updatedUser.code}:${updatedUser.id_dept}`, {
+      code: code|| updatedUser.code,
+      name: name || updatedUser.name,
+      credits: credits || updatedUser.credits,
+      type: type || updatedUser.type,
+      urlimage: urlimage || updatedUser.urlimage,
+      id_dept: id_dept || updatedUser.id_dept
+    }, { withCredentials: true }).then((response) => {
+      window.location.reload(true);
+      reload();
+    });
+  };
 
 useEffect(() => {
   axios
@@ -97,13 +114,13 @@ const sendInfo = (e) => {
 
 
  return (
- <main>
- <form action="" className="login-form" onSubmit={sendInfo}>
+ <main className="main-users">
+ <form  onSubmit={sendInfo}>
           <img  alt="" />
           <div className="form-block">
             <label htmlFor="code">Subject's Code</label>
-            <input
-              type="texte"
+            <input className="row-form"
+              type="text"
               id="code"
               value={code || "" || updatedUser.code}
               placeholder="type the code of the Subject"
@@ -113,8 +130,8 @@ const sendInfo = (e) => {
           </div>
           <div className="form-block">
             <label htmlFor="name">Subject's Name</label>
-            <input
-              type="texte"
+            <input className="row-form"
+              type="text"
               placeholder="type the name of the subject"
               id="name"
               value={name || "" || updatedUser.name}
@@ -124,7 +141,7 @@ const sendInfo = (e) => {
           </div>
           <div className="form-block">
             <label htmlFor="credits">No. of Credits</label>
-            <input
+            <input className="row-form"
               type="number"
               placeholder="type the number of credits"
               id="credits"
@@ -135,8 +152,8 @@ const sendInfo = (e) => {
           </div>
           <div className="form-block">
             <label htmlFor="description">Description</label>
-            <input
-              type="texte"
+            <input className="row-form"
+              type="text"
               id="description"
               value={description || "" || updatedUser.description}
               placeholder="type the description of the subject"
@@ -146,8 +163,8 @@ const sendInfo = (e) => {
           </div>
           <div className="form-block">
             <label htmlFor="type">Subject Type</label>
-            <select
-              type="texte"
+            <select 
+              type="text"
               placeholder="type the type of the subject"
               id="type"
               value={type || "" || updatedUser.type}
@@ -160,8 +177,8 @@ const sendInfo = (e) => {
           </div>
           <div className="form-block">
             <label htmlFor="urlimage">URL Image</label>
-            <input
-              type="texte"
+            <input className="row-form"
+              type="text"
               id="urlimage"
               value={urlimage || "" || updatedUser.urlimage}
               placeholder="type the url of the deparmentt"
@@ -172,7 +189,7 @@ const sendInfo = (e) => {
           <div className="form-block">
           <label htmlFor="id_dpt">ID departament</label>
         <select
-          type="texte"
+          type="text"
           id="id_dpt"
           value={id_dept || null || updatedUser.id_dept}
           onChange={(e) => setID(e.target.value)}
@@ -199,11 +216,10 @@ const sendInfo = (e) => {
           />
           <button
            className="button primary-button button-row"
-          // onClick={updateUser}
-          disabled={!needUpdate}
+          onClick={updateSubject}
           type="button"
         >
-        ACTUALIZAR
+       UPDATE
         </button>
         </form>  
         
@@ -221,8 +237,8 @@ const sendInfo = (e) => {
           ]}
           data={isData?subjects:null}
           setNeedUpdate={setNeedUpdate}
-          handleDeleteUser={null}
-          handleUpdateUser={null}
+          handleDeleteUser={handleDeleteSubject}
+          handleUpdateUser={handleUpdateSubject}
         />
     </div>
     </main>

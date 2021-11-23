@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import Table from "../../components/Table";
 import "../../styles/table.css";
+import "../../styles/forms.css";
 
 const Users = () => {
   const [isData, setIsData] = useState(false);
@@ -100,11 +101,11 @@ const Users = () => {
 
   return (
     <main className = "main-users">
-      <form action="" className="login-form users-form" onSubmit={sendInfo}>
+      <form onSubmit={sendInfo}>
         <img alt="" />
         <div className="form-block">
           <label htmlFor="username">Username</label>
-          <input
+          <input className="row-form"
             type="text"
             id="username"
             value={username || "" || updatedUser.username}
@@ -115,7 +116,7 @@ const Users = () => {
         </div>
         <div className="form-block">
           <label htmlFor="passcode">Passcode</label>
-          <input
+          <input className="row-form"
             type="text"
             placeholder="*****"
             id="passcode"
@@ -126,7 +127,7 @@ const Users = () => {
         </div>
         <div className="form-block">
           <label htmlFor="urlimage">Profile Picture URL</label>
-          <input
+          <input className="row-form"
             type="text"
             id="urlimage"
             value={urlimage || "" || updatedUser.urlimage}
@@ -137,7 +138,7 @@ const Users = () => {
         </div>
         <div className="form-block">
           <label htmlFor="id_person">Person's ID</label>
-          <input
+          <input className="row-form"
             type="text"
             id="id_person"
             value={id_pers || "" || updatedUser.id_pers}
