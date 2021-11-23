@@ -66,11 +66,12 @@ async function getClassHours(conn,id){
 
 async function getHourClass(conn,id){
     let {code, teach} = id;
+    console.log(code, teach)
     let result = await conn.query(`
     SELECT c.start_time FROM class c
     WHERE c.qr_teach = '${teach}' AND c.code_cour_spac = '${code}';
     `)
-    if(result) return result[0].start_time;
+    if(result.length != 0) return result[0].start_time;
     else return -1;
 }
 

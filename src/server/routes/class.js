@@ -57,12 +57,16 @@ router.post("/takeAttendance", async (req, res) => {
             code: id_class,
             teach: id_teacher,
           });
+          let db_curr = [
+            curr.toISODate(),
+            curr.toLocaleString(DateTime.TIME_24_WITH_SECONDS)
+          ].join(" ");
           if (curr < limit_assist) {
             await conn.query("INSERT INTO clas_stud VALUES(?,?,?,?)", [
               clas,
               req.user.id_pers,
               " ",
-              curr.toLocaleString(DateTime.DATETIME_SHORT_WITH_SECONDS),
+              db_curr,
             ]);
             asiss = " ";
           } else if (curr < limit_late) {
@@ -70,7 +74,7 @@ router.post("/takeAttendance", async (req, res) => {
               clas,
               req.user.id_pers,
               "-",
-              curr.toLocaleString(DateTime.DATETIME_SHORT_WITH_SECONDS),
+              db_curr,
             ]);
             asiss = "-";
           } else {
@@ -78,7 +82,7 @@ router.post("/takeAttendance", async (req, res) => {
               clas,
               req.user.id_pers,
               "+",
-              curr.toLocaleString(DateTime.DATETIME_SHORT_WITH_SECONDS),
+              db_curr,
             ]);
             asiss = "+";
           }
