@@ -3,8 +3,8 @@ import React, { useState } from "react";
 const Row = ({
   data,
   setNeedUpdate,
-  handleDeleteUser,
-  handleUpdateUser,
+  handleDeleteElement,
+  handleUpdateElement,
   collection,
 }) => {
   return (
@@ -14,7 +14,7 @@ const Row = ({
         <button
           className=" button primary-button button-row"
           onClick={() => {
-            handleDeleteUser(collection)
+            handleDeleteElement(collection)
           }}
         >
           ELIMINAR
@@ -23,7 +23,7 @@ const Row = ({
         <button className="
         button secondary-button button-row"
           onClick={() => {
-           handleUpdateUser(collection);
+           handleUpdateElement(collection);
           }}
         >
           EDITAR

@@ -1,8 +1,6 @@
-input[type="texte"],
-input[type="date"],
-input[type="number"],
+div .row-form,
 select {
-    width: 100%;
+    width: 250px;
     padding: 12px 20px;
     margin: 8px 0;
     display: inline-block;
@@ -11,28 +9,29 @@ select {
     color: black;
     box-sizing: border-box;
   }
-  
+   
 
-  
-  .data-form {
-    padding: 80px;
-    width: 50%;
+ 
+  .main-users form {
     display: flex;
     flex-direction: column;
-    justify-content: center;
-    position: relative;
+    height: fit-content;
+    width:fit-content;
+    margin-top: 20px;
+    margin-left: 10px;
+    padding: 20px;
+    align-items: center;
+    
+    box-shadow: rgba(91, 110, 129, 0.2) 0px 8px 24px;
+  }
+
+  .main-users{
+    height: 100vh;
+    width: 100%;
+    
   }
   
   .container {
     display: flex;
     height: 100vh;
-  }
-  
-  .data-form img {
-    position: absolute;
-    width: 100%;
-    height: auto;
-    bottom: 0px;
-    z-index: -1;
-    opacity: 0.3;
   }

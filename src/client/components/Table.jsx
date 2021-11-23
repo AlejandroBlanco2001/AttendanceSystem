@@ -5,8 +5,8 @@ const Table = ({
   tableheads,
   data,
   setNeedUpdate,
-  handleDeleteUser,
-  handleUpdateUser,
+  handleDeleteElement,
+  handleUpdateElement,
 
 }) => {
   return (
@@ -33,8 +33,8 @@ const Table = ({
               data={row}
               collection={row}
               setNeedUpdate
-              handleDeleteUser={handleDeleteUser}
-              handleUpdateUser={handleUpdateUser} 
+              handleDeleteElement={handleDeleteElement}
+              handleUpdateElement={handleUpdateElement} 
             />
           );
         })
