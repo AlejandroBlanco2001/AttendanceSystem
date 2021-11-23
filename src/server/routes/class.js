@@ -3,7 +3,7 @@ const router = Router();
 
 const util = require('../../utils');
 const db = require('./database');
-const moment = require('moment');
+const { DateTime } = require('luxon');
 
 const io = require('../controllers/socket').getio();
 
@@ -15,46 +15,49 @@ router.get('/subject/:id', async (req,res) => {
     else res.json(result);
 });
 
-router.get('/getAttendance', async (req,res) => {
+router.post('/getAttendance', async (req,res) => {
     let {code} = req.body;
     let conn = await db.pool.getConnection();
     let result = await util.getAttendanceClass(conn,code);
+    conn.end();
     if(result == -1) res.sendStatus(500);
-    else res.json(result);
+    else{
+        result[0].logAttendance = DateTime.fromJSDate(result[0].logAttendance).toLocaleString(DateTime.DATETIME_SHORT);
+        res.json(result);
+    }
 })
 
 router.post('/takeAttendance', async (req,res) => {
     let {id_class, id_teacher} = req.body;
     id_class = id_class.split('\/')[1];
     let conn = await db.pool.getConnection();
-    let result = await util.getHourClass(conn,id_class);
+    let result = await util.getHourClass(conn,{code: id_class, teach: id_teacher});
     let resClass = await util.checkCodesClass(conn,id_class);
     let resTeach = await util.checkCodesTeacher(conn,id_teacher);
     conn.end();
-    let hour = new Date().toLocaleString().split(',')[0] + ' ' + result[0].time
-    let curr = new Date();
-    let limit_assist = moment(curr).add(10,'m').toDate();
-    let limit_late = moment(curr).add(20,'m').toDate();
-    console.log(limit_late + ' ' + limit_assist)
-    console.log(curr >= hour)
+    let hour = DateTime.fromJSDate(result);
+    let curr = DateTime.now();
+    let limit_assist = hour.plus({minutes: 10});
+    let limit_late = hour.plus({minutes: 20});
     if(resClass != -1 && resTeach != -1){
-        if(curr >= hour){
+        if(curr > hour){
             let conn = await db.pool.getConnection();
-            let clas = await util.getClassSession(conn,id_class)[0].code;
-            if(curr <= limit_assist){
-                await conn.query('INSERT INTO clas_stud VALUES(?,?,?)',[clas,req.user.id_pers," "])
+            let clas = await util.getClassSession(conn,{code: id_class, teach: id_teacher});
+            if(curr < limit_assist){
+                await conn.query('INSERT INTO clas_stud VALUES(?,?,?,?)',[clas,req.user.id_pers," ",curr.toLocaleString(DateTime.DATETIME_SHORT_WITH_SECONDS)]);
                 asiss = ' ';
-            }else if(curr <= limit_late){
-                await conn.query('INSERT INTO clas_stud VALUES(?,?,?)',[clas,req.user.id_pers,"-"])
+            }else if(curr < limit_late){
+                await conn.query('INSERT INTO clas_stud VALUES(?,?,?,?)',[clas,req.user.id_pers,"-",curr.toLocaleString(DateTime.DATETIME_SHORT_WITH_SECONDS)])
                 asiss = '-';
             }else{
-                await conn.query('INSERT INTO clas_stud VALUES(?,?,?)',[clas,req.user.id_pers,"+"])
+                await conn.query('INSERT INTO clas_stud VALUES(?,?,?,?)',[clas,req.user.id_pers,"+",curr.toLocaleString(DateTime.DATETIME_SHORT_WITH_SECONDS)])
                 asiss = '+';
             }
             conn.end();
             res.sendStatus(200);
+        }else{
+            res.send('To early');
         }
-        res.send('To early');
     }
 })
 

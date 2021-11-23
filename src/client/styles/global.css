@@ -507,7 +507,7 @@ a .button {
 
 .student-code,
 .student-logtime {
-  color: #cecece;
+  color: gray;
   font-weight: bold;
 }
 .delete-attendance {

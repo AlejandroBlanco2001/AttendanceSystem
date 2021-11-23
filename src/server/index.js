@@ -63,25 +63,33 @@ io.on('connection', (socket) => {
     var cont = 0;
     socket.on('checkClassAlreadyStarted', async (data) => {
         let code;
+        let conn;
         checkInterval = setInterval(async () => {
-            let conn = await db.pool.getConnection(); 
-            let result = await util.getClassHours(conn,data);
-            if(result.length != 0){
-                if(cont < 3){
-                    if(cont == 0){
-                        code = await util.addTeacherCode(conn,result[0].codigo.split('\/')[1]);
+            try{
+                conn = await db.pool.getConnection(); 
+                let result = await util.getClassHours(conn,data);
+                if(result.length != 0){
+                    if(cont < 3){
+                        if(cont == 0){
+                            code = await util.addTeacherCode(conn,result[0].codigo.split('\/')[1]);
+                        }else{
+                            code = await util.getCodeClassCreated(conn,result[0].codigo.split('\/')[1]);
+                            code = code.qr_teach;
+                        }
+                        conn.release();
+                        cont = cont + 1;
+                        result[0].codeTeacher = code;
+                        socket.emit('classAlreadyStarted',result[0])
                     }else{
-                        code = await util.getCodeClassCreated(conn,result[0].codigo.split('\/')[1]);
-                        code = code.qr_teach;
+                        conn.end();
                     }
-                    
+                }else{
                     conn.end();
-                    cont = cont + 1;
-                    result[0].codeTeacher = code;
-                    socket.emit('classAlreadyStarted',result[0])
+                    cont = 0;
                 }
-            }else{
-                cont = 0;
+            }catch(err){
+                console.log("ACA ESTA MONDA ES LO QUE NO SIRVE")
+                console.log(err);
             }
         },5000)
     })
