@@ -55,7 +55,7 @@ const Contract= () => {
   };
 
   const deleteContract = (id) => {
-    axios.post(`http://localhost:80/admin/delete/contracts/${id[0]}:${id[1]}`, { 1: true }, { withCredentials: true })
+    axios.post(`http://localhost:80/admin/delete/contracts/${id[0]}|${id[1]}`, { 1: true }, { withCredentials: true })
       .then((response) => {
         console.log("Eliminado correctamente");
         console.log("RESPONSE: ", response);
@@ -69,7 +69,7 @@ const Contract= () => {
   };
 
   const updateSubject = () => {
-    axios.post(`http://localhost:80/admin/update/contracts/${updatedUser.id}:${updatedUser.id_stud}`, {
+    axios.post(`http://localhost:80/admin/update/contracts/${updatedUser.id}|${updatedUser.id_stud}`, {
       id_stud: id_stud|| updatedUser.id_stud,
       code_syll: code_syll || updatedUser.code_syll,
       year_peri: year_peri || updatedUser.year_peri,

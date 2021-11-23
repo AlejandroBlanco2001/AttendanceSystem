@@ -52,7 +52,7 @@ const syllabusSubjects= () => {
   };
 
   const deleteSyllabusSubject = (id) => {
-    axios.post(`http://localhost:80/admin/delete/syllabusSubjects/${id[0]}:${id[1]}`, { 1: true }, { withCredentials: true })
+    axios.post(`http://localhost:80/admin/delete/syllabusSubjects/${id[0]}|${id[1]}`, { 1: true }, { withCredentials: true })
       .then((response) => {
         console.log("Eliminado correctamente");
         console.log("RESPONSE: ", response);
@@ -66,7 +66,7 @@ const syllabusSubjects= () => {
   };
 
   const updateSubject = () => {
-    axios.post(`http://localhost:80/admin/update/syllabusSubjects/${updatedUser.code_subj}:${updatedUser.code_syll}`, {
+    axios.post(`http://localhost:80/admin/update/syllabusSubjects/${updatedUser.code_subj}|${updatedUser.code_syll}`, {
       code_subj: code_subj || updatedUser.code_subj,
       code_syll: code_syll || updatedUser.code_syll,
       semester: semester || updatedUser.semester,

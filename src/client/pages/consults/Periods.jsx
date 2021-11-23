@@ -70,7 +70,7 @@ const sendInfo = (e) => {
 };
 
 const deletePeriod = (id) => {
-  axios.post(`http://localhost:80/admin/delete/periods/${id[0]}:${id[1]}`, { 1: true }, { withCredentials: true })
+  axios.post(`http://localhost:80/admin/delete/periods/${id[0]}|${id[1]}`, { 1: true }, { withCredentials: true })
     .then((response) => {
       console.log("Eliminado correctamente");
       console.log("RESPONSE: ", response);
@@ -84,7 +84,7 @@ const deletePeriod = (id) => {
 };
 
 const updatePeriod = () => {
-  axios.post(`http://localhost:80/admin/update/periods/${updatedUser.year}:${updatedUser.term}`, {
+  axios.post(`http://localhost:80/admin/update/periods/${updatedUser.year}|${updatedUser.term}`, {
     year: year|| updatedUser.year,
     term: term || updatedUser.term,
     description: description || updatedUser.description,

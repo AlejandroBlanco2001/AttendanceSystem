@@ -98,6 +98,7 @@ const sendInfo = (e) => {
             <label htmlFor="id">Department's ID</label>
             <input className="row-form"
               type="text"
+              placeholder="type the ID"
               id="id"
               value={id || "" || updatedUser.id}
               onChange={(e)=>setID(e.target.value)}

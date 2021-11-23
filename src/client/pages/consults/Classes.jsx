@@ -99,17 +99,6 @@ const sendInfo = (e) => {
  <form onSubmit={sendInfo}>
           <img  alt="" />
           <div className="form-block">
-            <label htmlFor="code">Class' Code</label>
-            <input className="row-form"
-              type="text"
-              id="code"
-              value={code || "" || updatedUser.code}
-              placeholder="type the code of the class"
-              onChange={(e)=>setCodeCl(e.target.value)}
-              name="code"
-            />
-          </div>
-          <div className="form-block">
             <label htmlFor="start_time">Start Time</label>
             <input className="row-form"
               type="text"

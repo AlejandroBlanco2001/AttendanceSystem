@@ -28,7 +28,7 @@ const Spaces= () => {
     setUpdatedSpace(space);
   }
   const deleteSpace = (id) => {
-    axios.post(`http://localhost:80/admin/delete/spaces/${id[0]}:${id[1]}`, { 1: true }, { withCredentials: true })
+    axios.post(`http://localhost:80/admin/delete/spaces/${id[0]}|${id[1]}`, { 1: true }, { withCredentials: true })
       .then((response) => {
         console.log("Eliminado correctamente");
         console.log("RESPONSE: ", response);
@@ -42,7 +42,7 @@ const Spaces= () => {
   };
 
   const updateSpace = () => {
-    axios.post(`http://localhost:80/admin/update/spaces/${updatedUser.code}:${updatedUser.code_cour}`, {
+    axios.post(`http://localhost:80/admin/update/spaces/${updatedUser.code}|${updatedUser.code_cour}`, {
       code_cour: code_cour|| updatedUser.code_cour,
       weekday_sche: weekday_sche|| updatedUser.weekday_sche,
       start_time_sche: start_time_sche || updatedUser.start_time_sche,

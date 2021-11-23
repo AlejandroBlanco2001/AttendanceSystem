@@ -34,7 +34,7 @@ const Users = () => {
       username,
       passcode,
       id_pers,
-    })
+    },{withCredentials: true})
       .then((response) => {
         console.log("Success");
         setListaUsers([
