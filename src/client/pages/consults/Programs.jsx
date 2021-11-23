@@ -223,7 +223,7 @@ const sendInfo = (e) => {
             value="ADD"
           />
           <button
-           className="button primary-button button-row"
+           className="button secondary-button button-row"
            onClick={updatePrograms}
           type="button"
         >

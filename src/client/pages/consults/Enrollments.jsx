@@ -53,7 +53,7 @@ const Enrollment= () => {
   };
 
 const deleteEnrollment = (id) => {
-    axios.post(`http://localhost:80/admin/delete/enrollments/${id[0]}:${id[1]}`, { 1: true }, { withCredentials: true })
+    axios.post(`http://localhost:80/admin/delete/enrollments/${id[0]}|${id[1]}`, { 1: true }, { withCredentials: true })
       .then((response) => {
         console.log("Eliminado correctamente");
         console.log("RESPONSE: ", response);
@@ -67,7 +67,7 @@ const deleteEnrollment = (id) => {
   };
 
   const updateEnrollment = () => {
-    axios.post(`http://localhost:80/admin/update/enrollments/${updatedUser.id}:${updatedUser.id_stud}`, {
+    axios.post(`http://localhost:80/admin/update/enrollments/${updatedUser.id}|${updatedUser.id_stud}`, {
      id_stud: id_stud|| updatedUser.id_stud,
       year_peri: year_peri || updatedUser.year_peri,
      term_peri: term_peri || updatedUser.term_peri
@@ -137,12 +137,12 @@ const sendInfo = (e) => {
             value="ADD"
           />
           <button
-           className="button primary-button button-row"
+           className="button secondary-button button-row"
           onClick={updateEnrollment}
          
           type="button"
         >
-        ACTUALIZAR
+        UPDATE
         </button>
         </form>  
         

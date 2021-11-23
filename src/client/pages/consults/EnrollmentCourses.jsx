@@ -48,7 +48,7 @@ const EnrollmentCourses= () => {
   };
 
   const deleteEnrollmentCourse = (id) => {
-    axios.post(`http://localhost:80/admin/delete/enrollmentCourses/${id[0]}:${id[1]}`, { 1: true }, { withCredentials: true })
+    axios.post(`http://localhost:80/admin/delete/enrollmentCourses/${id[0]}|${id[1]}`, { 1: true }, { withCredentials: true })
       .then((response) => {
         console.log("Eliminado correctamente");
         console.log("RESPONSE: ", response);
@@ -62,7 +62,7 @@ const EnrollmentCourses= () => {
   };
 
   const updateEnrollmentCourse = () => {
-    axios.post(`http://localhost:80/admin/update/subjects/${updatedUser.code_cour}:${updatedUser.id_enro}`, {
+    axios.post(`http://localhost:80/admin/update/subjects/${updatedUser.code_cour}|${updatedUser.id_enro}`, {
       code_cour: code_cour|| updatedUser.code_cour,
       id_enro: id_enro || updatedUser.id_enro,
     }, { withCredentials: true }).then((response) => {
@@ -122,7 +122,7 @@ const sendInfo = (e) => {
             value="ADD"
           />
           <button
-           className="button primary-button button-row"
+           className="button secondary-button button-row"
            onClick={updateEnrollmentCourse}         
           type="button"
         >

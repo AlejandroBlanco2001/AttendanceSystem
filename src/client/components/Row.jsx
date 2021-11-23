@@ -17,7 +17,7 @@ const Row = ({
             handleDeleteElement(collection)
           }}
         >
-          ELIMINAR
+          DELETE
         </button>
 
         <button className="
@@ -26,7 +26,7 @@ const Row = ({
            handleUpdateElement(collection);
           }}
         >
-          EDITAR
+          EDIT
         </button>
         </td>
         

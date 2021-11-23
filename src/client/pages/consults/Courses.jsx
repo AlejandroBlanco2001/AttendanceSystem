@@ -103,7 +103,7 @@ const sendInfo = (e) => {
           <div className="form-block">
             <label htmlFor="code">Course's Code</label>
             <input className="row-form"
-              type="texte"
+              type="text"
               id="code"
               value={code|| "" || updatedUser.code}
               placeholder="type the code of the Course"
@@ -114,7 +114,7 @@ const sendInfo = (e) => {
           <div className="form-block">
             <label htmlFor="code_subj">Subject's Code</label>
             <input className="row-form"
-              type="texte"
+              type="text"
               placeholder="type the code of the subject"
               id="code_subj"
               value={code_subj || "" || updatedUser.code_subj}
@@ -125,7 +125,7 @@ const sendInfo = (e) => {
           <div className="form-block">
             <label htmlFor="id_teach">Teacher's ID</label>
             <input className="row-form"
-              type="texte"
+              type="text"
               placeholder="type the ID of the teacher"
               id="id_teach"
               value={id_teach || "" || updatedUser.id_teach}
@@ -139,7 +139,7 @@ const sendInfo = (e) => {
             value="ADD"
           />
           <button
-           className="button primary-button button-row"
+           className="button secondary-button button-row"
           onClick={updateCourse}
           type="button"
         >

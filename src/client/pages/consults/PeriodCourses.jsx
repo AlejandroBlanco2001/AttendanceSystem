@@ -53,7 +53,7 @@ const PeriodCourse= () => {
 
 
    const deletePeriodCourse = (id) => {
-    axios.post(`http://localhost:80/admin/delete/periodCourses/${updatedUser.code_cour}:${updatedUser.year_peri}:${updatedUser.term_peri}`, { 1: true }, { withCredentials: true })
+    axios.post(`http://localhost:80/admin/delete/periodCourses/${updatedUser.code_cour}|${updatedUser.year_peri}|${updatedUser.term_peri}`, { 1: true }, { withCredentials: true })
       .then((response) => {
         console.log("Eliminado correctamente");
         console.log("RESPONSE: ", response);
@@ -67,7 +67,7 @@ const PeriodCourse= () => {
   };
 
   const updateSubject = () => {
-    axios.post(`http://localhost:80/admin/update/periodCourses/${updatedUser.code_cour}:${updatedUser.year_peri}:${updatedUser.term_peri}`, {
+    axios.post(`http://localhost:80/admin/update/periodCourses/${updatedUser.code_cour}|${updatedUser.year_peri}|${updatedUser.term_peri}`, {
       code_cour: code_cour|| updatedUser.code_cour,
       year_peri: year_peri || updatedUser.year_peri,
       term_peri: term_peri || updatedUser.term_peri,
@@ -138,12 +138,12 @@ const sendInfo = (e) => {
             value="ADD"
           />
           <button
-           className="button primary-button button-row"
+           className="button secondary-button button-row"
           // onClick={updateUser}
           disabled={!needUpdate}
           type="button"
         >
-        ACTUALIZAR
+        UPDATE
         </button>
         </form>  
         

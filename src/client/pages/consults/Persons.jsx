@@ -22,6 +22,7 @@ const Persons = () => {
   const [age, setAge] = useState();
   const [type, setType] = useState();
   const [id_dept, setIdDept] = useState(0);
+  var departments;
 
   const handleDeletePerson = (user) => {
     deletePerson(user.id);
@@ -36,6 +37,26 @@ const Persons = () => {
     console.log("USER TO UPDATE: ", data);
     setUpdatePerson(data);
   }
+
+  useEffect(() => {
+    axios
+      .get("http://localhost:80/admin/persons", { withCredentials: true })
+      .then((res) => {
+        res.data.forEach(person => {
+          person.birthdate = person.birthdate.split('T')[0]
+        });
+        console.log("DATA FROM ADMIN: ", res.data);
+        setIsData(true);
+        console.log(res.data)
+        setPerson(res.data)
+      });
+      axios
+      .get("http://localhost:80/admin/departments", { withCredentials: true })
+      .then((res) => {
+        departments = res.data
+      });
+
+  }, [isData])
 
   const addPerson = () => {
     let aux_id
@@ -108,21 +129,6 @@ const Persons = () => {
     });
   };
 
-  useEffect(() => {
-    axios
-      .get("http://localhost:80/admin/persons", { withCredentials: true })
-      .then((res) => {
-        res.data.forEach(person => {
-          person.birthdate = person.birthdate.split('T')[0]
-        });
-        console.log("DATA FROM ADMIN: ", res.data);
-        setIsData(true);
-        console.log(res.data)
-        setPerson(res.data)
-      });
-
-  }, [isData])
-
   const sendInfo = (e) => {
     console.log("Procesando registro");
     e.preventDefault();
@@ -131,7 +137,7 @@ const Persons = () => {
 
 
   return (
-    <main className = "main-users">
+    <main className="main-users">
       <form onSubmit={sendInfo}>
         <img alt="" />
         <div className="form-block">
@@ -194,7 +200,7 @@ const Persons = () => {
           <select
             id="text"
             value={gender || " " || updatedPerson.gender}
-            placeholder="type the first last name"
+            placeholder="Insert the gender"
             onChange={(e) => setGender(e.target.value)}
             name="gender"
           >
@@ -256,11 +262,11 @@ const Persons = () => {
           value="ADD"
         />
         <button
-          className="button primary-button button-row"
+          className="button secondary-button button-row"
           onClick={updatePerson}
           type="button"
         >
-          ACTUALIZAR
+          UPDATE
         </button>
       </form>
 

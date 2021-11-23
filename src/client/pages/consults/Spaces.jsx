@@ -28,7 +28,7 @@ const Spaces= () => {
     setUpdatedSpace(space);
   }
   const deleteSpace = (id) => {
-    axios.post(`http://localhost:80/admin/delete/spaces/${id[0]}:${id[1]}`, { 1: true }, { withCredentials: true })
+    axios.post(`http://localhost:80/admin/delete/spaces/${id[0]}|${id[1]}`, { 1: true }, { withCredentials: true })
       .then((response) => {
         console.log("Eliminado correctamente");
         console.log("RESPONSE: ", response);
@@ -42,7 +42,7 @@ const Spaces= () => {
   };
 
   const updateSpace = () => {
-    axios.post(`http://localhost:80/admin/update/spaces/${updatedUser.code}:${updatedUser.code_cour}`, {
+    axios.post(`http://localhost:80/admin/update/spaces/${updatedUser.code}|${updatedUser.code_cour}`, {
       code_cour: code_cour|| updatedUser.code_cour,
       weekday_sche: weekday_sche|| updatedUser.weekday_sche,
       start_time_sche: start_time_sche || updatedUser.start_time_sche,
@@ -104,7 +104,7 @@ const sendInfo = (e) => {
           <div className="form-block">
             <label htmlFor="code_cour">Course's Code</label>
             <input className="row-form"
-              type="texte"
+              type="text"
               id="code_cour"
               value={code_cour || "" || updatedUser.code_cour}
               placeholder="type the code of the Course"
@@ -114,8 +114,8 @@ const sendInfo = (e) => {
           </div>
           <div className="form-block">
             <label htmlFor="weekday_sche">Weekday</label>
-            <select 
-              type="texte"
+            <select
+              type="text"
               placeholder="type the day of the week"
               id="weekday_sche"
               value={weekday_sche || "" || updatedUser.weekday_sche}
@@ -134,7 +134,7 @@ const sendInfo = (e) => {
           <div className="form-block">
             <label htmlFor="start_time_sche">Start Time</label>
             <input className="row-form"
-              type="texte"
+              type="text"
               placeholder="type the start time"
               id="start_time_sche"
               value={start_time_sche || "" || updatedUser.start_time_sche}
@@ -145,7 +145,7 @@ const sendInfo = (e) => {
           <div className="form-block">
             <label htmlFor="code_clasR">Classroom's Code</label>
             <input className="row-form"
-              type="texte"
+              type="text"
               placeholder="type the code fo the classroom"
               id="code_clasR"
               value={code_clasR || "" || updatedUser.code_clasR}
@@ -159,7 +159,7 @@ const sendInfo = (e) => {
             value="ADD"
           />
           <button
-           className="button primary-button button-row"
+           className="button secondary-button button-row"
           onClick={updateSpace}
           type="button"
         >

@@ -98,6 +98,7 @@ const sendInfo = (e) => {
             <label htmlFor="id">Department's ID</label>
             <input className="row-form"
               type="text"
+              placeholder="type the ID"
               id="id"
               value={id || "" || updatedUser.id}
               onChange={(e)=>setID(e.target.value)}
@@ -122,7 +123,7 @@ const sendInfo = (e) => {
             value="ADD"
           />
           <button
-           className="button primary-button button-row"
+           className="button secondary-button button-row"
           onClick={updateDeparment}
           type="button"
         >
