@@ -16,16 +16,20 @@ router.get("/subject/:id", async (req, res) => {
 });
 
 router.post("/getAttendance", async (req, res) => {
-  let { code } = req.body;
-  let conn = await db.pool.getConnection();
-  let result = await util.getAttendanceClass(conn, code);
-  conn.end();
-  if (result == 0) res.sendStatus(500);
-  else {
-    result[0].logAttendance = DateTime.fromJSDate(
-      result[0].logAttendance
-    ).toLocaleString(DateTime.DATETIME_SHORT);
-    res.json(result);
+  if (req.user) {
+    if (req.user.type == "1") {
+      let { code } = req.body;
+      let conn = await db.pool.getConnection();
+      let result = await util.getAttendanceClass(conn, code);
+      conn.end();
+      if (result == 0) res.sendStatus(500);
+      else {
+        result[0].logAttendance = DateTime.fromJSDate(
+          result[0].logAttendance
+        ).toLocaleString(DateTime.DATETIME_SHORT);
+        res.json(result);
+      }
+    }
   }
 });
 
@@ -53,9 +57,6 @@ router.post("/takeAttendance", async (req, res) => {
             code: id_class,
             teach: id_teacher,
           });
-          console.log(
-            curr.toLocaleString(DateTime.DATETIME_SHORT_WITH_SECONDS)
-          );
           if (curr < limit_assist) {
             await conn.query("INSERT INTO clas_stud VALUES(?,?,?,?)", [
               clas,
@@ -87,11 +88,7 @@ router.post("/takeAttendance", async (req, res) => {
           res.send("To early");
         }
       }
-    } else {
-      res.send("You`re not an admin.");
     }
-  } else {
-    res.send("Not logged in.");
   }
 });
 
