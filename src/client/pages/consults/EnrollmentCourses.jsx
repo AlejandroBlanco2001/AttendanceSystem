@@ -29,7 +29,7 @@ const EnrollmentCourses= () => {
     axios.post("http://localhost:80/admin/create/enrollmentCourses", {
       code_cour,
       id_enro,
-    })
+    }, { withCredentials: true })
       .then((response) => {
         console.log("Success");
         setListaEnrollmentCourses([

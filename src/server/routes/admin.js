@@ -82,7 +82,6 @@ router.post("/create/:record", async (req, res) => {
   if (req.user) {
     if (req.user.type == "0") {
       let rec = req.params.record;
-      console.log(req.body);
       let update = req.body;
       let query, table;
       let results;
@@ -110,7 +109,6 @@ router.post("/create/:record", async (req, res) => {
       part1 = part1.slice(0, -2) + ")";
       part2 = part2.slice(0, -2) + ")";
       query += part1 + ` VALUES ` + part2 + ";";
-      console.log(query);
       try {
         let conn = await db.pool.getConnection();
         results = await conn

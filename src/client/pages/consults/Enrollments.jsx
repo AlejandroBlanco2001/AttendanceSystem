@@ -33,7 +33,7 @@ const Enrollment= () => {
       id_stud,
       year_peri,
       term_peri,
-    })
+    }, { withCredentials: true })
       .then((response) => {
         console.log("Success");
         setListaEnrollments([

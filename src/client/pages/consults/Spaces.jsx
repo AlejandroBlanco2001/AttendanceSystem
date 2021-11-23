@@ -59,7 +59,7 @@ const Spaces= () => {
       weekday_sche,
       start_time_sche,
       code_clasR,
-    })
+    }, { withCredentials: true })
       .then((response) => {
         console.log("Success");
         setListaSpaces([
