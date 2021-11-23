@@ -92,7 +92,7 @@ const sendInfo = (e) => {
           <div className="form-block">
             <label htmlFor="code_cour">Course's Code</label>
             <input
-              type="texte"
+              type="text"
               id="code_cour"
               value={code_cour || "" || updatedUser.code_cour}
               placeholder="type the code of the Course"
@@ -103,7 +103,7 @@ const sendInfo = (e) => {
           <div className="form-block">
             <label htmlFor="weekday_sche">Weekday</label>
             <select
-              type="texte"
+              type="text"
               placeholder="type the day of the week"
               id="weekday_sche"
               value={weekday_sche || "" || updatedUser.weekday_sche}
@@ -122,7 +122,7 @@ const sendInfo = (e) => {
           <div className="form-block">
             <label htmlFor="start_time_sche">Start Time</label>
             <input
-              type="texte"
+              type="text"
               placeholder="type the start time"
               id="start_time_sche"
               value={start_time_sche || "" || updatedUser.start_time_sche}
@@ -133,7 +133,7 @@ const sendInfo = (e) => {
           <div className="form-block">
             <label htmlFor="code_clasR">Classroom's Code</label>
             <input
-              type="texte"
+              type="text"
               placeholder="type the code fo the classroom"
               id="code_clasR"
               value={code_clasR || "" || updatedUser.code_clasR}
@@ -147,12 +147,12 @@ const sendInfo = (e) => {
             value="ADD"
           />
           <button
-           className="button primary-button button-row"
+           className="button secondary-button button-row"
           // onClick={updateUser}
           disabled={!needUpdate}
           type="button"
         >
-        ACTUALIZAR
+        UPDATE
         </button>
         </form>  
         
@@ -168,8 +168,8 @@ const sendInfo = (e) => {
           ]}
           data={isData?spaces:null}
           setNeedUpdate={setNeedUpdate}
-          handleDeleteUser={null}
-          handleUpdateUser={null}
+          handleDeleteElement={handleDeleteSpace}
+          handleUpdateELement={handleUpdateSpace}
         />
     </div>
     </main>
