@@ -74,7 +74,7 @@ const Users = () => {
   const deleteUser = (id) => {
     axios
       .post(
-        `http://localhost:80/admin/delete/users/${id[0]}:${id[1]}`,
+        `http://localhost:80/admin/delete/users/${id[0]}|${id[1]}`,
         { 1: true },
         { withCredentials: true }
       )
@@ -93,7 +93,7 @@ const Users = () => {
   const updateUser = () => {
     axios
       .post(
-        `http://localhost:80/admin/update/users/${updatedUser.username}:${updatedUser.id_pers}`,
+        `http://localhost:80/admin/update/users/${updatedUser.username}|${updatedUser.id_pers}`,
         {
           username: username || updatedUser.username,
           passcode: passcode || updatedUser.passcode,
