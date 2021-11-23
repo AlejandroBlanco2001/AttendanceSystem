@@ -459,7 +459,6 @@ router.post('/delete/:record/:pkey', async (req, res) => {
       } catch (e) {
         console.log(e)
       }
-      console.log(pkeys)
       for (let j = 0; j < pkeysV.length; j++) {
         query += `${pkeys[j].COLUMN_NAME} = '${pkeysV[j]}'`
         if (j == pkeysV.length - 1) {
@@ -468,7 +467,6 @@ router.post('/delete/:record/:pkey', async (req, res) => {
           query += ' AND '
         }
       }
-      console.log(query)
       try {
         let conn = await db.pool.getConnection()
         results = await conn.query(query)
