@@ -131,13 +131,13 @@ const Persons = () => {
 
 
   return (
-    <main>
-      <form className="login-form" onSubmit={sendInfo}>
+    <main className = "main-users">
+      <form onSubmit={sendInfo}>
         <img alt="" />
         <div className="form-block">
           <label htmlFor="id">ID</label>
-          <input
-            type="texte"
+          <input className="row-form"
+            type="text"
             id="id"
             value={id || null || updatedPerson.id}
             placeholder="type the ID"
@@ -147,8 +147,8 @@ const Persons = () => {
         </div>
         <div className="form-block">
           <label htmlFor="name1">First Name</label>
-          <input
-            type="texte"
+          <input className="row-form"
+            type="text"
             placeholder="type the first name"
             id="name1"
             value={name1 || null || updatedPerson.name1}
@@ -158,7 +158,7 @@ const Persons = () => {
         </div>
         <div className="form-block">
           <label htmlFor="name2">Second Name</label>
-          <input
+          <input className="row-form"
             type="text"
             id="name2"
             value={name2 || null || updatedPerson.name2}
@@ -169,7 +169,7 @@ const Persons = () => {
         </div>
         <div className="form-block">
           <label htmlFor="lastname1">First last name</label>
-          <input
+          <input className="row-form"
             type="text"
             id="lastname1"
             value={lastname1 || null || updatedPerson.lastname1}
@@ -180,8 +180,8 @@ const Persons = () => {
         </div>
         <div className="form-block">
           <label htmlFor="lastname2">Second last name</label>
-          <input
-            type="texte"
+          <input className="row-form"
+            type="text"
             id="lastname2"
             value={lastname2 || null || updatedPerson.lastname2}
             placeholder="type the second last name"
@@ -192,7 +192,7 @@ const Persons = () => {
         <div className="form-block">
           <label htmlFor="gender">Gender</label>
           <select
-            id="texte"
+            id="text"
             value={gender || " " || updatedPerson.gender}
             placeholder="type the first last name"
             onChange={(e) => setGender(e.target.value)}
@@ -204,7 +204,7 @@ const Persons = () => {
         </div>
         <div className="form-block">
           <label htmlFor="birthdate">Birthdate</label>
-          <input
+          <input className="row-form"
             type="date"
             id="birthdate"
             value={birthdate || "" || updatedPerson.birthdate}
@@ -216,7 +216,7 @@ const Persons = () => {
         <div className="form-block">
           <label htmlFor="typeP">Type Person</label>
           <select
-            id="typeP"
+            id="type"
             value={type || null || updatedPerson.type}
             onChange={(e) => setType(e.target.value)}
             name="type"
