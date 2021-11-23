@@ -35,11 +35,11 @@ const Contract = () => {
         code_syll,
         year_peri,
         term_peri,
-      })
+      }, { withCredentials: true })
       .then((response) => {
         console.log("Success");
-        setListaUsers([
-          ...listaUsers,
+        setListContracts([
+          ...listContracts,
           {
             id_stud,
             code_syll,
@@ -47,8 +47,8 @@ const Contract = () => {
             term_peri,
           },
         ]);
-        window.location.reload(true);
-        reload();
+        //window.location.reload(true);
+        //reload();
       })
       .catch((er) => {
         alert(

@@ -68,6 +68,7 @@ io.on('connection', (socket) => {
             try{
                 conn = await db.pool.getConnection(); 
                 let result = await util.getClassHours(conn,data);
+                console.log(result)
                 if(result.length != 0){
                     if(cont < 3){
                         if(cont == 0){
@@ -88,7 +89,6 @@ io.on('connection', (socket) => {
                     cont = 0;
                 }
             }catch(err){
-                console.log("ACA ESTA MONDA ES LO QUE NO SIRVE")
                 console.log(err);
             }
         },5000)
