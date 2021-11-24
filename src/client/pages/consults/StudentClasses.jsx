@@ -6,7 +6,7 @@ import "../../styles/table.css";
 const studentClasses= () => {
   const [isData, setIsData] = useState(false);
   const [studentClasses, setStudentClasses] = useState([]);
-  const [updatedUser, setUpdatedUser] = useState({})
+  const [updatedUser, setUpdatedStudentClass] = useState({})
   const [listaStudentsClasses, setListaStudentClasses] = useState([]);
   const [needUpdate, setNeedUpdate] = useState(false);
   const [code_clas, setCodeClass]= useState("");
@@ -14,7 +14,7 @@ const studentClasses= () => {
   const [attendance, setAttendence]= useState("");
 
   const handleDeleteStudentClass = (stc) => {
-    deleteStudentClass(stc.code_clas, stc.id_stud);
+    deleteStudentClass([stc.code_clas, stc.id_stud]);
   }
 
   const handleUpdateStudentClass = (stc) => {
@@ -44,7 +44,7 @@ const studentClasses= () => {
             attendance,
           },
         ]);
-        window.location.reload(false);
+        //window.location.reload(false);
       })
       .catch((er) =>{
         alert("You`re trying to add a Student_Class relation whose primary key is already in existance.")
@@ -59,9 +59,9 @@ const studentClasses= () => {
       .then((response) => {
         console.log("Eliminado correctamente");
         console.log("RESPONSE: ", response);
-        window.location.reload(true);
-        reload();
-      })
+        // window.location.reload(true);
+        // reload();
+      }, { withCredentials: true })
       .catch((err) => {
         console.log("ERROR ELIMINANDO");
         console.log(err);
@@ -154,6 +154,7 @@ const sendInfo = (e) => {
             "Class' Code",
             "Student's ID",
             "Attendance",
+            "Time of Attendance",
             "Actions"
           ]}
           data={isData?studentClasses:null}
