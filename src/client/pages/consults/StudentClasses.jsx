@@ -44,7 +44,7 @@ const studentClasses= () => {
             attendance,
           },
         ]);
-        //window.location.reload(false);
+        window.location.reload(false);
       })
       .catch((er) =>{
         alert("You`re trying to add a Student_Class relation whose primary key is already in existance.")
@@ -59,8 +59,8 @@ const studentClasses= () => {
       .then((response) => {
         console.log("Eliminado correctamente");
         console.log("RESPONSE: ", response);
-        // window.location.reload(true);
-        // reload();
+        window.location.reload(true);
+        reload();
       }, { withCredentials: true })
       .catch((err) => {
         console.log("ERROR ELIMINANDO");

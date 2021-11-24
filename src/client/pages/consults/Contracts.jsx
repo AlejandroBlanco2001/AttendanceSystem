@@ -47,8 +47,8 @@ const Contract = () => {
             term_peri,
           },
         ]);
-        //window.location.reload(true);
-        //reload();
+        window.location.reload(true);
+        reload();
       })
       .catch((er) => {
         alert(
@@ -77,7 +77,7 @@ const Contract = () => {
       });
   };
 
-  const updateSubject = () => {
+  const updateContract = () => {
     axios
       .post(
         `http://localhost:80/admin/update/contracts/${updatedUser.id}|${updatedUser.id_stud}`,
@@ -170,8 +170,7 @@ const Contract = () => {
         />
         <button
           className="button secondary-button button-row"
-          // onClick={updateUser}
-          disabled={!needUpdate}
+          onClick={updateContract}
           type="button"
         >
           UPDATE

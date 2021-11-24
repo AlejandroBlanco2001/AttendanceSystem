@@ -54,7 +54,7 @@ const Deparment= () => {
   const addDeparment = () => {
     axios.post("http://localhost:80/admin/create/departments", {
       name,
-    })
+    }, { withCredentials: true })
       .then((response) => {
         console.log("Success");
         setListaDeparments([
