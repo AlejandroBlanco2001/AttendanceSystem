@@ -59,7 +59,7 @@ const Course= () => {
       code,
       code_subj,
       id_teach,
-    })
+    }, { withCredentials: true })
       .then((response) => {
         console.log("Success");
         setListaCourses([

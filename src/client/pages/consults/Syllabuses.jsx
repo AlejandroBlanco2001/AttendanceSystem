@@ -124,8 +124,7 @@ const sendInfo = (e) => {
           />
           <button
            className="button secondary-button button-row"
-          // onClick={updateUser}
-          disabled={!needUpdate}
+          onClick={updateSubject}
           type="button"
         >
         UPDATE

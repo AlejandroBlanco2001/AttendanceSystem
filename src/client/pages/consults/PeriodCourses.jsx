@@ -66,7 +66,7 @@ const PeriodCourse= () => {
       });
   };
 
-  const updateSubject = () => {
+  const updatePeriodCourse = () => {
     axios.post(`http://localhost:80/admin/update/periodCourses/${updatedUser.code_cour}|${updatedUser.year_peri}|${updatedUser.term_peri}`, {
       code_cour: code_cour|| updatedUser.code_cour,
       year_peri: year_peri || updatedUser.year_peri,
@@ -139,8 +139,7 @@ const sendInfo = (e) => {
           />
           <button
            className="button secondary-button button-row"
-          // onClick={updateUser}
-          disabled={!needUpdate}
+          onClick={updatePeriodCourse}
           type="button"
         >
         UPDATE
